@@ -8,6 +8,7 @@ import mars.ourmindmaze.domain.User;
 import mars.ourmindmaze.dto.RequestLoginUserDto;
 import mars.ourmindmaze.dto.RequestSaveUserDto;
 import mars.ourmindmaze.dto.RequestTokenDto;
+import mars.ourmindmaze.enums.UserType;
 import mars.ourmindmaze.jwt.TokenDto;
 import mars.ourmindmaze.jwt.TokenProvider;
 import mars.ourmindmaze.repository.RefreshJpaTokenRepository;
@@ -49,6 +50,7 @@ public class UserServiceImpl implements UserService {
                     .email(dto.getEmail())
                     .password(passwordEncoder.encode(dto.getPassword()))
                     .name(dto.getName())
+                    .userType(UserType.LOCAL)
                     .authority(UserAuthority.ROLE_USER)
                     .build();
 

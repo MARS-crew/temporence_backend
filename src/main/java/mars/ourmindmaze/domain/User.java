@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import mars.ourmindmaze.common.dto.UserAuthority;
 import mars.ourmindmaze.common.entity.BaseTimeEntity;
+import mars.ourmindmaze.enums.UserType;
 
 import javax.persistence.*;
 
@@ -29,6 +30,9 @@ public class User extends BaseTimeEntity {
 
     @Column(name = "user_name", nullable = true)
     private String name;
+
+    @Column(nullable = false)
+    private UserType userType;
 
     @Column(nullable = false)
     private UserAuthority authority;
