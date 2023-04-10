@@ -17,6 +17,7 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
+
 jwt:
   header: Authorization
   secret: RG9uZ3lhbmcgTWlyYWUgVW51dmVyY2lyeSBNYXJzIFNlcXVlcmUgQ2x1YiA0dGggVG9kbyBQcm9qZWN0IEZyb250IGlzIFJlYWN0IGFuZCBTZXJ2ZXIgaXMgU3ByaW5n
@@ -28,3 +29,6 @@ logging:
 
 skip:
   resources: /api/auth/**,/h2-console/**,/v3/api-docs,/v3/api-docs/**,/swagger-ui/**,/v2/api-docs/**,/swagger-ui/index.html
+  
+server:
+  port: 9090
