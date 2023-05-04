@@ -10,5 +10,7 @@ public interface UserService {
 
     RequestResponseDto<?> login(RequestLoginUserDto dto);
 
+    RequestResponseDto<?> findAll();
+
     RequestResponseDto<?> getTokenByRefreshToken(RequestTokenDto dto);
 }

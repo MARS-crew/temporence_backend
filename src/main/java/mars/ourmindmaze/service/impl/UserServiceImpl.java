@@ -12,7 +12,7 @@ import mars.ourmindmaze.enums.UserType;
 import mars.ourmindmaze.jwt.TokenDto;
 import mars.ourmindmaze.jwt.TokenProvider;
 import mars.ourmindmaze.repository.RefreshJpaTokenRepository;
-import mars.ourmindmaze.repository.UserJpaRepository;
+import mars.ourmindmaze.repository.user.UserJpaRepository;
 import mars.ourmindmaze.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +55,16 @@ public class UserServiceImpl implements UserService {
                     .build();
 
             return RequestResponseDto.of(HttpStatus.OK, RequestResponseDto.Code.SUCCESS, "회원가입 성공", userJpaRepository.save(saveUser));
+        } catch (Exception e) {
+            logger.info("ERROR :" + e);
+            return RequestResponseDto.of(HttpStatus.INTERNAL_SERVER_ERROR, RequestResponseDto.Code.FAILED, e.getMessage(), null);
+        }
+    }
+
+    @Override
+    public RequestResponseDto<?> findAll() {
+        try {
+            return RequestResponseDto.of(HttpStatus.OK, RequestResponseDto.Code.SUCCESS, "로그인 성공 하였습니다.", userJpaRepository.findAll());
         } catch (Exception e) {
             logger.info("ERROR :" + e);
             return RequestResponseDto.of(HttpStatus.INTERNAL_SERVER_ERROR, RequestResponseDto.Code.FAILED, e.getMessage(), null);
