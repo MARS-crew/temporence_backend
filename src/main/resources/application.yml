@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://210.223.18.224:3306/mars_game_dev
-    username: pino
-    password: qwer1595
+    url: jdbc:mysql://3.212.188.144:3306/mars_game_dev
+    username: mars
+    password: d~JU8Z4Jv$t"SypX
   jpa:
     show-sql: true
     hibernate:
