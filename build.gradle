@@ -24,6 +24,12 @@ configurations {
 	}
 }
 
+jar {
+	manifest {
+		attributes 'Main-Class': 'mars.ourmindmaze.OurmindmazeApplication'
+	}
+}
+
 repositories {
 	mavenCentral()
 }
