@@ -2,7 +2,7 @@ package mars.ourmindmaze.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import mars.ourmindmaze.domain.User;
-import mars.ourmindmaze.repository.UserJpaRepository;
+import mars.ourmindmaze.repository.user.UserJpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
