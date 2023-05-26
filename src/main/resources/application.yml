@@ -1,4 +1,7 @@
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   profiles:
     active: dev
   config:
@@ -16,7 +19,9 @@ spring:
 
 springdoc:
   swagger-ui:
-    path: /swagger-ui.html
+    operationsSorter: method
+  api-docs:
+    path: /v3/api-docs/swagger-config
 
 jwt:
   header: Authorization
@@ -31,4 +36,4 @@ skip:
   resources: /api/auth/**,/h2-console/**,/v3/api-docs,/v3/api-docs/**,/swagger-ui/**,/v2/api-docs/**,/swagger-ui/index.html
 
 server:
-  port: 8080
+  port: 9000
