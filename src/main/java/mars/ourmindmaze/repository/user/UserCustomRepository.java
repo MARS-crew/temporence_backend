@@ -1,10 +1,9 @@
 package mars.ourmindmaze.repository.user;
 
-import mars.ourmindmaze.domain.User;
-
-import java.util.List;
-import java.util.Optional;
+import mars.ourmindmaze.vo.UserVO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface UserCustomRepository {
-    List<User> findAll();
+    Page<UserVO> findAllUser(Pageable pageable);
 }

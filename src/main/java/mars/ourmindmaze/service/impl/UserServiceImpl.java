@@ -3,6 +3,7 @@ package mars.ourmindmaze.service.impl;
 import lombok.RequiredArgsConstructor;
 import mars.ourmindmaze.common.dto.ApiResponse;
 import mars.ourmindmaze.common.dto.CommonResponse;
+import mars.ourmindmaze.common.dto.Pagination;
 import mars.ourmindmaze.common.dto.UserAuthority;
 import mars.ourmindmaze.domain.RefreshToken;
 import mars.ourmindmaze.domain.User;
@@ -16,8 +17,11 @@ import mars.ourmindmaze.jwt.TokenProvider;
 import mars.ourmindmaze.repository.RefreshJpaTokenRepository;
 import mars.ourmindmaze.repository.user.UserJpaRepository;
 import mars.ourmindmaze.service.UserService;
+import mars.ourmindmaze.vo.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,6 +32,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -59,10 +64,14 @@ public class UserServiceImpl implements UserService {
         return CommonResponse.createResponseMessage(HttpStatus.CREATED.value(), "회원가입에 성공하였습니다..");
     }
 
-//    @Override
-//    public ResponseEntity<?> findAll() {
-//        return RequestResponseDto.of(HttpStatus.OK, RequestResponseDto.Code.SUCCESS, "로그인 성공 하였습니다.", userJpaRepository.findAll());
-//    }
+    @Override
+    public ResponseEntity<?> findAll(Pageable pageable) {
+        Page<UserVO> response = userJpaRepository.findAllUser(pageable);
+        List<UserVO> data = response.getContent();
+        Pagination pagination = Pagination.builder().totalPages(response.getTotalPages()).currentPage(response.getNumber()).totalItems(response.getTotalElements()).build();
+
+        return CommonResponse.createResponseWithPagination(HttpStatus.OK.value(), "유저 리스트를 조회 합니다.", data, pagination);
+    }
 
     @Override
     public ResponseEntity<?> login(RequestUserLoginDto dto) {
