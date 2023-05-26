@@ -1,14 +1,5 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
     url:
     username:
     password:
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-      use-new-id-generator-mappings: false
-    properties:
-      hibernate:
-        format_sql: true
