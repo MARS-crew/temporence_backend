@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url:
-    username:
-    password:
+    url: jdbc:mysql://3.212.188.144:3306/mars
+    username: mars
+    password: d~JU8Z4Jv$t"SypX
   jpa:
     show-sql: true
     hibernate:
