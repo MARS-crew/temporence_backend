@@ -1,4 +1,4 @@
-package mars.ourmindmaze.dto;
+package mars.ourmindmaze.dto.user;
 
 import lombok.Data;
 

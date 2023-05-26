@@ -1,14 +1,14 @@
 package mars.ourmindmaze.service;
 
 import mars.ourmindmaze.common.dto.RequestResponseDto;
-import mars.ourmindmaze.dto.RequestLoginUserDto;
-import mars.ourmindmaze.dto.RequestSaveUserDto;
-import mars.ourmindmaze.dto.RequestTokenDto;
+import mars.ourmindmaze.dto.user.RequestUserLoginDto;
+import mars.ourmindmaze.dto.user.RequestUserSaveDto;
+import mars.ourmindmaze.dto.user.RequestTokenDto;
 
 public interface UserService {
-    RequestResponseDto<?> save(RequestSaveUserDto dto);
+    RequestResponseDto<?> save(RequestUserSaveDto dto);
 
-    RequestResponseDto<?> login(RequestLoginUserDto dto);
+    RequestResponseDto<?> login(RequestUserLoginDto dto);
 
     RequestResponseDto<?> findAll();
 

@@ -5,9 +5,9 @@ import mars.ourmindmaze.common.dto.RequestResponseDto;
 import mars.ourmindmaze.common.dto.UserAuthority;
 import mars.ourmindmaze.domain.RefreshToken;
 import mars.ourmindmaze.domain.User;
-import mars.ourmindmaze.dto.RequestLoginUserDto;
-import mars.ourmindmaze.dto.RequestSaveUserDto;
-import mars.ourmindmaze.dto.RequestTokenDto;
+import mars.ourmindmaze.dto.user.RequestUserLoginDto;
+import mars.ourmindmaze.dto.user.RequestUserSaveDto;
+import mars.ourmindmaze.dto.user.RequestTokenDto;
 import mars.ourmindmaze.enums.UserType;
 import mars.ourmindmaze.jwt.TokenDto;
 import mars.ourmindmaze.jwt.TokenProvider;
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
-    public RequestResponseDto<?> save(RequestSaveUserDto dto) {
+    public RequestResponseDto<?> save(RequestUserSaveDto dto) {
         try {
             Optional<User> findUser = userJpaRepository.findUserByEmail(dto.getEmail());
             if (findUser.isPresent()) {
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public RequestResponseDto<?> login(RequestLoginUserDto dto) {
+    public RequestResponseDto<?> login(RequestUserLoginDto dto) {
         try {
             Optional<User> findUser = userJpaRepository.findUserByEmail(dto.getEmail());
 

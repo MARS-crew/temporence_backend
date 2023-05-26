@@ -5,9 +5,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mars.ourmindmaze.common.dto.RequestResponseDto;
-import mars.ourmindmaze.dto.RequestLoginUserDto;
-import mars.ourmindmaze.dto.RequestSaveUserDto;
-import mars.ourmindmaze.dto.RequestTokenDto;
+import mars.ourmindmaze.dto.user.RequestUserLoginDto;
+import mars.ourmindmaze.dto.user.RequestUserSaveDto;
+import mars.ourmindmaze.dto.user.RequestTokenDto;
 import mars.ourmindmaze.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +24,7 @@ public class UserController {
     @ApiResponse(responseCode = "401", description = "Access denied")
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @PostMapping
-    public RequestResponseDto<?> saveUser(@RequestBody RequestSaveUserDto dto) {
+    public RequestResponseDto<?> saveUser(@RequestBody RequestUserSaveDto dto) {
         return userService.save(dto);
     }
 
@@ -34,7 +34,7 @@ public class UserController {
     @ApiResponse(responseCode = "401", description = "Access denied")
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @PostMapping("/login")
-    public RequestResponseDto<?> login(@RequestBody RequestLoginUserDto dto) {
+    public RequestResponseDto<?> login(@RequestBody RequestUserLoginDto dto) {
         return userService.login(dto);
     }
 
