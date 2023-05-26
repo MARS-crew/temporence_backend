@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
+import mars.ourmindmaze.enums.ExceptionEnum;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
@@ -236,6 +237,14 @@ public class ApiResponse<T> {
         private List<ErrorData> errors;
 
         private Pagination paging;
+
+        public ApiResponseBuilder<T> ApiResponseBuilder(ExceptionEnum exceptionEnum) {
+            this.httpStatus = exceptionEnum.getStatus();
+            this.code = String.valueOf(exceptionEnum.getErrorCode());
+            this.message = exceptionEnum.getMessage();
+
+            return this;
+        }
 
         /**
          * @param status

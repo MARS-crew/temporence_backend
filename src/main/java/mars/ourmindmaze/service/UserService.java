@@ -1,16 +1,16 @@
 package mars.ourmindmaze.service;
 
-import mars.ourmindmaze.common.dto.RequestResponseDto;
 import mars.ourmindmaze.dto.user.RequestUserLoginDto;
 import mars.ourmindmaze.dto.user.RequestUserSaveDto;
 import mars.ourmindmaze.dto.user.RequestTokenDto;
+import org.springframework.http.ResponseEntity;
 
 public interface UserService {
-    RequestResponseDto<?> save(RequestUserSaveDto dto);
+    ResponseEntity<?> save(RequestUserSaveDto dto);
 
-    RequestResponseDto<?> login(RequestUserLoginDto dto);
+    ResponseEntity<?> login(RequestUserLoginDto dto);
 
-    RequestResponseDto<?> findAll();
+//    ResponseEntity<?> findAll();
 
-    RequestResponseDto<?> getTokenByRefreshToken(RequestTokenDto dto);
+    ResponseEntity<?> getTokenByRefreshToken(RequestTokenDto dto);
 }
