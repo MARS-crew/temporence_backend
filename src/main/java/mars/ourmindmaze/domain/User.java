@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import mars.ourmindmaze.common.dto.UserAuthority;
 import mars.ourmindmaze.common.entity.BaseTimeEntity;
-import mars.ourmindmaze.enums.UserType;
+import mars.ourmindmaze.enums.SocialType;
 
 import javax.persistence.*;
 
@@ -19,20 +19,20 @@ import javax.persistence.*;
 public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name ="user_email", unique = true, nullable = false)
-    private String email;
+    @Column(name ="username", unique = true, nullable = false, length = 25)
+    private String username;
 
-    @Column(name = "user_password", nullable = true)
+    @Column(name = "password", nullable = true, length = 120)
     private String password;
 
-    @Column(name = "user_name", nullable = true)
-    private String name;
-
     @Column(nullable = false)
-    private UserType userType;
+    private SocialType socialType;
+
+    @Column(unique = true, nullable = true, length = 120)
+    private String socialKey;
 
     @Column(nullable = false)
     private UserAuthority authority;

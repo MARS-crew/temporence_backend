@@ -23,9 +23,8 @@ public class UserCustomRepositoryImpl implements UserCustomRepository{
                         Projections.constructor(
                                 UserVO.class,
                                 u.id,
-                                u.email,
-                                u.name,
-                                u.userType,
+                                u.username,
+                                u.socialType,
                                 Expressions.asDateTime(u.createdDate)
                         )).from(u)
                 .orderBy(u.createdDate.desc())

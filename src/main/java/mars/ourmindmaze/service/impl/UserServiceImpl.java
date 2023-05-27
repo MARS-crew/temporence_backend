@@ -11,7 +11,7 @@ import mars.ourmindmaze.dto.user.RequestUserLoginDto;
 import mars.ourmindmaze.dto.user.RequestUserSaveDto;
 import mars.ourmindmaze.dto.user.RequestTokenDto;
 import mars.ourmindmaze.enums.ExceptionEnum;
-import mars.ourmindmaze.enums.UserType;
+import mars.ourmindmaze.enums.SocialType;
 import mars.ourmindmaze.jwt.TokenDto;
 import mars.ourmindmaze.jwt.TokenProvider;
 import mars.ourmindmaze.repository.RefreshJpaTokenRepository;
@@ -48,16 +48,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<?> save(RequestUserSaveDto dto) {
-        Optional<User> findUser = userJpaRepository.findUserByEmail(dto.getEmail());
+        Optional<User> findUser = userJpaRepository.findByUsername(dto.getUsername());
         if (!findUser.isEmpty()) {
             return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.EXIST_EMAIL).buildObject();
         }
 
         userJpaRepository.save(User.builder()
-                .email(dto.getEmail())
+                .username(dto.getUsername())
                 .password(passwordEncoder.encode(dto.getPassword()))
-                .name(dto.getName())
-                .userType(UserType.LOCAL)
+                .socialType(SocialType.LOCAL)
                 .authority(UserAuthority.ROLE_USER)
                 .build());
 
@@ -75,7 +74,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<?> login(RequestUserLoginDto dto) {
-        Optional<User> findUser = userJpaRepository.findUserByEmail(dto.getEmail());
+        Optional<User> findUser = userJpaRepository.findByUsername(dto.getUsername());
 
         if (findUser.isEmpty()) {
             return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_FOUDN_USER).buildObject();
@@ -107,8 +106,7 @@ public class UserServiceImpl implements UserService {
         response.put("accessToken", tokenDto.getAccessToken());
         response.put("refreshToken", tokenDto.getRefreshToken());
         response.put("id", String.valueOf(findUser.get().getId()));
-        response.put("email", findUser.get().getEmail());
-        response.put("name", findUser.get().getName());
+        response.put("email", findUser.get().getUsername());
         return CommonResponse.createResponse(HttpStatus.CREATED.value(), "로그인에 성공하였습니다.", response);
     }
 

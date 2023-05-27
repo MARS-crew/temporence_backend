@@ -2,8 +2,7 @@ package mars.ourmindmaze.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import mars.ourmindmaze.common.dto.UserAuthority;
-import mars.ourmindmaze.enums.UserType;
+import mars.ourmindmaze.enums.SocialType;
 
 import java.time.LocalDate;
 
@@ -11,8 +10,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class UserVO {
     private Long id;
-    private String email;
-    private String name;
-    private UserType userType;
+    private String username;
+    private SocialType socialType;
     private LocalDate createdDate;
 }

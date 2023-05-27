@@ -1,5 +1,5 @@
 package mars.ourmindmaze.enums;
 
-public enum UserType {
+public enum SocialType {
     LOCAL, KAKAO, NAVER
 }
