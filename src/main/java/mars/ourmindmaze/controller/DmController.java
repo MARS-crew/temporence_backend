@@ -27,4 +27,14 @@ public class DmController {
     public ResponseEntity<?> saveFriend(@RequestBody RequestDmSaveDto dto) {
         return dmService.saveDm(dto);
     }
+
+    @Operation(summary = "Fidn Send DM List", description = "메세지 리스트 조회")
+    @ApiResponse(responseCode = "400", description = "Parameter type is incorrect")
+    @ApiResponse(responseCode = "401", description = "Bad Credentials, JWT token expires")
+    @ApiResponse(responseCode = "401", description = "Access denied")
+    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findDmList(@PathVariable(name = "id") Long id) {
+        return dmService.findDm(id);
+    }
 }
