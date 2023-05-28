@@ -2,16 +2,27 @@ package mars.ourmindmaze.util;
 
 
 import lombok.extern.slf4j.Slf4j;
+import mars.ourmindmaze.common.dto.ApiResponse;
+import mars.ourmindmaze.domain.User;
+import mars.ourmindmaze.enums.ExceptionEnum;
+import mars.ourmindmaze.repository.user.UserJpaRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.Optional;
+
 @Slf4j
 public class SecurityUtil {
-    public static String getCurrentUserId() {
+    public static User getCurrentUserId(UserJpaRepository userJpaRepository) {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication.getName() == null) {
             throw new RuntimeException("No authentication information.");
         }
-        return authentication.getName();
+
+        Optional<User> findUser = userJpaRepository.findByUsername(authentication.getName());
+        if(findUser.isEmpty()){
+            throw new RuntimeException("유저를 찾을 수 없습니다.");
+        }
+        return findUser.get();
     }
 }
