@@ -23,7 +23,7 @@ public class FriendController {
     @ApiResponse(responseCode = "401", description = "Bad Credentials, JWT token expires")
     @ApiResponse(responseCode = "401", description = "Access denied")
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
-    @PutMapping
+    @PostMapping
     public ResponseEntity<?> saveFriend(@RequestBody RequestFriendSaveDto dto) {
         return friendService.saveFriend(dto);
     }
