@@ -6,7 +6,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 
 @Data
 public class RequestUserLoginDto {
-    @Schema(example = "admimn")
+    @Schema(example = "admin")
     private String username;
 
     @Schema(example = "1234")

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
     private final UserService userService;
 
-    @Operation(summary = "Save Usere", description = "유저 생성하기")
+    @Operation(summary = "Save User", description = "유저 생성하기")
     @ApiResponse(responseCode = "400", description = "Parameter type is incorrect")
     @ApiResponse(responseCode = "401", description = "Bad Credentials, JWT token expires")
     @ApiResponse(responseCode = "401", description = "Access denied")
