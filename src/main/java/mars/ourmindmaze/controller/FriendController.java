@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class FriendController {
     private final FriendService friendService;
 
-    @Operation(summary = "Save Friend ALL", description = "친구 생성")
+    @Operation(summary = "Save Friend", description = "친구 생성")
     @ApiResponse(responseCode = "400", description = "Parameter type is incorrect")
     @ApiResponse(responseCode = "401", description = "Bad Credentials, JWT token expires")
     @ApiResponse(responseCode = "401", description = "Access denied")
