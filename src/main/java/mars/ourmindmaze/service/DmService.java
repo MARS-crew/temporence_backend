@@ -6,4 +6,5 @@ import org.springframework.http.ResponseEntity;
 public interface DmService {
     ResponseEntity<?> saveDm(RequestDmSaveDto dto);
     ResponseEntity<?> findDm(Long id);
+    ResponseEntity<?> findUserList();
 }

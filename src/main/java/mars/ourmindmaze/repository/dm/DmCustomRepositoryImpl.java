@@ -6,9 +6,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import mars.ourmindmaze.domain.QDM;
 import mars.ourmindmaze.vo.DmVO;
+import mars.ourmindmaze.vo.UserDmVO;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -33,6 +32,23 @@ public class DmCustomRepositoryImpl implements DmCustomRepository {
                 .where(d.sender.id.eq(sendId))
                 .where(d.reciver.id.eq(reciverId))
                 .orderBy(d.createdDate.desc()).fetch();
+
+        return list;
+    }
+
+    @Override
+    public List<UserDmVO> findDmUserList(Long id) {
+        QDM d = QDM.dM;
+        List<UserDmVO> list = queryFactory.selectDistinct(
+                        Projections.constructor(
+                                UserDmVO.class,
+                                d.reciver.id,
+                                d.reciver.username
+                        )
+                ).from(d)
+                .where(d.sender.id.eq(id))
+                .orderBy(d.createdDate.desc())
+                .fetch();
 
         return list;
     }

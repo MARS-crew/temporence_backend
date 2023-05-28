@@ -12,6 +12,7 @@ import mars.ourmindmaze.repository.user.UserJpaRepository;
 import mars.ourmindmaze.service.DmService;
 import mars.ourmindmaze.util.SecurityUtil;
 import mars.ourmindmaze.vo.DmVO;
+import mars.ourmindmaze.vo.UserDmVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -50,5 +51,14 @@ public class DmServiceImpl implements DmService {
         List<DmVO> list = dmJpaRepository.findDmList(loginUser.getId(), reciver.get().getId());
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "메세지 리스트를 출력합니다.", list);
+    }
+
+    @Override
+    public ResponseEntity<?> findUserList() {
+        User loginUser = SecurityUtil.getCurrentUserId(userJpaRepository);
+
+        List<UserDmVO> list = dmJpaRepository.findDmUserList(loginUser.getId());
+
+        return CommonResponse.createResponse(HttpStatus.OK.value(), "메세지 대상을 출력합니다.", list);
     }
 }
