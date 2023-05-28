@@ -5,6 +5,7 @@ import mars.ourmindmaze.common.dto.ApiResponse;
 import mars.ourmindmaze.common.dto.CommonResponse;
 import mars.ourmindmaze.common.dto.Pagination;
 import mars.ourmindmaze.common.dto.UserAuthority;
+import mars.ourmindmaze.domain.Point;
 import mars.ourmindmaze.domain.RefreshToken;
 import mars.ourmindmaze.domain.User;
 import mars.ourmindmaze.dto.user.RequestUserLoginDto;
@@ -14,6 +15,7 @@ import mars.ourmindmaze.enums.ExceptionEnum;
 import mars.ourmindmaze.enums.SocialType;
 import mars.ourmindmaze.jwt.TokenDto;
 import mars.ourmindmaze.jwt.TokenProvider;
+import mars.ourmindmaze.repository.PointJpaRepository;
 import mars.ourmindmaze.repository.RefreshJpaTokenRepository;
 import mars.ourmindmaze.repository.user.UserJpaRepository;
 import mars.ourmindmaze.service.UserService;
@@ -30,6 +32,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +43,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserJpaRepository userJpaRepository;
+    private final PointJpaRepository pointJpaRepository;
     private final RefreshJpaTokenRepository refreshJpaTokenRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
@@ -47,18 +51,21 @@ public class UserServiceImpl implements UserService {
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
+    @Transactional
     public ResponseEntity<?> save(RequestUserSaveDto dto) {
         Optional<User> findUser = userJpaRepository.findByUsername(dto.getUsername());
         if (!findUser.isEmpty()) {
             return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.EXIST_EMAIL).buildObject();
         }
 
-        userJpaRepository.save(User.builder()
+        User saveUser = userJpaRepository.save(User.builder()
                 .username(dto.getUsername())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .socialType(SocialType.LOCAL)
                 .authority(UserAuthority.ROLE_USER)
                 .build());
+
+        pointJpaRepository.save(Point.builder().blue(0).gole(0).user(saveUser).build());
 
         return CommonResponse.createResponseMessage(HttpStatus.CREATED.value(), "회원가입에 성공하였습니다..");
     }
