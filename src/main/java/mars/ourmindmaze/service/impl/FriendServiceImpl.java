@@ -11,10 +11,12 @@ import mars.ourmindmaze.repository.friend.FriendJpaRepository;
 import mars.ourmindmaze.repository.user.UserJpaRepository;
 import mars.ourmindmaze.service.FriendService;
 import mars.ourmindmaze.util.SecurityUtil;
+import mars.ourmindmaze.vo.FriendVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -35,5 +37,13 @@ public class FriendServiceImpl implements FriendService {
         friendJpaRepository.save(Friend.builder().user(loginUser).friend(findUser.get()).build());
 
         return CommonResponse.createResponseMessage(HttpStatus.CREATED.value(), "친구 등록에 성공하였습니다.");
+    }
+
+    @Override
+    public ResponseEntity<?> findFriendList() {
+        User loginUser = SecurityUtil.getCurrentUserId(userJpaRepository);
+
+        List<FriendVO> list = friendJpaRepository.findFriendList(loginUser.getId());
+        return CommonResponse.createResponse(HttpStatus.OK.value(), "친구 리스트를 조회합니다.", list);
     }
 }

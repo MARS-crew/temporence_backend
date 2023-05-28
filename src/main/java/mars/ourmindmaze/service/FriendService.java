@@ -5,4 +5,5 @@ import org.springframework.http.ResponseEntity;
 
 public interface FriendService {
     ResponseEntity<?> saveFriend(RequestFriendSaveDto dto);
+    ResponseEntity<?> findFriendList();
 }
