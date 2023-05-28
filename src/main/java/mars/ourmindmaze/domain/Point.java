@@ -9,7 +9,7 @@ import mars.ourmindmaze.common.entity.BaseTimeEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbl_poimt")
+@Table(name = "tbl_point")
 @Data
 @Builder
 @NoArgsConstructor
@@ -21,7 +21,7 @@ public class Point extends BaseTimeEntity {
     private Long id;
 
     @Column(name = "point_gold")
-    private Integer gole;
+    private Integer gold;
 
     @Column(name = "point_blue")
     private Integer blue;

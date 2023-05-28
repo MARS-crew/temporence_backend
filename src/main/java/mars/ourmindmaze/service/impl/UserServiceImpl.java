@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
                 .authority(UserAuthority.ROLE_USER)
                 .build());
 
-        pointJpaRepository.save(Point.builder().blue(0).gole(0).user(saveUser).build());
+        pointJpaRepository.save(Point.builder().blue(0).gold(0).user(saveUser).build());
 
         return CommonResponse.createResponseMessage(HttpStatus.CREATED.value(), "회원가입에 성공하였습니다..");
     }
