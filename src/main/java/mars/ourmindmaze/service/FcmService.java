@@ -5,12 +5,14 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class FcmService {
-    private final FirebaseMessaging firebaseMessaging;
+    @Autowired
+    private FirebaseMessaging firebaseMessaging;
 
     public void sendFcmNotification(String token, String title, String body) throws FirebaseMessagingException {
         Message message = Message.builder()
