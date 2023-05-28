@@ -25,6 +25,6 @@ public class Friend extends BaseTimeEntity {
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "friendId")
+    @JoinColumn(name = "friend_id")
     private User friend;
 }
