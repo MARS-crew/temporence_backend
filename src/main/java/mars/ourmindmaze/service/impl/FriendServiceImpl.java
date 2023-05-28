@@ -46,4 +46,15 @@ public class FriendServiceImpl implements FriendService {
         List<FriendVO> list = friendJpaRepository.findFriendList(loginUser.getId());
         return CommonResponse.createResponse(HttpStatus.OK.value(), "친구 리스트를 조회합니다.", list);
     }
+
+    @Override
+    public ResponseEntity<?> deleteFriend(Long id) {
+        Optional<Friend> findFriend = friendJpaRepository.findById(id);
+        if (findFriend.isEmpty()) {
+            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_FOUND_FRIEND).buildObject();
+        }
+
+        friendJpaRepository.delete(findFriend.get());
+        return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "친구가 삭제가 되었습니다.");
+    }
 }
