@@ -36,4 +36,4 @@ skip:
   resources: /api/auth/**,/h2-console/**,/v3/api-docs,/v3/api-docs/**,/swagger-ui/**,/v2/api-docs/**,/swagger-ui/index.html
 
 server:
-  port: 9000
+  port: 8080
