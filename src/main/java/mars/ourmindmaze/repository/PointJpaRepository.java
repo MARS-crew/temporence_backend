@@ -12,6 +12,7 @@ import java.util.Optional;
 
 public interface PointJpaRepository extends JpaRepository<Point, Long> {
     Optional<Point> findByUser(User user);
+
     @Modifying
     @Transactional
     @Query("UPDATE Point p SET p.blue = :point WHERE p.user.id = :userId")

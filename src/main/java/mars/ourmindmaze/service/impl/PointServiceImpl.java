@@ -25,7 +25,6 @@ public class PointServiceImpl implements PointService {
     @Override
     public ResponseEntity<?> findMyPoint() {
         User loginUser = SecurityUtil.getCurrentUserId(userJpaRepository);
-
         Optional<Point> findPoint = pointJpaRepository.findByUser(loginUser);
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "포인트를 조회합니다.", findPoint);
