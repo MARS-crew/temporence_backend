@@ -27,7 +27,7 @@ public class DM extends BaseTimeEntity {
     @JoinColumn(name = "sender_id")
     private User sender;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "reciver_id")
     private User reciver;
 }

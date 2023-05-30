@@ -9,6 +9,7 @@ import mars.ourmindmaze.common.entity.BaseTimeEntity;
 import mars.ourmindmaze.enums.SocialType;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_user")
@@ -36,4 +37,10 @@ public class User extends BaseTimeEntity {
 
     @Column(nullable = false)
     private UserAuthority authority;
+
+    @OneToMany(mappedBy = "user")
+    private List<DM> dmList;
+
+    @OneToOne(mappedBy = "user")
+    private Point point;
 }
