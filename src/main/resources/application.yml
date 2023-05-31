@@ -1,3 +1,5 @@
+
+
 spring:
   redis:
     host: localhost
@@ -19,13 +21,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-logging:
-  file:
-    path: ./log
-    name: ./log/log-temporence-api.txt
-  level:
-    com:
-      appsdeveloprblog: debug
 
 springdoc:
   swagger-ui:
@@ -39,8 +34,15 @@ jwt:
   token-validity-in-seconds: 86400
 
 logging:
+  file:
+    path: ./log
+    name: ./log/log-temporence-api.txt
+    org:
+      springframework:
+        web: INFO
+        security: DEBUG
   level:
-    mars.mars.todos: debug
+    mars.ourmindmaze: debug
 
 skip:
   resources: /api/auth/**,/h2-console/**,/v3/api-docs,/v3/api-docs/**,/swagger-ui/**,/v2/api-docs/**,/swagger-ui/index.html
