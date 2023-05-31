@@ -38,9 +38,6 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private UserAuthority authority;
 
-    @OneToMany(mappedBy = "user")
-    private List<DM> dmList;
-
     @OneToOne(mappedBy = "user")
     private Point point;
 }
