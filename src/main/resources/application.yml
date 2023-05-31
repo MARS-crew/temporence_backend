@@ -19,6 +19,13 @@ spring:
     properties:
       hibernate:
         format_sql: true
+logging:
+  file:
+    path: ./log
+    name: ./log/log-temporence-api.txt
+  level:
+    com:
+      appsdeveloprblog: debug
 
 springdoc:
   swagger-ui:
