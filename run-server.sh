@@ -4,14 +4,14 @@ REPOSITORY=/home/ubuntu/temp/ourmindmaze-api
 echo "cd ${REPOSITORY}"
 cd $REPOSITORY
 
-V_PID=$(ps -ef | grep '[ourmindmaze-0.0.1-SNAPSHOT.jar' | awk '{print $2}')
+V_PID=$(ps -ef | grep 'jar' | awk '{print $2}')
 
 if test -z "$V_PID"
 then
       echo "\$V_PID is empty"
 else
-      echo "kill $V_PID"
-      kill -9 $V_PID
+      echo "ill $V_PID"
+      sudo kill -9 $V_PID
       wait
 fi
 
@@ -21,7 +21,6 @@ if [ -f "$FILE" ]; then
     rm -rf [ourmindmaze-0.0.1-SNAPSHOT.jar
 fi
 wait
-# 5
 echo "cp -f ${REPOSITORY}/build/libs/*.jar ${REPOSITORY}/"
 cp -f $REPOSITORY/build/libs/*.jar $REPOSITORY/
 wait
