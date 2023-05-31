@@ -16,7 +16,7 @@ import mars.ourmindmaze.enums.SocialType;
 import mars.ourmindmaze.jwt.TokenDto;
 import mars.ourmindmaze.jwt.TokenProvider;
 import mars.ourmindmaze.repository.PointJpaRepository;
-import mars.ourmindmaze.repository.RefreshJpaTokenRepository;
+import mars.ourmindmaze.repository.RefreshRepository;
 import mars.ourmindmaze.repository.user.UserJpaRepository;
 import mars.ourmindmaze.service.UserService;
 import mars.ourmindmaze.vo.UserVO;
@@ -44,7 +44,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserJpaRepository userJpaRepository;
     private final PointJpaRepository pointJpaRepository;
-    private final RefreshJpaTokenRepository refreshJpaTokenRepository;
+    private final RefreshRepository refreshRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
     private final PasswordEncoder passwordEncoder;
@@ -58,12 +58,7 @@ public class UserServiceImpl implements UserService {
             return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.EXIST_EMAIL).buildObject();
         }
 
-        User saveUser = userJpaRepository.save(User.builder()
-                .username(dto.getUsername())
-                .password(passwordEncoder.encode(dto.getPassword()))
-                .socialType(SocialType.LOCAL)
-                .authority(UserAuthority.ROLE_USER)
-                .build());
+        User saveUser = userJpaRepository.save(User.builder().username(dto.getUsername()).password(passwordEncoder.encode(dto.getPassword())).socialType(SocialType.LOCAL).authority(UserAuthority.ROLE_USER).build());
 
         pointJpaRepository.save(Point.builder().blue(0).gold(0).user(saveUser).build());
 
@@ -94,19 +89,15 @@ public class UserServiceImpl implements UserService {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        Optional<RefreshToken> refreshToken = refreshJpaTokenRepository.findByAuthKeyAndType(authentication.getName(), "user");
+        Optional<RefreshToken> refreshToken = refreshRepository.findByUsername(authentication.getName());
 
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
         if (refreshToken.isPresent()) {
-            refreshToken.get().updateValue(tokenDto.getRefreshToken());
-        } else {
-            refreshJpaTokenRepository.save(RefreshToken.refreshTokenBuilder()
-                    .authKey(authentication.getName())
-                    .authValue(tokenDto.getRefreshToken())
-                    .type("user")
-                    .build());
+            refreshRepository.delete(refreshToken.get());
         }
+
+        refreshRepository.save(new RefreshToken(tokenDto.getRefreshToken(), authentication.getName()));
 
         Map<String, String> response = new HashMap<>();
 
@@ -124,13 +115,13 @@ public class UserServiceImpl implements UserService {
 
         Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
 
-        Optional<RefreshToken> refreshToken = refreshJpaTokenRepository.findByAuthKeyAndType(authentication.getName(), "user");
+        Optional<RefreshToken> refreshToken = refreshRepository.findById(tokenRequestDto.getRefreshToken());
 
         if (refreshToken.isEmpty()) {
             return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.USER_NOT_LOGIN).buildObject();
         }
 
-        if (!refreshToken.get().getAuthValue().equals(tokenRequestDto.getRefreshToken())) {
+        if (!refreshToken.get().getId().equals(tokenRequestDto.getRefreshToken())) {
             return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_SAME_USER).buildObject();
         }
 
@@ -140,7 +131,9 @@ public class UserServiceImpl implements UserService {
 
         TokenDto response = tokenProvider.generateTokenDto(authentication);
 
-        refreshJpaTokenRepository.save(refreshToken.get().updateValue(response.getRefreshToken()));
+        refreshRepository.delete(refreshToken.get());
+
+        refreshRepository.save(new RefreshToken(response.getRefreshToken(), authentication.getName()));
 
         return CommonResponse.createResponse(HttpStatus.CREATED.value(), "토큰 재발급에 성공 하였습니다.", response);
     }
