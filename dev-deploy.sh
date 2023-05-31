@@ -14,4 +14,5 @@ echo "deploy on dev server"
 ssh mars_temporence "bash -s" < ./run-server.sh &
 
 echo "Done"
+sudo gradle clean
 
