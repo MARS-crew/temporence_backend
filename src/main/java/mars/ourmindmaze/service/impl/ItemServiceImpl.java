@@ -1,5 +1,6 @@
 package mars.ourmindmaze.service.impl;
 
+import com.google.protobuf.Api;
 import lombok.RequiredArgsConstructor;
 import mars.ourmindmaze.common.dto.ApiResponse;
 import mars.ourmindmaze.common.dto.CommonResponse;
@@ -91,7 +92,7 @@ public class ItemServiceImpl implements ItemService {
         }
         Item item = findItem.get();
         item.setCost(dto.getCost());
-        
+
         itemJpaRepository.save(item);
 
         return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "아이템 가격 변경에 성공했습니다.");
@@ -105,5 +106,14 @@ public class ItemServiceImpl implements ItemService {
         }
         itemJpaRepository.delete(findItem.get());
         return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "아이템 삭제에 성공했습니다.");
+    }
+
+    @Override
+    public ResponseEntity<?> findItemById(Long id) {
+        Optional<Item> findItem = itemJpaRepository.findById(id);
+        if(findItem.isEmpty()){
+            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_FOUND_ITEM).buildObject();
+        }
+        return CommonResponse.createResponse(HttpStatus.OK.value(), "아이템을 조회 합니다.", findItem.get());
     }
 }

@@ -1,5 +1,7 @@
 package mars.ourmindmaze.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import mars.ourmindmaze.dto.item.RequestItemSaveDto;
 import mars.ourmindmaze.service.ItemService;
@@ -12,8 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class ItemController {
 
     private final ItemService itemService;
-
-    @PostMapping("/")
+    @PostMapping
     private ResponseEntity<?> saveItem(@RequestBody RequestItemSaveDto dto) {
         return itemService.saveItem(dto);
     }
@@ -41,5 +42,15 @@ public class ItemController {
     @DeleteMapping("/{id}")
     private ResponseEntity<?> deleteItem(@PathVariable Long id) {
         return itemService.delete(id);
+    }
+
+    @Operation(summary = "Find Item", description = "아이템 조회")
+    @ApiResponse(responseCode = "400", description = "Parameter type is incorrect")
+    @ApiResponse(responseCode = "401", description = "Bad Credentials, JWT token expires")
+    @ApiResponse(responseCode = "401", description = "Access denied")
+    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findItemById(@PathVariable(name = "id") Long id) {
+        return itemService.findItemById(id);
     }
 }
