@@ -14,4 +14,5 @@ public interface ItemService {
     ResponseEntity<?> updateItemCost(RequestItemSaveDto dto, Long id);
     ResponseEntity<?> delete(Long id);
     ResponseEntity<?> findItemById(Long id);
+    ResponseEntity<?> findItemList();
 }

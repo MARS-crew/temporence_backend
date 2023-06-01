@@ -1,21 +1,21 @@
 package mars.ourmindmaze.service.impl;
 
-import com.google.protobuf.Api;
 import lombok.RequiredArgsConstructor;
 import mars.ourmindmaze.common.dto.ApiResponse;
 import mars.ourmindmaze.common.dto.CommonResponse;
 import mars.ourmindmaze.domain.Item;
-import mars.ourmindmaze.domain.Point;
 import mars.ourmindmaze.dto.item.RequestItemSaveDto;
 import mars.ourmindmaze.enums.ExceptionEnum;
 import mars.ourmindmaze.enums.ItemType;
 import mars.ourmindmaze.enums.PointType;
-import mars.ourmindmaze.repository.ItemJpaRepository;
+import mars.ourmindmaze.repository.item.ItemJpaRepository;
 import mars.ourmindmaze.service.ItemService;
+import mars.ourmindmaze.vo.ItemVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -115,5 +115,12 @@ public class ItemServiceImpl implements ItemService {
             return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_FOUND_ITEM).buildObject();
         }
         return CommonResponse.createResponse(HttpStatus.OK.value(), "아이템을 조회 합니다.", findItem.get());
+    }
+
+    @Override
+    public ResponseEntity<?> findItemList() {
+        List<ItemVO> list = itemJpaRepository.findItemList();
+
+        return CommonResponse.createResponse(HttpStatus.OK.value(), "아이템 리스트를 조회합니다.", list);
     }
 }
