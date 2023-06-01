@@ -1,40 +1,68 @@
 package mars.ourmindmaze.jwt;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
+import mars.ourmindmaze.common.dto.ApiResponse;
+import mars.ourmindmaze.common.dto.ErrorMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends GenericFilterBean {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final TokenProvider jwtTokenProvider;
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+    private TokenProvider tokenProvider;
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException, IOException {
-
-        String token = resolveToken((HttpServletRequest) request);
-
-        if (token != null && jwtTokenProvider.validateToken(token)) {
-            Authentication authentication = jwtTokenProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
-        chain.doFilter(request, response);
+    public JwtAuthenticationFilter(final TokenProvider tokenProvider) {
+        super();
+        this.tokenProvider = tokenProvider;
     }
 
-    private String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
-            return bearerToken.substring(7);
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException {
+        Optional<String> optToken = tokenProvider.resolveToken(request);
+        try {
+            if (optToken.isPresent() && tokenProvider.validateToken(optToken.get())) {
+                Authentication auth = tokenProvider.getAuthentication(optToken.get());
+                if (auth != null) {
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                    filterChain.doFilter(new RequestWrapper(request), response);
+                }
+            } else {
+                logger.info("JWT token Not Found");
+                filterChain.doFilter(new RequestWrapper(request), response);
+            }
+
+
+        } catch (JwtException e) {
+            logger.error("JWT token is invalid: {}", e.getMessage());
+            if (e instanceof ExpiredJwtException) {
+                ApiResponse.<Object>builder().status(HttpStatus.UNAUTHORIZED.value())
+                        .code(ErrorMessage.TOKEN_EXPIRED.getCode()).message(ErrorMessage.TOKEN_EXPIRED.getMessage())
+                        .init().writeJson(response);
+            } else {
+                ApiResponse.<Object>builder().status(HttpStatus.UNAUTHORIZED.value())
+                        .code(ErrorMessage.TOKEN_INVALID.getCode()).message(ErrorMessage.TOKEN_INVALID.getMessage())
+                        .init().writeJson(response);
+            }
+        } catch (Exception e) {
+            logger.error("Exception - error while validating token", e.getCause());
+            ApiResponse.<Object>builder().status(HttpStatus.UNAUTHORIZED.value())
+                    .code(ErrorMessage.TOKEN_VALIDATE.getCode()).message(ErrorMessage.TOKEN_INVALID.getMessage())
+                    .init().writeJson(response);
+
         }
-        return null;
+
     }
 }

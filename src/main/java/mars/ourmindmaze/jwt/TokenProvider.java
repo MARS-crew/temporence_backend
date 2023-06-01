@@ -15,10 +15,12 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -92,6 +94,15 @@ public class TokenProvider implements InitializingBean {
         UserDetails principal = new User(claims.getSubject(), "", authorities);
 
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
+    }
+
+    public Optional<String> resolveToken(final HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken == null || !bearerToken.startsWith("Bearer ")
+                || bearerToken.length() <= "Authorization".length()) {
+            return Optional.empty();
+        }
+        return Optional.of(bearerToken.substring(7));
     }
 
     // 토큰 유효성 검사

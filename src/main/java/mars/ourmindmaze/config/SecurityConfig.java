@@ -1,6 +1,7 @@
 package mars.ourmindmaze.config;
 
 import lombok.RequiredArgsConstructor;
+import mars.ourmindmaze.jwt.AuthEntryPointJwt;
 import mars.ourmindmaze.jwt.JwtAuthenticationFilter;
 import mars.ourmindmaze.jwt.TokenProvider;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -20,7 +20,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
 
@@ -32,6 +31,8 @@ public class SecurityConfig {
     private final CorsFilter corsFilter;
 
     private final TokenProvider tokenProvider;
+
+    private final AuthEntryPointJwt authEntryPointJwt;
 
     @Value("${skip.resources}")
     private String[] skipResources;
@@ -54,17 +55,17 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests()
-//                .antMatchers(skipResources).permitAll()
-//                .anyRequest().authenticated()
-                .anyRequest().permitAll()
+                .antMatchers(skipResources).permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(unauthorizedEntryPoint())
+                .authenticationEntryPoint(authEntryPointJwt)
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
+
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
@@ -75,10 +76,5 @@ public class SecurityConfig {
         config.setAllowedOrigins(Arrays.asList("*"));
         source.registerCorsConfiguration("/**", config);
         return source;
-    }
-
-    @Bean
-    public AuthenticationEntryPoint unauthorizedEntryPoint() {
-        return (request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
     }
 }
