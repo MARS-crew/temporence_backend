@@ -21,8 +21,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  jackson:
+    time-zone=Asia/Seoul:
 
 springdoc:
+  paths-to-exclude: /swagger-resources/**, /v3/**, /v2/**
   swagger-ui:
     operationsSorter: method
   api-docs:

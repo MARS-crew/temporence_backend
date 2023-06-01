@@ -15,14 +15,13 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
-@EnableOpenApi
 public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.OAS_30)
                 .useDefaultResponseMessages(false)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("emart.emart.controller"))
+                .apis(RequestHandlerSelectors.basePackage("mars.ourmindmaze.controller"))
                 .paths(PathSelectors.any())
                 .build().apiInfo(apiInfo());
     }
