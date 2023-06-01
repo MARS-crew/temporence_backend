@@ -40,7 +40,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     filterChain.doFilter(new RequestWrapper(request), response);
                 }
             } else {
-                logger.info("JWT token Not Found");
                 filterChain.doFilter(new RequestWrapper(request), response);
             }
 
