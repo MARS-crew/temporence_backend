@@ -14,6 +14,8 @@ public enum ExceptionEnum {
     USER_NOT_LOGIN(HttpStatus.BAD_REQUEST, "로그아웃된 사용자 입니다.", 4),
     NOT_SAME_USER(HttpStatus.BAD_REQUEST, "토큰의 유저 정보가 일치하지 않습니다.", 5),
     NOT_FOUND_FRIEND(HttpStatus.BAD_REQUEST, "친구 정보를 찾을 수 없습니다.", 5),
+    EXIST_ITEM(HttpStatus.BAD_REQUEST, "이미 존재하는 아이템 입니다.", 6),
+    NOT_FOUND_ITEM(HttpStatus.NOT_FOUND, "아이템을 찾을 수 없습니다.", 7),
     ;
 
     private final HttpStatus status;
