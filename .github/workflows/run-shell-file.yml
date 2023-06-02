@@ -1,0 +1,17 @@
+name: Run Shell File
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: MARS-crew/mars_temporence@v2
+
+      - name: Run shell script
+        run: sh dev-deploy.sh
