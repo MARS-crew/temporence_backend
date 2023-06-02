@@ -14,4 +14,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run shell script
-        run: sh dev-deploy.sh
+        run: sh git-dev-deploy.sh
