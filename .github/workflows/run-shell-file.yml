@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: MARS-crew/mars_temporence@v2
+        uses: actions/checkout@v2
 
       - name: Run shell script
         run: sh dev-deploy.sh
