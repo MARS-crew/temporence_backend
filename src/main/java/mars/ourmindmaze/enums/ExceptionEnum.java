@@ -22,10 +22,6 @@ public enum ExceptionEnum {
     private String message;
     private Integer errorCode;
 
-    ExceptionEnum(HttpStatus status){
-        this.status=status;
-    }
-
     ExceptionEnum(HttpStatus status, String message, Integer errorCode){
         this.status = status;
         this.message = message;
