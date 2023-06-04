@@ -26,7 +26,7 @@ public class Point extends BaseTimeEntity {
     @Column(name = "point_blue")
     private Integer blue;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 }
