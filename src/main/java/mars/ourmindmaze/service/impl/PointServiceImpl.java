@@ -44,6 +44,6 @@ public class PointServiceImpl implements PointService {
             pointJpaRepository.updateBluePoint(findPoint.get().getBlue() + dto.getPoint(), loginUser.getId());
         }
 
-        return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "포인를 수정합니다.");
+        return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "포인트를 수정합니다.");
     }
 }
