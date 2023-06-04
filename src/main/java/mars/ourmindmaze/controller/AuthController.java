@@ -28,10 +28,10 @@ public class AuthController {
     private final UserService userService;
 
     @Operation(summary = "Save User", description = "유저 생성하기")
-    @ApiResponse(responseCode = "400", description = "Parameter type is incorrect")
-    @ApiResponse(responseCode = "401", description = "Bad Credentials, JWT token expires")
-    @ApiResponse(responseCode = "401", description = "Access denied")
-    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "회원가입에 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.REGISTER_SUCCESS_RESPONSE))),
+            @ApiResponse(responseCode = "400", description = SwaggerConfig.BAD_REQUEST, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.BAD_REQUEST_RESPONSE)})),
+            @ApiResponse(responseCode = "500", description = SwaggerConfig.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.INTERNAL_SERVER_ERROR_REPONSE)))})
     @PostMapping
     public ResponseEntity<?> saveUser(@RequestBody RequestUserSaveDto dto) {
         return userService.save(dto);
@@ -39,9 +39,8 @@ public class AuthController {
 
     @Operation(summary = "Login User", description = "유저 로그인")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Sign in success", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.LOGIN_SUCCESS))),
-            @ApiResponse(responseCode = "401", description = SwaggerConfig.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(name = SwaggerConfig.UNAUTHORIZED_ERROR, value = SwaggerConfig.TOKEN_EXPIRED_REPONSE)})),
-            @ApiResponse(responseCode = "403", description = SwaggerConfig.FORBIDDEN_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.UNAUTHORIZED_ACCESS_DENIED_RESPONSE))),
+            @ApiResponse(responseCode = "200", description = "로그인에 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.LOGIN_SUCCESS_RESPONSE))),
+            @ApiResponse(responseCode = "400", description = SwaggerConfig.BAD_REQUEST, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.BAD_REQUEST_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = SwaggerConfig.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.INTERNAL_SERVER_ERROR_REPONSE)))})
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody RequestUserLoginDto dto) {
@@ -49,10 +48,11 @@ public class AuthController {
     }
 
     @Operation(summary = "Get Token", description = "Access Token 재발급")
-    @ApiResponse(responseCode = "400", description = "Parameter type is incorrect")
-    @ApiResponse(responseCode = "401", description = "Bad Credentials, JWT token expires")
-    @ApiResponse(responseCode = "401", description = "Access denied")
-    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "작물 조회에 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.TOKEN_REFRESH_RESPONSE))),
+            @ApiResponse(responseCode = "400", description = SwaggerConfig.BAD_REQUEST, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.BAD_REQUEST_RESPONSE)})),
+            @ApiResponse(responseCode = "401", description = SwaggerConfig.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.UNAUTHORIZED_ERROR_RESPONSE)})),
+            @ApiResponse(responseCode = "500", description = SwaggerConfig.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.INTERNAL_SERVER_ERROR_REPONSE)))})
     @PostMapping("/token")
     public ResponseEntity<?> token(@RequestBody RequestTokenDto dto) {
         return userService.getTokenByRefreshToken(dto);

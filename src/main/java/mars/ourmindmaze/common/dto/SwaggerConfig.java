@@ -2,12 +2,31 @@ package mars.ourmindmaze.common.dto;
 
 public class SwaggerConfig {
     public static final String INTERNAL_SERVER_ERROR = "Internal Server Error";
-    public static final String UNAUTHORIZED_ERROR = "Unauthorized";
+    public static final String UNAUTHORIZED_ERROR = "토큰이 유효하거나 존재하지 않습니다.";
+    public static final String UNAUTHORIZED_ERROR_RESPONSE = "{\"status\":401,\"code\":\"API401001\",\"message\":\"unauthorized error full authentication is required to access this resource\"}";
+    public static final String CROPS_SAVE_SUCCESS_RESPONSE = "{\"status\":201,\"message\":\"작물을 생성하였습니다\"}";
+    public static final String CROPS_FINDALL_RESPONSE = "{\"status\":200,\"message\":\"작물 리스트를 조회합니다.\",\"data\":[{\"id\":1,\"createdDate\":\"2023-06-01T10:05:58.704479\",\"name\":\"사과나무\",\"maxExp1\":100,\"maxExp2\":200,\"maxExp3\":300,\"maxExp4\":400,\"maxExp5\":500},{\"id\":2,\"createdDate\":\"2023-06-02T16:01:57.804431\",\"name\":\"사과나무123\",\"maxExp1\":100,\"maxExp2\":200,\"maxExp3\":300,\"maxExp4\":400,\"maxExp5\":500}]}";
+    public static final String NOTICE_SAVE_SUCCESS_RESPONSE = "{\"status\":201,\"message\":\"공지사항을 생성하였습니다\"}";
+    public static final String NOTICE_FINDALL_RESPONSE = "{\"status\":200,\"message\":\"공지사항 리스트를 조회합니다.\",\"pagination\":{\"totalPages\":1,\"currentPage\":0,\"totalItems\":2},\"data\":[{\"id\":2,\"createdDate\":\"2023-06-02T16:07:02.778244\",\"title\":\"공지사항 1\",\"text\":\"공지사항 내용은 리스트에서 최대 2줄까지 노출 됩니다.\"},{\"id\":1,\"createdDate\":\"2023-06-01T10:15:18.514874\",\"title\":\"공지사항 1\",\"text\":\"공지사항 내용은 리스트에서 최대 2줄까지 노출 됩니다.\"}]}";
+    public static final String NOTICE_FIND_RESPONSE = "{\"status\":200,\"message\":\"공지사항을 조회합니다.\",\"data\":{\"createdDate\":\"2023-06-01T10:15:18.514874\",\"modifiedDate\":\"2023-06-01T10:15:18.514874\",\"id\":1,\"title\":\"공지사항 1\",\"text\":\"공지사항 내용은 리스트에서 최대 2줄까지 노출 됩니다.\"}}";
+    public static final String NOTICE_UPDATE_RESPONSE = "{\"status\":200,\"message\":\"공지사항을 변경하였습니다.\"}";
+    public static final String NOTICE_DELETE_RESPONSE = "{\"status\":200,\"message\":\"공지사항을 삭제하였습니다.\"}";
+    public static final String PICKUP_SAVE_SUCCESS_RESPONSE = "{\"status\":201,\"message\":\"픽업을 생성하였습니다\"}";
+    public static final String PICKUP_DELETE_RESPONSE = "{\"status\":201,\"message\":\"픽업을 삭제하였습니다\"}";
+    public static final String PICKUP_FINDALL_RESPONSE = "{\"status\":200,\"message\":\"픽업 리스트를 조회합니다.\",\"pagination\":{\"totalPages\":1,\"currentPage\":0,\"totalItems\":1},\"data\":[{\"id\":2,\"createdDate\":\"2023-06-02T16:15:37.712876\",\"store\":\"이마트 강남점\",\"date\":\"2023-05-25\",\"startTime\":\"2023-05-25 12:00:00\",\"endTime\":\"2023-05-25 14:00:00\",\"pickupStatus\":\"PICKUP\",\"username\":\"김인후\",\"cropsName\":\"사과나무\"}]}";
+    public static final String PICKUP_FINDALL_USER_RESPONSE = "{\"status\":200,\"message\":\"유저의 픽업 리스트를 조회 합니다.\",\"pagination\":{\"totalPages\":1,\"currentPage\":0,\"totalItems\":1},\"data\":[{\"id\":2,\"createdDate\":\"2023-06-02T16:15:37.712876\",\"store\":\"이마트 강남점\",\"date\":\"2023-05-25\",\"startTime\":\"2023-05-25 12:00:00\",\"endTime\":\"2023-05-25 14:00:00\",\"pickupStatus\":\"PICKUP\",\"username\":\"김인후\",\"cropsName\":\"사과나무\"}]}";
+    public static final String PICKUP_FIND_RESPONSE = "{\"status\":200,\"message\":\"픽업을 조회합니다.\",\"data\":{\"id\":2,\"createdDate\":\"2023-06-02T16:15:37.712876\",\"store\":\"이마트 강남점\",\"date\":\"2023-05-25\",\"startTime\":\"2023-05-25 12:00:00\",\"endTime\":\"2023-05-25 14:00:00\",\"pickupStatus\":\"PICKUP\",\"username\":\"김인후\",\"cropsName\":\"사과나무\"}}";
+    public static final String USER_UPDATE_RESPONSE = "{\"status\":201,\"message\":\"닉네임을 변경하였습니다.\"}";
+    public static final String USER_CROPS_FINDLIST_RESPONSE = "{\"status\": 200, \"message\": \"유저의 작물 리스트를 출력합니다.\", \"data\": [{\"id\": 1, \"createdDate\": \"2023-06-01T10:06:10.540197\", \"exp\": 100, \"level\": 1}]}";
+    public static final String USER_CROPS_FIND_RESPONSE = "{\"status\": 200, \"message\": \"유저의 작물을 조회 합니다.\", \"data\": {\"createdDate\": \"2023-06-01T10:06:10.540197\", \"modifiedDate\": \"2023-06-01T10:06:10.540197\", \"id\": 1, \"exp\": 100, \"level\": 1, \"user\": {\"createdDate\": \"2023-06-01T10:05:42.283317\", \"modifiedDate\": \"2023-06-01T10:05:42.283317\", \"id\": 1, \"nickname\": \"김만규1\", \"secretname\": \"놀아나는 강아지1\", \"token\": \"abasdasdasdasdasd\", \"authority\": \"ROLE_USER\"}, \"crops\": {\"createdDate\": \"2023-06-01T10:05:58.704479\", \"modifiedDate\": \"2023-06-01T10:05:58.704479\", \"id\": 1, \"name\": \"사과나무\", \"maxExp1\": 100, \"maxExp2\": 200, \"maxExp3\": 300, \"maxExp4\": 400, \"maxExp5\": 500}}}";
+    public static final String USER_CROPS_SAVE_RESPONSE = "{\"status\":201,\"message\":\"유저의 작물을 생성하였습니다.\"}";
+    public static final String USER_CROPS_UPDATE_RESPONSE = "{\"status\":201,\"message\":\"유저의 경험치를 증가시킵니다.\"}";
     public static final String FORBIDDEN_ERROR = "Forbidden";
-    public static final String LOGIN_SUCCESS ="{\"expiration\":\"300\",\"token\":\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbkBlbWFpbC5jb20iLCJpYXQiOjE2NjA3OTI3MDUsImV4cCI6MTY2MDc5MzAwNX0.q11oRYEmNIsXoG9TLbbSyfY5dFeQe5rFWiIBkiXpLbGhyZcGs-fzWcpCf1bQZSMEq64IXkO14Mu0M7UAMGjJig\",\"refreshToken\":\"01cd735f-3146-4053-aada-a9685e2072af\"}";
-    public static final String SAVE_SUCCESS ="회원가입 성공";
-    public static final String INTERNAL_SERVER_ERROR_REPONSE ="{\"status\":500,\"errors\":[{\"status\":\"API500\",\"message\":\"Internal Server Error\"}]}";
-    public static final String TOKEN_EXPIRED_REPONSE = "{\"status\":401,\"code\":\"TOKEN_EXPIRED\",\"message\":\"Bad Credentials, JWT token expires \"}";
-    public static final String UNAUTHORIZED_ACCESS_DENIED_RESPONSE = "{\"status\":403,\"errors\":[{\"status\":\"API403002\",\"message\":\"Access denied\"}]}";
+    public static final String LOGIN_SUCCESS_RESPONSE = "{\"status\":201,\"message\":\"로그인에 성공하였습니다.\",\"data\":{\"id\":\"1\",\"accessToken\":\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2ODU5NjUwMzN9.XfwslGyww3Lx4wFRVwDsH5JVtx4e2WVWtN3F6X5vG56D1qtw7FhwMANiJ70PmJnBaoE8ObsiBmzNdCUILE0P8w\",\"email\":\"admin\",\"refreshToken\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODcwODgyMzN9.Ye8sXfvsHAZaoq-0c8vianij71Lop9yPeDzJJzvQbIa7AKctMP6gyQfk1Rz2gIbj4zBOa893877w1ZALhAERtg\"}}";
+    public static final String REGISTER_SUCCESS_RESPONSE = "{\"status\":201,\"message\":\"회원가입에 성공하였습니다.\"}";
+    public static final String TOKEN_REFRESH_RESPONSE = "{\"status\":201,\"message\":\"토큰 재발급에 성공 하였습니다.\",\"data\":{\"grantType\":\"bearer\",\"accessToken\":\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2ODU5NjUxNzN9.XM5x6CCSVn0B4s2QBHRWuq6itXDlcr967m_-lMKZIcD1Rc2RY36k74VlyKUJGFyqdPF28kJvhq0wZ9QN2QUHlQ\",\"refreshToken\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODcwODgzNzN9.IvsLCT5hQ1L4iIoZKyu15PAsMsMIaHquRc6bEqBp-WN1YXX03yJCCVp2kaKjbg0z0KbJnlHHeYWLe92FaAVpGA\",\"accessTokenExpiresIn\":1685965173647}}";
+    public static final String BAD_REQUEST = "잘못된 요청 입니다.";
+    public static final String BAD_REQUEST_RESPONSE = "{\"timestamp\":\"2023-06-02T06:39:44.234+00:00\",\"status\":400,\"error\":\"Bad Request\",\"path\":\"/api/auth/login\"}";
+    public static final String INTERNAL_SERVER_ERROR_REPONSE = "{\"status\":500,\"errors\":[{\"status\":\"API500\",\"message\":\"Internal Server Error\"}]}";
 
 }
