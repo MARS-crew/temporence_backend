@@ -1,5 +1,17 @@
 spring:
   datasource:
-    url: jdbc:mysql://3.212.188.144:3306/mars
-    username: mars
-    password: d~JU8Z4Jv$t"SypX
+    url: jdbc:mysql://localhost:3306/temporence_dev
+    username: root
+    password: Qwer1595@!
+
+ssh:
+  tunnel:
+    enabled: true
+    host: 43.200.204.186
+    port: 22
+    privateKeyPath: classpath:/seoul.pem
+    username: ubuntu
+    password: ubuntu
+    localPort: 22
+    remoteHost: localhost
+    remotePort: 3306
