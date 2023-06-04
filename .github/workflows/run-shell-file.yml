@@ -12,6 +12,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
+      - name: Initialize Known Hosts
+        run: |
+          mkdir -p ~/.ssh
+          touch ~/.ssh/known_hosts
+          ssh-keyscan 43.200.204.186 >> ~/.ssh/known_hosts
       - name: Run shell script
         run: sh git-dev-deploy.sh
