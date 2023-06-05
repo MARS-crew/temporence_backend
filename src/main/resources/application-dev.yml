@@ -1,5 +1,6 @@
+# ssh -L 3306:localhost:3306 mars_temporence
 spring:
   datasource:
-    url: jdbc:mysql://3.212.188.144:3306/mars
-    username: mars
-    password: d~JU8Z4Jv$t"SypX
+    url: jdbc:mysql://localhost:3306/temporence_dev
+    username: root
+    password: Qwer1595@!
