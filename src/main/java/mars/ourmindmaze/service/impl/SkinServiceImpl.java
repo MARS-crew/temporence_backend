@@ -51,4 +51,17 @@ public class SkinServiceImpl implements SkinService {
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "스킨을 조회합니다.", findSkin.get());
     }
+
+    @Override
+    public ResponseEntity<?> deleteSkin(Long id) {
+        Optional<Skin> findSkin = skinJpaRepository.findById(id);
+
+        if (findSkin.isEmpty()) {
+            return ApiResponse.<Objects>builder().status(HttpStatus.NOT_FOUND).message("스킨을 찾을 수 없습니다.").buildObject();
+        }
+
+        skinJpaRepository.delete(findSkin.get());
+
+        return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "스킨을 삭제하였습니다.");
+    }
 }

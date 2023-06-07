@@ -18,6 +18,7 @@ public class SwaggerConfig {
     public static final String CHARACTER_FIND_RESPONSE = "{\"status\": 200, \"message\": \"캐릭터를 조회합니다.\", \"data\": {\"createdDate\": \"2023-06-08T00:01:11\", \"modifiedDate\": \"2023-06-08T00:01:11\", \"id\": 1, \"name\": \"뽀삐\"}}";
     public static final String CHARACTER_FINDLIST_RESPONSE = "{\"status\": 200, \"message\": \"캐릭터 리스트를 조회합니다.\", \"data\": [{\"createdDate\": \"2023-06-08T00:01:11\", \"modifiedDate\": \"2023-06-08T00:01:11\", \"id\": 1, \"name\": \"뽀삐\"}]}";
     public static final String SKIN_SAVE_RESPONSE = "{\"status\":201,\"message\":\"스킨이 등록되었습니다.\"}";
+    public static final String SKIN_DELETE_RESPONSE = "{\"status\":201,\"message\":\"스킨을 삭제하였습니다.\"}";
     public static final String USER_SKIN_SAVE_RESPONSE = "{\"status\":201,\"message\":\"유저의 스킨이 등록되었습니다.\"}";
     public static final String FORBIDDEN_ERROR = "Forbidden";
     public static final String LOGIN_SUCCESS_RESPONSE = "{\"status\":201,\"message\":\"로그인에 성공하였습니다.\",\"data\":{\"id\":\"1\",\"accessToken\":\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2ODU5NjUwMzN9.XfwslGyww3Lx4wFRVwDsH5JVtx4e2WVWtN3F6X5vG56D1qtw7FhwMANiJ70PmJnBaoE8ObsiBmzNdCUILE0P8w\",\"email\":\"admin\",\"refreshToken\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODcwODgyMzN9.Ye8sXfvsHAZaoq-0c8vianij71Lop9yPeDzJJzvQbIa7AKctMP6gyQfk1Rz2gIbj4zBOa893877w1ZALhAERtg\"}}";
