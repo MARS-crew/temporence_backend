@@ -9,7 +9,7 @@ import mars.ourmindmaze.common.entity.BaseTimeEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbl_friend")
+@Table(name = "tbl_skin")
 @Data
 @Builder
 @NoArgsConstructor
