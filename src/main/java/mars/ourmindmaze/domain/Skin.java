@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import mars.ourmindmaze.common.entity.BaseTimeEntity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_skin")
@@ -25,4 +26,7 @@ public class Skin extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "character_id")
     private Character character;
+
+    @OneToMany(mappedBy = "skin", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserSkin> userSkins;
 }
