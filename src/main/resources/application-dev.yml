@@ -2,5 +2,5 @@
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/temporence_dev
-    username: root
+    username: admin
     password: Qwer1595@!
