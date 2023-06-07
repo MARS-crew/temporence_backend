@@ -13,6 +13,10 @@ public class SwaggerConfig {
     public static final String DM_FIND_RESPONSE = "{\"status\":200,\"message\":\"메세지 리스트를 출력합니다.\",\"data\":[{\"id\":1,\"sender\":\"admin\",\"receiver\":\"test\",\"content\":\"Hello\",\"createdDate\":\"2023-06-04T20:44:46\"}]}";
     public static final String DM_USER_FIND_RESPONSE = "{\"status\":200,\"message\":\"메세지 대상을 출력합니다.\",\"data\":[{\"id\":2,\"username\":\"test\"}]}";
     public static final String CHARACTER_SAVE_RESPONSE = "{\"status\":201,\"message\":\"캐릭터가 등록되었습니다.\"}";
+    public static final String CHARACTER_DELETE_RESPONSE = "{\"status\":201,\"message\":\"캐릭터를 삭제하였습니다.\"}";
+    public static final String CHARACTER_UPDATE_RESPONSE = "{\"status\":201,\"message\":\"캐릭터를 변경하였습니다.\"}";
+    public static final String CHARACTER_FIND_RESPONSE = "{\"status\": 200, \"message\": \"캐릭터를 조회합니다.\", \"data\": {\"createdDate\": \"2023-06-08T00:01:11\", \"modifiedDate\": \"2023-06-08T00:01:11\", \"id\": 1, \"name\": \"뽀삐\"}}";
+    public static final String CHARACTER_FINDLIST_RESPONSE = "{\"status\": 200, \"message\": \"캐릭터 리스트를 조회합니다.\", \"data\": [{\"createdDate\": \"2023-06-08T00:01:11\", \"modifiedDate\": \"2023-06-08T00:01:11\", \"id\": 1, \"name\": \"뽀삐\"}]}";
     public static final String SKIN_SAVE_RESPONSE = "{\"status\":201,\"message\":\"스킨이 등록되었습니다.\"}";
     public static final String USER_SKIN_SAVE_RESPONSE = "{\"status\":201,\"message\":\"유저의 스킨이 등록되었습니다.\"}";
     public static final String FORBIDDEN_ERROR = "Forbidden";
