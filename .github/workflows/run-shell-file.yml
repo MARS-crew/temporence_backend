@@ -19,7 +19,7 @@ jobs:
           ssh-keyscan 43.200.204.186 >> ~/.ssh/known_hosts
       - name: Set Permissions for Private Key
         run: |
-          chmod 400 ./seoul.pem
+          chmod 400 $HOME/key.pem
       - name: Run shell script
         run: sh git-dev-deploy.sh
         env:
