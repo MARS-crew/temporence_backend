@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface CharacterJpaRepository extends JpaRepository<Character, Long> {
     Optional<Character> findByName(String name);
+    Optional<Character> findById(Long id);
 }
