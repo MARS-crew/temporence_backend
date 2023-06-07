@@ -22,3 +22,5 @@ jobs:
           chmod 400 ./seoul.pem
       - name: Run shell script
         run: sh git-dev-deploy.sh
+        env:
+          SSH_PEM_KEY: ${{secrets.DEPLOY_SSH_KEY}}
