@@ -12,7 +12,6 @@ import mars.ourmindmaze.dto.user.RequestUserLoginDto;
 import mars.ourmindmaze.dto.user.RequestUserSaveDto;
 import mars.ourmindmaze.dto.user.RequestTokenDto;
 import mars.ourmindmaze.enums.ExceptionEnum;
-import mars.ourmindmaze.enums.SocialType;
 import mars.ourmindmaze.jwt.TokenDto;
 import mars.ourmindmaze.jwt.TokenProvider;
 import mars.ourmindmaze.repository.PointJpaRepository;
@@ -58,7 +57,7 @@ public class UserServiceImpl implements UserService {
             return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.EXIST_EMAIL).buildObject();
         }
 
-        User saveUser = userJpaRepository.save(User.builder().username(dto.getUsername()).password(passwordEncoder.encode(dto.getPassword())).socialType(SocialType.LOCAL).authority(UserAuthority.ROLE_USER).build());
+        User saveUser = userJpaRepository.save(User.builder().username(dto.getUsername()).password(passwordEncoder.encode(dto.getPassword())).authority(UserAuthority.ROLE_USER).build());
 
         pointJpaRepository.save(Point.builder().blue(0).gold(0).user(saveUser).build());
 

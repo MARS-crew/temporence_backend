@@ -20,17 +20,11 @@ public class User extends BaseTimeEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name ="username", unique = true, nullable = false, length = 25)
+    @Column(name = "username", unique = true, nullable = false, length = 25)
     private String username;
 
-    @Column(name = "password", nullable = true, length = 120)
+    @Column(name = "password", length = 120)
     private String password;
-
-    @Column(nullable = false)
-    private SocialType socialType;
-
-    @Column(unique = true, nullable = true, length = 120)
-    private String socialKey;
 
     @Column(nullable = false)
     private UserAuthority authority;
