@@ -46,7 +46,7 @@ logging:
     mars.ourmindmaze: debug
 
 skip:
-  resources: /api/auth/**,/h2-console/**,/v3/api-docs,/v3/api-docs/**,/swagger-ui/**,/v2/api-docs/**,/swagger-ui/index.html, /api/item/**
+  resources: /api/auth/**,/h2-console/**,/v3/api-docs,/v3/api-docs/**,/swagger-ui/**,/v2/api-docs/**,/swagger-ui/index.html
 
 server:
   port: 8080
