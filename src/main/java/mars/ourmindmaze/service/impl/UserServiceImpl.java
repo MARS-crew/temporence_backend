@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<?> save(RequestUserSaveDto dto) {
         Optional<User> findUser = userJpaRepository.findByUsername(dto.getUsername());
         if (!findUser.isEmpty()) {
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.EXIST_EMAIL).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("이미 사용 중인 계정 입니다.").buildObject();
         }
 
         User saveUser = userJpaRepository.save(User.builder().username(dto.getUsername()).password(passwordEncoder.encode(dto.getPassword())).authority(UserAuthority.ROLE_USER).build());
@@ -78,11 +78,11 @@ public class UserServiceImpl implements UserService {
         Optional<User> findUser = userJpaRepository.findByUsername(dto.getUsername());
 
         if (findUser.isEmpty()) {
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_FOUDN_USER).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("유저를 찾을 수 없습니다.").buildObject();
         }
 
         if (!passwordEncoder.matches(dto.getPassword(), findUser.get().getPassword())) {
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.PASSWORD_WRONG).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("패스워드가 일치하지 않습니다.").buildObject();
         }
         UsernamePasswordAuthenticationToken authenticationToken = dto.toAuthentication();
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
 
     public ResponseEntity<?> getTokenByRefreshToken(RequestTokenDto tokenRequestDto) {
         if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())) {
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.TOKEN_WRONG_DATE).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("토큰이 유효하지 않습니다.").buildObject();
         }
 
         Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
@@ -117,15 +117,15 @@ public class UserServiceImpl implements UserService {
         Optional<RefreshToken> refreshToken = refreshRepository.findById(tokenRequestDto.getRefreshToken());
 
         if (refreshToken.isEmpty()) {
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.USER_NOT_LOGIN).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("유저가 로그인 상태가 아닙니다.").buildObject();
         }
 
         if (!refreshToken.get().getId().equals(tokenRequestDto.getRefreshToken())) {
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_SAME_USER).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("유저 정보가 일치하지 않습니다.").buildObject();
         }
 
         if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())) {
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.TOKEN_WRONG_DATE).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("토큰이 만료하였습니다.").buildObject();
         }
 
         TokenDto response = tokenProvider.generateTokenDto(authentication);

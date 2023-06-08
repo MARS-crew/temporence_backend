@@ -32,7 +32,7 @@ public class DmServiceImpl implements DmService {
 
         Optional<User> reciver = userJpaRepository.findById(dto.getReciverId());
         if (reciver.isEmpty()) {
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_FOUDN_USER).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("유저를 찾을 수 없습니다.").buildObject();
         }
         dmJpaRepository.save(DM.builder().reciver(reciver.get()).sender(loginUser).content(dto.getContent()).build());
 
@@ -45,7 +45,7 @@ public class DmServiceImpl implements DmService {
 
         Optional<User> reciver = userJpaRepository.findById(id);
         if (reciver.isEmpty()) {
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_FOUDN_USER).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("유저를 찾을 수 없습니다.").buildObject();
         }
 
         List<DmVO> list = dmJpaRepository.findDmList(loginUser.getId(), reciver.get().getId());

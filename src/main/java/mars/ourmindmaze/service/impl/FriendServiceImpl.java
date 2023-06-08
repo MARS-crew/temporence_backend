@@ -31,7 +31,7 @@ public class FriendServiceImpl implements FriendService {
         Optional<User> findUser = userJpaRepository.findById(dto.getFriendId());
 
         if (findUser.isEmpty()) {
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_FOUDN_USER).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("유저를 찾을 수 없습니다.").buildObject();
         }
 
         friendJpaRepository.save(Friend.builder().user(loginUser).friend(findUser.get()).build());
@@ -51,7 +51,7 @@ public class FriendServiceImpl implements FriendService {
     public ResponseEntity<?> deleteFriend(Long id) {
         Optional<Friend> findFriend = friendJpaRepository.findById(id);
         if (findFriend.isEmpty()) {
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_FOUND_FRIEND).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("친구를 찾을 수 없습니다.").buildObject();
         }
 
         friendJpaRepository.delete(findFriend.get());

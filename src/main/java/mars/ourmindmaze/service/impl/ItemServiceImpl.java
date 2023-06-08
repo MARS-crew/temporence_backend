@@ -28,7 +28,7 @@ public class ItemServiceImpl implements ItemService {
     public ResponseEntity<?> saveItem(RequestItemSaveDto dto) {
         Optional<Item> findItem = itemJpaRepository.findByItem(dto.getItem());
         if(findItem.isPresent())
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.EXIST_ITEM).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("존재하는 아이템 입니다.").buildObject();
         itemJpaRepository.save(Item.builder()
                 .item(dto.getItem())
                 .itemType(dto.getItemType())
@@ -42,7 +42,7 @@ public class ItemServiceImpl implements ItemService {
     public ResponseEntity<?> updateItemType(RequestItemSaveDto dto, Long id) {
         Optional<Item> findItem = itemJpaRepository.findById(id);
         if(findItem.isEmpty()) {
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_FOUND_ITEM).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("아이템을 찾을 수 없습니다.").buildObject();
         }
         Item item = findItem.get();
 
@@ -58,7 +58,7 @@ public class ItemServiceImpl implements ItemService {
     public ResponseEntity<?> updatePointType(RequestItemSaveDto dto, Long id) {
         Optional<Item> findItem = itemJpaRepository.findById(id);
         if(findItem.isEmpty()) {
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_FOUND_ITEM).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("아이템을 찾을 수 없습니다.").buildObject();
         }
         Item item = findItem.get();
 
@@ -74,7 +74,7 @@ public class ItemServiceImpl implements ItemService {
     public ResponseEntity<?> updateItem(RequestItemSaveDto dto, Long id) {
         Optional<Item> findItem = itemJpaRepository.findById(id);
         if(findItem.isEmpty()) {
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_FOUND_ITEM).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("아이템을 찾을 수 없습니다.").buildObject();
         }
         Item item = findItem.get();
         item.setItem(dto.getItem());
@@ -88,7 +88,7 @@ public class ItemServiceImpl implements ItemService {
     public ResponseEntity<?> updateItemCost(RequestItemSaveDto dto, Long id) {
         Optional<Item> findItem = itemJpaRepository.findById(id);
         if(findItem.isEmpty()) {
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_FOUND_ITEM).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("아이템을 찾을 수 없습니다.").buildObject();
         }
         Item item = findItem.get();
         item.setCost(dto.getCost());
@@ -102,7 +102,7 @@ public class ItemServiceImpl implements ItemService {
     public ResponseEntity<?> delete(Long id) {
         Optional<Item> findItem = itemJpaRepository.findById(id);
         if(findItem.isEmpty()) {
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_FOUND_ITEM).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("아이템을 찾을 수 없습니다.").buildObject();
         }
         itemJpaRepository.delete(findItem.get());
         return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "아이템 삭제에 성공했습니다.");
@@ -112,7 +112,7 @@ public class ItemServiceImpl implements ItemService {
     public ResponseEntity<?> findItemById(Long id) {
         Optional<Item> findItem = itemJpaRepository.findById(id);
         if(findItem.isEmpty()){
-            return ApiResponse.<Object>builder().ApiResponseBuilder(ExceptionEnum.NOT_FOUND_ITEM).buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("아이템을 찾을 수 없습니다.").buildObject();
         }
         return CommonResponse.createResponse(HttpStatus.OK.value(), "아이템을 조회 합니다.", findItem.get());
     }
