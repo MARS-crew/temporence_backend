@@ -7,12 +7,14 @@ import mars.ourmindmaze.domain.Character;
 import mars.ourmindmaze.domain.Skin;
 import mars.ourmindmaze.dto.skin.RequestSkinSaveDto;
 import mars.ourmindmaze.repository.CharacterJpaRepository;
-import mars.ourmindmaze.repository.SkinJpaRepository;
+import mars.ourmindmaze.repository.skin.SkinJpaRepository;
 import mars.ourmindmaze.service.SkinService;
+import mars.ourmindmaze.vo.SkinVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -65,5 +67,12 @@ public class SkinServiceImpl implements SkinService {
         skinJpaRepository.delete(findSkin.get());
 
         return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "스킨을 삭제하였습니다.");
+    }
+
+    @Override
+    public ResponseEntity<?> findSkinList() {
+        List<SkinVO> response = skinJpaRepository.findSkinList();
+
+        return CommonResponse.createResponse(HttpStatus.OK.value(), "스킨의 리스트를 조회합니다.", response);
     }
 }

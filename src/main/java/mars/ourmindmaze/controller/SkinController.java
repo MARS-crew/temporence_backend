@@ -36,13 +36,24 @@ public class SkinController {
 
     @Operation(summary = "Find Skin", description = "캐릭터 스킨 조회 생성")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "캐릭터 스킨 조회에 성공하였습니다..", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.SKIN_SAVE_RESPONSE))),
+            @ApiResponse(responseCode = "200", description = "캐릭터 스킨 조회에 성공하였습니다..", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.SKIN_FIND_RESPONSE))),
             @ApiResponse(responseCode = "400", description = SwaggerConfig.BAD_REQUEST, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.BAD_REQUEST_RESPONSE)})),
             @ApiResponse(responseCode = "401", description = SwaggerConfig.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.UNAUTHORIZED_ERROR_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = SwaggerConfig.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.INTERNAL_SERVER_ERROR_REPONSE)))})
     @GetMapping("/{id}")
     public ResponseEntity<?> findSkinById(@PathVariable(name = "id") Long id) {
         return skinService.findSkinById(id);
+    }
+
+    @Operation(summary = "Find Skin List", description = "캐릭터 스킨 리스트 조회 생성")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "캐릭터 스킨 리스트 조회에 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.SKIN_FINDLIST_RESPONSE))),
+            @ApiResponse(responseCode = "400", description = SwaggerConfig.BAD_REQUEST, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.BAD_REQUEST_RESPONSE)})),
+            @ApiResponse(responseCode = "401", description = SwaggerConfig.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.UNAUTHORIZED_ERROR_RESPONSE)})),
+            @ApiResponse(responseCode = "500", description = SwaggerConfig.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.INTERNAL_SERVER_ERROR_REPONSE)))})
+    @GetMapping
+    public ResponseEntity<?> findSkinList() {
+        return skinService.findSkinList();
     }
 
     @Operation(summary = "Delete Skin", description = "캐릭터 스킨 조회 삭제")

@@ -7,4 +7,5 @@ public interface SkinService {
     ResponseEntity<?> saveSkin(RequestSkinSaveDto dto);
     ResponseEntity<?> findSkinById(Long id);
     ResponseEntity<?> deleteSkin(Long id);
+    ResponseEntity<?> findSkinList();
 }
