@@ -51,4 +51,16 @@ public class UserSkinServiceImpl implements UserSkinService {
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "유저의 스킨 리스트를 조회합니다.", list);
     }
+
+    @Override
+    public ResponseEntity<?> deleteUserSkin(Long id) {
+        Optional<UserSkin> findUserSkin = userSkinJpaRepository.findById(id);
+
+        if (findUserSkin.isEmpty()) {
+            return ApiResponse.<Objects>builder().status(HttpStatus.NOT_FOUND).message("유저의 스킨을 찾을 수 없습니다.").buildObject();
+        }
+
+        userSkinJpaRepository.delete(findUserSkin.get());
+        return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "유저의 스킨을 삭제하였습니다.");
+    }
 }
