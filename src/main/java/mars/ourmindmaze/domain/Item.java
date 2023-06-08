@@ -1,9 +1,6 @@
 package mars.ourmindmaze.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import mars.ourmindmaze.common.entity.BaseTimeEntity;
 import mars.ourmindmaze.enums.ItemType;
 import mars.ourmindmaze.enums.PointType;
@@ -12,7 +9,8 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tbl_item")
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

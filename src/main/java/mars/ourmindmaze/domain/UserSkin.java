@@ -1,16 +1,13 @@
 package mars.ourmindmaze.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import mars.ourmindmaze.common.entity.BaseTimeEntity;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tbl_userSkin")
-@Data
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
