@@ -10,7 +10,7 @@ Spring boot : 2.7.1
 ### Using Stack
 
 ```
-Spring Boot, JPA, QuesyDsl, MySQL, Spring Security, Docker
+Spring Boot, JPA, QuesyDsl, MySQL, Spring Security, Docker, redis, github action
 ```
 
 ### Api Doc
