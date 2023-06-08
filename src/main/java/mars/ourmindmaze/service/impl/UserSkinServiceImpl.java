@@ -7,7 +7,7 @@ import mars.ourmindmaze.domain.Skin;
 import mars.ourmindmaze.domain.User;
 import mars.ourmindmaze.domain.UserSkin;
 import mars.ourmindmaze.dto.userSkin.RequestUserSkinSaveDto;
-import mars.ourmindmaze.repository.SkinJpaRepository;
+import mars.ourmindmaze.repository.skin.SkinJpaRepository;
 import mars.ourmindmaze.repository.user.UserJpaRepository;
 import mars.ourmindmaze.repository.userSkin.UserSkinJpaRepository;
 import mars.ourmindmaze.service.UserSkinService;
