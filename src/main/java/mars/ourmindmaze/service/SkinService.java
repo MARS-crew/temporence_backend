@@ -8,4 +8,5 @@ public interface SkinService {
     ResponseEntity<?> findSkinById(Long id);
     ResponseEntity<?> deleteSkin(Long id);
     ResponseEntity<?> findSkinList();
+    ResponseEntity<?> findSkinListByCharacter(Long id);
 }

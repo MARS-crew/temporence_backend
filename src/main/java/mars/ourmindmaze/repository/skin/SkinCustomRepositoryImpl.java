@@ -31,4 +31,25 @@ public class SkinCustomRepositoryImpl implements SkinCustomRepository {
                 .fetch();
         return list;
     }
+
+    @Override
+    public List<SkinVO> findSkinListByCharacter(Long id) {
+        QSkin s = QSkin.skin;
+        List<SkinVO> list = queryFactory.select(
+                        Projections.constructor(
+                                SkinVO.class,
+                                s.id,
+                                s.name,
+                                Expressions.asDateTime(s.createdDate),
+                                s.character.id,
+                                s.character.name
+                        )
+                ).from(s)
+                .leftJoin(s.character)
+                .orderBy(s.createdDate.desc())
+                .where(s.character.id.eq(id))
+                .fetch();
+        return list;
+    }
 }
+

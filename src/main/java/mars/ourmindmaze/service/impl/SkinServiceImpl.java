@@ -75,4 +75,11 @@ public class SkinServiceImpl implements SkinService {
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "스킨의 리스트를 조회합니다.", response);
     }
+
+    @Override
+    public ResponseEntity<?> findSkinListByCharacter(Long id) {
+        List<SkinVO> response = skinJpaRepository.findSkinListByCharacter(id);
+
+        return CommonResponse.createResponse(HttpStatus.OK.value(), "스킨의 리스트를 조회합니다.", response);
+    }
 }

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface SkinCustomRepository {
     List<SkinVO> findSkinList();
+    List<SkinVO> findSkinListByCharacter(Long id);
 }
