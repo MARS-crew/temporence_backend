@@ -22,6 +22,7 @@ public class SwaggerConfig {
     public static final String SKIN_FINDLIST_RESPONSE = "{\"status\":200,\"message\":\"스킨의 리스트를 조회합니다.\",\"data\":[{\"id\":4,\"name\":\"별 수호자 뽀삐\",\"createdDate\":\"2023-06-08T00:34:02\",\"characterId\":4,\"characterName\":\"뽀삐\"}]}";
     public static final String SKIN_DELETE_RESPONSE = "{\"status\":201,\"message\":\"스킨을 삭제하였습니다.\"}";
     public static final String USER_SKIN_SAVE_RESPONSE = "{\"status\":201,\"message\":\"유저의 스킨이 등록되었습니다.\"}";
+    public static final String USER_SKIN_FIND_RESPONSE = " \"{\\\"status\\\":200,\\\"message\\\":\\\"유저의 스킨 리스트를 조회합니다.\\\",\\\"data\\\":[{\\\"id\\\":1,\\\"skinId\\\":1,\\\"userId\\\":1,\\\"name\\\":\\\"별 수호자 뽀삐\\\",\\\"createdDate\\\":\\\"2023-06-08T09:52:03\\\",\\\"characterId\\\":1,\\\"characterName\\\":\\\"뽀삐\\\"}]}\"";
     public static final String FORBIDDEN_ERROR = "Forbidden";
     public static final String LOGIN_SUCCESS_RESPONSE = "{\"status\":201,\"message\":\"로그인에 성공하였습니다.\",\"data\":{\"id\":\"1\",\"accessToken\":\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2ODU5NjUwMzN9.XfwslGyww3Lx4wFRVwDsH5JVtx4e2WVWtN3F6X5vG56D1qtw7FhwMANiJ70PmJnBaoE8ObsiBmzNdCUILE0P8w\",\"email\":\"admin\",\"refreshToken\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODcwODgyMzN9.Ye8sXfvsHAZaoq-0c8vianij71Lop9yPeDzJJzvQbIa7AKctMP6gyQfk1Rz2gIbj4zBOa893877w1ZALhAERtg\"}}";
     public static final String REGISTER_SUCCESS_RESPONSE = "{\"status\":201,\"message\":\"회원가입에 성공하였습니다.\"}";

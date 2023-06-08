@@ -13,10 +13,7 @@ import mars.ourmindmaze.common.dto.SwaggerConfig;
 import mars.ourmindmaze.dto.userSkin.RequestUserSkinSaveDto;
 import mars.ourmindmaze.service.UserSkinService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -35,5 +32,16 @@ public class UserSkinController {
     @PostMapping
     public ResponseEntity<?> saveUserSkin(@RequestBody RequestUserSkinSaveDto dto) {
         return userSkinService.saveUserSkin(dto);
+    }
+
+    @Operation(summary = "Find User Skin List", description = "유저의 캐릭터 스킨 리스트 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "유저의 캐릭터 스킨 리스트 조회에 성공하였습니다..", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.USER_SKIN_FIND_RESPONSE))),
+            @ApiResponse(responseCode = "400", description = SwaggerConfig.BAD_REQUEST, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.BAD_REQUEST_RESPONSE)})),
+            @ApiResponse(responseCode = "401", description = SwaggerConfig.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.UNAUTHORIZED_ERROR_RESPONSE)})),
+            @ApiResponse(responseCode = "500", description = SwaggerConfig.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.INTERNAL_SERVER_ERROR_REPONSE)))})
+    @GetMapping
+    public ResponseEntity<?> findUserSkinList() {
+        return userSkinService.findUserSkinList();
     }
 }

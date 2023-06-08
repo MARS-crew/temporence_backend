@@ -12,10 +12,12 @@ import mars.ourmindmaze.repository.user.UserJpaRepository;
 import mars.ourmindmaze.repository.userSkin.UserSkinJpaRepository;
 import mars.ourmindmaze.service.UserSkinService;
 import mars.ourmindmaze.util.SecurityUtil;
+import mars.ourmindmaze.vo.UserSkinVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -39,5 +41,14 @@ public class UserSkinServiceImpl implements UserSkinService {
         userSkinJpaRepository.save(UserSkin.builder().skin(findSkin.get()).user(loginUser).build());
 
         return CommonResponse.createResponseMessage(HttpStatus.CREATED.value(), "유저의 스킨이 등록되었습니다.");
+    }
+
+    @Override
+    public ResponseEntity<?> findUserSkinList() {
+        User loginUser = SecurityUtil.getCurrentUserId(userJpaRepository);
+
+        List<UserSkinVO> list = userSkinJpaRepository.findUserSkinList(loginUser.getId());
+
+        return CommonResponse.createResponse(HttpStatus.OK.value(), "유저의 스킨 리스트를 조회합니다.", list);
     }
 }
