@@ -3,10 +3,8 @@ package mars.ourmindmaze.domain;
 import lombok.*;
 import mars.ourmindmaze.common.dto.UserAuthority;
 import mars.ourmindmaze.common.entity.BaseTimeEntity;
-import mars.ourmindmaze.enums.SocialType;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "tbl_user")

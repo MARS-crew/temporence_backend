@@ -24,7 +24,6 @@ public class UserCustomRepositoryImpl implements UserCustomRepository{
                                 UserVO.class,
                                 u.id,
                                 u.username,
-                                u.socialType,
                                 Expressions.asDateTime(u.createdDate)
                         )).from(u)
                 .orderBy(u.createdDate.desc())
