@@ -11,6 +11,8 @@ build/
 
 ./log
 
+dump.rdb
+
 ### STS ###
 .apt_generated
 .classpath
