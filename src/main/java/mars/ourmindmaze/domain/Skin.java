@@ -1,9 +1,7 @@
 package mars.ourmindmaze.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import mars.ourmindmaze.common.entity.BaseTimeEntity;
 
 import javax.persistence.*;
@@ -11,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "tbl_skin")
-@Data
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,6 +21,7 @@ public class Skin extends BaseTimeEntity {
     @Column(length = 50, nullable = false, unique = true)
     private String name;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "character_id")
     private Character character;

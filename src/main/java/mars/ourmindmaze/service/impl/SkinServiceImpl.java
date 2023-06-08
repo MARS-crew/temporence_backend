@@ -49,6 +49,8 @@ public class SkinServiceImpl implements SkinService {
             return ApiResponse.<Objects>builder().status(HttpStatus.NOT_FOUND).message("스킨을 찾을 수 없습니다.").buildObject();
         }
 
+        System.out.println(findSkin.get());
+
         return CommonResponse.createResponse(HttpStatus.OK.value(), "스킨을 조회합니다.", findSkin.get());
     }
 
