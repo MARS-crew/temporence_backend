@@ -20,8 +20,6 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
-    private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
     private TokenProvider tokenProvider;
 
     public JwtAuthenticationFilter(final TokenProvider tokenProvider) {
@@ -45,7 +43,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
         } catch (JwtException e) {
-            logger.error("JWT token is invalid: {}", e.getMessage());
             if (e instanceof ExpiredJwtException) {
                 ApiResponse.<Object>builder().status(HttpStatus.UNAUTHORIZED.value())
                         .code(ErrorMessage.TOKEN_EXPIRED.getCode()).message(ErrorMessage.TOKEN_EXPIRED.getMessage())
@@ -56,7 +53,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         .init().writeJson(response);
             }
         } catch (Exception e) {
-            logger.error("Exception - error while validating token", e.getCause());
             ApiResponse.<Object>builder().status(HttpStatus.UNAUTHORIZED.value())
                     .code(ErrorMessage.TOKEN_VALIDATE.getCode()).message(ErrorMessage.TOKEN_INVALID.getMessage())
                     .init().writeJson(response);

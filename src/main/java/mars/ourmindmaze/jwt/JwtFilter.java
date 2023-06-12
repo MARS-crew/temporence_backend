@@ -22,10 +22,6 @@ public class JwtFilter extends GenericFilterBean {
     public static final String AUTHORIZATION_HEADER = "Authorization";
     private TokenProvider tokenProvider;
 
-    public JwtFilter(TokenProvider tokenProvider) {
-        this.tokenProvider = tokenProvider;
-    }
-
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
@@ -51,6 +47,5 @@ public class JwtFilter extends GenericFilterBean {
         }
 
         return null;
-
     }
 }
