@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 
 import javax.transaction.Transactional;
@@ -19,6 +20,8 @@ public class UserServiceTestV0 {
 
     @Autowired
     private UserJpaRepository userJpaRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @DisplayName("회원가입 테스트 - SUCCESS")
     @Test
@@ -56,5 +59,17 @@ public class UserServiceTestV0 {
 
         // then
         Assertions.assertThat(!findUser.isEmpty()).isTrue();
+    }
+
+    @DisplayName("로그인 테스트 - SUCCESS")
+    @Test
+    void 로그인() {
+        // given
+        Optional<User> findUser = userJpaRepository.findByUsername("admin");
+        // when
+        boolean result =  passwordEncoder.matches("1234", findUser.get().getPassword());
+
+        // then
+        Assertions.assertThat(result).isTrue();
     }
 }
