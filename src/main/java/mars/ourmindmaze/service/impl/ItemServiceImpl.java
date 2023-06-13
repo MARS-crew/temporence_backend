@@ -5,7 +5,6 @@ import mars.ourmindmaze.common.dto.ApiResponse;
 import mars.ourmindmaze.common.dto.CommonResponse;
 import mars.ourmindmaze.domain.Item;
 import mars.ourmindmaze.dto.item.RequestItemSaveDto;
-import mars.ourmindmaze.enums.ExceptionEnum;
 import mars.ourmindmaze.enums.ItemType;
 import mars.ourmindmaze.enums.PointType;
 import mars.ourmindmaze.repository.item.ItemJpaRepository;

@@ -2,9 +2,7 @@ package mars.ourmindmaze.util;
 
 
 import lombok.extern.slf4j.Slf4j;
-import mars.ourmindmaze.common.dto.ApiResponse;
 import mars.ourmindmaze.domain.User;
-import mars.ourmindmaze.enums.ExceptionEnum;
 import mars.ourmindmaze.repository.user.UserJpaRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

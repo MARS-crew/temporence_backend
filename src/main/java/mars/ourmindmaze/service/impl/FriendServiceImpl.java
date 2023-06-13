@@ -6,7 +6,6 @@ import mars.ourmindmaze.common.dto.CommonResponse;
 import mars.ourmindmaze.domain.Friend;
 import mars.ourmindmaze.domain.User;
 import mars.ourmindmaze.dto.friend.RequestFriendSaveDto;
-import mars.ourmindmaze.enums.ExceptionEnum;
 import mars.ourmindmaze.repository.friend.FriendJpaRepository;
 import mars.ourmindmaze.repository.user.UserJpaRepository;
 import mars.ourmindmaze.service.FriendService;

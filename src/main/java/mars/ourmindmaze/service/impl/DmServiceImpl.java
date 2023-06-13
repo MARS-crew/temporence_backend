@@ -6,7 +6,6 @@ import mars.ourmindmaze.common.dto.CommonResponse;
 import mars.ourmindmaze.domain.DM;
 import mars.ourmindmaze.domain.User;
 import mars.ourmindmaze.dto.dm.RequestDmSaveDto;
-import mars.ourmindmaze.enums.ExceptionEnum;
 import mars.ourmindmaze.repository.dm.DmJpaRepository;
 import mars.ourmindmaze.repository.user.UserJpaRepository;
 import mars.ourmindmaze.service.DmService;
