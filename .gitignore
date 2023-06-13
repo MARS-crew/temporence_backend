@@ -9,6 +9,9 @@ build/
 *.log
 *.gz
 
+log
+log.config.path_IS_UNDEFINED
+
 ./log
 
 dump.rdb
