@@ -14,10 +14,9 @@ import javax.persistence.*;
 public class DM extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "dm_content", length = 120)
+    @Column(name = "dm_content", length = 120, nullable = false)
     private String content;
 
     @ManyToOne(fetch = FetchType.EAGER)

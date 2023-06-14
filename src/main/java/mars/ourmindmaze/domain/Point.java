@@ -14,13 +14,12 @@ import javax.persistence.*;
 public class Point extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "point_gold")
+    @Column(name = "point_gold", nullable = false)
     private Integer gold;
 
-    @Column(name = "point_blue")
+    @Column(name = "point_blue", nullable = false)
     private Integer blue;
 
     @OneToOne(fetch = FetchType.LAZY)

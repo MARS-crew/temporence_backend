@@ -20,16 +20,16 @@ public class Item extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "itemType")
+    @Column(name = "itemType", nullable = false)
     private ItemType itemType;
 
-    @Column(name = "pointType")
+    @Column(name = "pointType", nullable = false)
     private PointType pointType;
 
-    @Column(name = "cost")
+    @Column(name = "cost", nullable = false)
     private Integer cost;
 
-    @Column(name = "item", length = 50)
+    @Column(name = "item", length = 50, nullable = false)
     private String item;
 
 }
