@@ -1,27 +1,86 @@
-name: Run Shell File
+#name: Run Shell File
+#
+#on:
+#  push:
+#    branches:
+#      - develop
+#
+#jobs:
+#  run:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout repository
+#        uses: actions/checkout@v2
+#      - name: Initialize Known Hosts
+#        run: |
+#          mkdir -p ~/.ssh
+#          touch ~/.ssh/known_hosts
+#          ssh-keyscan 43.200.204.186 >> ~/.ssh/known_hosts
+#      - name: Set Permissions for Private Key
+#        run: |
+#          echo "${{ secrets.DEPLOY_SSH_KEY }}" > $HOME/key.pem
+#          chmod 400 $HOME/key.pem
+#      - name: Run shell script
+#        run: sh git-dev-deploy.sh
+#        env:
+#          SSH_PEM_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
 
+# github repository Actions 페이지에 나타낼 이름
+name: CI/CD
+
+# event trigger
 on:
   push:
-    branches:
-      - develop
+    branches: develop
 
 jobs:
-  run:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Initialize Known Hosts
-        run: |
-          mkdir -p ~/.ssh
-          touch ~/.ssh/known_hosts
-          ssh-keyscan 43.200.204.186 >> ~/.ssh/known_hosts
-      - name: Set Permissions for Private Key
-        run: |
-          echo "${{ secrets.DEPLOY_SSH_KEY }}" > $HOME/key.pem
-          chmod 400 $HOME/key.pem
-      - name: Run shell script
-        run: sh git-dev-deploy.sh
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: $
+          submodules: true
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Set up JDK11
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'gradle'
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Execute Gradle build
+        run: ./gradlew clean build -x test -Pprofile=sns #application 프로필 이름
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Docker Login
+        uses: docker/login-action@v2
+        with:
+          username: $
+          password: $
+      - name: build and release to DockerHub
         env:
-          SSH_PEM_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          NAME: $
+          APP: sns
+        run: |
+          docker build -t $NAME/$APP -f ./Dockerfile . # 여기서 DockerFile 로 썼다가 에러남..
+          docker push $NAME/$APP:latest
+      - name: EC2 Docker Run
+        uses: appleboy/ssh-action@master
+        env:
+          APP: "sns"
+          COMPOSE: "/root/compose/docker-compose.yml"
+        with:
+          username: ubuntu
+          host: $
+          key: $
+          envs: APP, COMPOSE
+          script_stop: true
+          script: |
+            sudo docker-compose -f $COMPOSE down --rmi all
+            sudo docker pull $/$APP:latest
+            sudo docker-compose -f $COMPOSE up -d
