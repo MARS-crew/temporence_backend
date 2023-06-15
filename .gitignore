@@ -9,6 +9,10 @@ build/
 *.log
 *.gz
 
+
+# Ignore the db folder
+/db/
+
 log
 log.config.path_IS_UNDEFINED
 
