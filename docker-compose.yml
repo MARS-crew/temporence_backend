@@ -1,0 +1,42 @@
+version: '3'
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    networks:
+      - my-network
+
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - ./db/data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=qwer1595@!
+      - MYSQL_DATABASE=temporence_dev
+      - MYSQL_USER=mars
+      - MYSQL_PASSWORD=qwer1595@!
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_HOST=%
+    networks:
+      - my-network
+
+  myapp:
+    build: .
+    depends_on:
+      - mysql
+    ports:
+      - 8080:8080
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/temporence_dev?allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=mars
+      - SPRING_DATASOURCE_PASSWORD=qwer1595@!
+      - SPRING_PROFILES_ACTIVE=dev
+    networks:
+      - my-network
+
+networks:
+  my-network:

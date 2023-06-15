@@ -1,17 +1,17 @@
-FROM adoptopenjdk:11-jdk-hotspot-bionic
+FROM openjdk:11-jdk as builder
 
-ENV APP_HOME=/apps
+WORKDIR /app
 
-ARG JAR_FILE_PATH=build/libs/ourmindmaze-0.0.1-SNAPSHOT.jar
+COPY . /app
 
-WORKDIR $APP_HOME
+RUN ./gradlew build
 
-COPY $JAR_FILE_PATH app.jar
+FROM openjdk:11-jre
 
-EXPOSE 8080
+WORKDIR /app
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+COPY --from=builder /app/build/libs/ourmindmaze-0.0.1-SNAPSHOT.jar app.jar
 
-# docker build --platform linux/arm64/v8 --build-arg DEPENDENCY=build/dependency --no-cache --rm -f Dockerfile -t pinomaker/mars-game:latest .
+ENV PROFILE=dev
 
-# docker push pinomaker/mars-game:latest
+ENTRYPOINT ["java", "-Dspring.profiles.active=dev", "-jar", "app.jar"]
