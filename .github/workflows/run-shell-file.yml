@@ -24,14 +24,14 @@ jobs:
           echo "${{ secrets.DEPLOY_SSH_KEY }}" > $HOME/key.pem
           chmod 400 $HOME/key.pem
 
-#      - name: Build Docker image
-#        run: docker build --build-arg DEPENDENCY=build/dependency --no-cache --rm -f Dockerfile -t pinomaker/mars-game:latest .
-#
-#      - name: Log in to Docker Hub
-#        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-#
-#      - name: Push Docker image to Docker Hub (optional)
-#        run: docker push pinomaker/mars-game:latest
+      - name: Build Docker image
+        run: docker build --build-arg DEPENDENCY=build/dependency --no-cache --rm -f Dockerfile -t pinomaker/mars-game:latest .
+
+      - name: Log in to Docker Hub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push Docker image to Docker Hub (optional)
+        run: docker push pinomaker/mars-game:latest
 
       - name: Copy files to EC2 instance
         run: |
