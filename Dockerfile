@@ -10,7 +10,7 @@ RUN apt-get update && \
     unzip gradle-7.0.2-bin.zip && \
     rm gradle-7.0.2-bin.zip
 
-WORKDIR /app
+WORKDIR /app/mars_temporence
 
 RUN /app/gradle-7.0.2/bin/gradle build
 
