@@ -59,10 +59,10 @@ jobs:
 
       - name: Set Permissions for Private Key
         run: |
-          echo "${{ secrets.DEPLOY_SSH_KEY_DEV }}" > $HOME/key.pem
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > $HOME/key.pem
           chmod 400 $HOME/key.pem
         env:
-          SSH_PEM_KEY : ${{ secrets.DEPLOY_SSH_KEY_DEV }}
+          SSH_PEM_KEY : ${{ secrets.DEPLOY_SSH_KEY }}
 
       - name: Deploy to EC2
         uses: appleboy/scp-action@master
