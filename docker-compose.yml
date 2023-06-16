@@ -36,7 +36,7 @@ services:
       - SPRING_PROFILES_ACTIVE=dev
     networks:
       - my-network
-    command: ./gradlew bootRun --platform linux/arm64/v8
+    command: ./gradlew bootRun --platform linux/amd64
 
 networks:
   my-network:
