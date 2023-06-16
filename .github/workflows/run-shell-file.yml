@@ -33,6 +33,17 @@ jobs:
       - name: Push Docker image to Docker Hub (optional)
         run: docker push pinomaker/mars-game:latest
 
+      - uses: actions/checkout@master
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST_DEV }}
+          username: ubuntu
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: 22
+          source: "docker-compose.yaml"
+          target: "/home/ubuntu/"
+
       - name: Run Docker Compose
         env:
           SSH_PEM_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
