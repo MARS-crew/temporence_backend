@@ -1,33 +1,4 @@
-#name: Run Shell File
-#
-#on:
-#  push:
-#    branches:
-#      - develop
-#
-#jobs:
-#  run:
-#    runs-on: ubuntu-latest
-#
-#    steps:
-#      - name: Checkout repository
-#        uses: actions/checkout@v2
-#      - name: Initialize Known Hosts
-#        run: |
-#          mkdir -p ~/.ssh
-#          touch ~/.ssh/known_hosts
-#          ssh-keyscan 43.200.204.186 >> ~/.ssh/known_hosts
-#      - name: Set Permissions for Private Key
-#        run: |
-#          echo "${{ secrets.DEPLOY_SSH_KEY }}" > $HOME/key.pem
-#          chmod 400 $HOME/key.pem
-#      - name: Run shell script
-#        run: sh git-dev-deploy.sh
-#        env:
-#          SSH_PEM_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
-#
-#
-name: Deploy
+name: Run Docker Compose
 
 on:
   push:
@@ -35,21 +6,12 @@ on:
       - develop
 
 jobs:
-  deploy:
+  run:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Build Docker image
-        run: docker build --build-arg DEPENDENCY=build/dependency --no-cache --rm -f Dockerfile -t pinomaker/mars-game:latest .
-
-      - name: Log in to Docker Hub
-        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Push Docker image to Docker Hub (optional)
-        run: docker push pinomaker/mars-game:latest
 
       - name: Initialize Known Hosts
         run: |
@@ -61,24 +23,76 @@ jobs:
         run: |
           echo "${{ secrets.DEPLOY_SSH_KEY }}" > $HOME/key.pem
           chmod 400 $HOME/key.pem
+
+      - name: Build Docker image
+        run: docker build --build-arg DEPENDENCY=build/dependency --no-cache --rm -f Dockerfile -t pinomaker/mars-game:latest .
+
+      - name: Log in to Docker Hub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push Docker image to Docker Hub (optional)
+        run: docker push pinomaker/mars-game:latest
+
+      - name: Run Docker Compose
         env:
-          SSH_PEM_KEY : ${{ secrets.DEPLOY_SSH_KEY }}
+          SSH_PEM_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          ssh -i $HOME/key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST_DEV }} "cd /path/to/docker-compose/directory && docker-compose up -d"
 
-      - name: Deploy to EC2
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.EC2_HOST_DEV }}
-          username: ${{ secrets.EC2_USERNAME_DEV }}
-          key: $HOME/key.pem
-          source: .
-          target: /home/ubuntu
 
-      - name: SSH into EC2 and start the application
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST_DEV }}
-          username: ${{ secrets.EC2_USERNAME_DEV }}
-          key: $HOME/key.pem
-          script: |
-            cd /home/ubuntu
-            docker-compose up -d
+
+#name: Deploy
+#
+#on:
+#  push:
+#    branches:
+#      - develop
+#
+#jobs:
+#  deploy:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: Build Docker image
+#        run: docker build --build-arg DEPENDENCY=build/dependency --no-cache --rm -f Dockerfile -t pinomaker/mars-game:latest .
+#
+#      - name: Log in to Docker Hub
+#        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+#
+#      - name: Push Docker image to Docker Hub (optional)
+#        run: docker push pinomaker/mars-game:latest
+#
+#      - name: Initialize Known Hosts
+#        run: |
+#          mkdir -p ~/.ssh
+#          touch ~/.ssh/known_hosts
+#          ssh-keyscan ${{ secrets.EC2_HOST_DEV }} >> ~/.ssh/known_hosts
+#
+#      - name: Set Permissions for Private Key
+#        run: |
+#          echo "${{ secrets.DEPLOY_SSH_KEY }}" > $HOME/key.pem
+#          chmod 400 $HOME/key.pem
+#        env:
+#          SSH_PEM_KEY : ${{ secrets.DEPLOY_SSH_KEY }}
+#
+#      - name: Deploy to EC2
+#        uses: appleboy/scp-action@master
+#        with:
+#          host: ${{ secrets.EC2_HOST_DEV }}
+#          username: ${{ secrets.EC2_USERNAME_DEV }}
+#          key: $HOME/key.pem
+#          source: .
+#          target: /home/ubuntu
+#
+#      - name: SSH into EC2 and start the application
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.EC2_HOST_DEV }}
+#          username: ${{ secrets.EC2_USERNAME_DEV }}
+#          key: $HOME/key.pem
+#          script: |
+#            cd /home/ubuntu
+#            docker-compose up -d
