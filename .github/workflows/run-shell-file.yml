@@ -37,6 +37,8 @@ jobs:
       - name: copy file via ssh password
         run : |
           scp -i $HOME/key.pem ./docker-compose.yml ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu &
+          scp -i $HOME/key.pem ./Dockerfile ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu &
+          scp -i $HOME/key.pem ./.dockerignore ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu &
 
       - name: Run Docker Compose
         env:
