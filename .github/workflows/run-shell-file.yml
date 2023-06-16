@@ -24,28 +24,26 @@ jobs:
           echo "${{ secrets.DEPLOY_SSH_KEY }}" > $HOME/key.pem
           chmod 400 $HOME/key.pem
 
-      - name: Build Docker image
-        run: docker build --build-arg DEPENDENCY=build/dependency --no-cache --rm -f Dockerfile -t pinomaker/mars-game:latest .
+#      - name: Build Docker image
+#        run: docker build --build-arg DEPENDENCY=build/dependency --no-cache --rm -f Dockerfile -t pinomaker/mars-game:latest .
+#
+#      - name: Log in to Docker Hub
+#        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+#
+#      - name: Push Docker image to Docker Hub (optional)
+#        run: docker push pinomaker/mars-game:latest
 
-      - name: Log in to Docker Hub
-        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Push Docker image to Docker Hub (optional)
-        run: docker push pinomaker/mars-game:latest
-
-      - uses: actions/checkout@master
-      - name: copy file via ssh password
-        run : |
-          scp -i $HOME/key.pem ./docker-compose.yml ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu &
-          scp -i $HOME/key.pem ./Dockerfile ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu &
-          scp -i $HOME/key.pem ./.dockerignore ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu &
+      - name: Copy files to EC2 instance
+        run: |
+          scp -i $HOME/key.pem ./docker-compose.yml ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
+          scp -i $HOME/key.pem ./Dockerfile ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
+          scp -i $HOME/key.pem ./.dockerignore ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
 
       - name: Run Docker Compose
         env:
           SSH_PEM_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
         run: |
           ssh -i $HOME/key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST_DEV }} "cd /home/ubuntu && docker-compose up -d"
-
 
 
 #name: Deploy
