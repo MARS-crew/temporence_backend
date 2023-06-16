@@ -35,20 +35,14 @@ jobs:
 
       - uses: actions/checkout@master
       - name: copy file via ssh password
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.EC2_HOST_DEV }}
-          username: ubuntu
-          key: ${{ secrets.DEPLOY_SSH_KEY }}
-          port: 22
-          source: "docker-compose.yaml"
-          target: "/home/ubuntu/"
+        run : |
+          scp -i $HOME/key.pem ./docker-compose.yml ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu &
 
       - name: Run Docker Compose
         env:
           SSH_PEM_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
         run: |
-          ssh -i $HOME/key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST_DEV }} "cd /path/to/docker-compose/directory && docker-compose up -d"
+          ssh -i $HOME/key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST_DEV }} "cd /home/ubuntu && docker-compose up -d"
 
 
 
