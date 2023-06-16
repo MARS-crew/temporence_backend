@@ -51,12 +51,25 @@ jobs:
       - name: Push Docker image to Docker Hub (optional)
         run: docker push pinomaker/mars-game:latest
 
+      - name: Initialize Known Hosts
+        run: |
+          mkdir -p ~/.ssh
+          touch ~/.ssh/known_hosts
+          ssh-keyscan ${{ secrets.EC2_HOST_DEV }} >> ~/.ssh/known_hosts
+
+      - name: Set Permissions for Private Key
+        run: |
+          echo "${{ secrets.DEPLOY_SSH_KEY_DEV }}" > $HOME/key.pem
+          chmod 400 $HOME/key.pem
+        env:
+          SSH_PEM_KEY : ${{ secrets.DEPLOY_SSH_KEY_DEV }}
+
       - name: Deploy to EC2
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.EC2_HOST_DEV }}
           username: ${{ secrets.EC2_USERNAME_DEV }}
-          key: ${{ secrets.DEPLOY_SSH_KEY_DEV }}
+          key: $HOME/key.pem
           source: .
           target: /home/ubuntu
 
@@ -65,7 +78,7 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST_DEV }}
           username: ${{ secrets.EC2_USERNAME_DEV }}
-          key: ${{ secrets.DEPLOY_SSH_KEY_DEV }}
+          key: $HOME/key.pem
           script: |
             cd /home/ubuntu
             docker-compose up -d
