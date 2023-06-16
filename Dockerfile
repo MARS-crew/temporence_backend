@@ -5,12 +5,9 @@ WORKDIR /app
 COPY . /app
 
 RUN apt-get update && \
-    apt-get install -y wget unzip && \
-    wget https://services.gradle.org/distributions/gradle-7.0.2-bin.zip && \
-    unzip gradle-7.0.2-bin.zip && \
-    rm gradle-7.0.2-bin.zip
+    apt-get install -y gradle
 
-RUN /app/gradle-7.0.2/bin/gradle build
+RUN gradle build
 
 FROM openjdk:11-jre
 
