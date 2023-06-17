@@ -4,6 +4,8 @@ WORKDIR /app
 
 COPY . /app
 
+RUN chmod 400 ./gradlew
+
 RUN ./gradlew build
 
 FROM adoptopenjdk:11-jre-hotspot
