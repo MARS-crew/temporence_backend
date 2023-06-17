@@ -5,6 +5,7 @@ WORKDIR /app
 
 COPY . /app
 
+RUN chmod +x ./gradlew
 RUN ./gradlew build
 
 # Stage 2: Runtime stage
