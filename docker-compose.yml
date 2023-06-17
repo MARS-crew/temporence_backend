@@ -22,7 +22,7 @@ services:
       - MYSQL_ROOT_HOST=%
     networks:
       - my-network
-
+      -
   myapp:
     image: pinomaker/mars-game:latest
     depends_on:
@@ -33,10 +33,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/temporence_dev?allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=mars
       - SPRING_DATASOURCE_PASSWORD=qwer1595@!
-      - SPRING_PROFILES_ACTIVE=dev
     networks:
       - my-network
-    command: ./gradlew bootRun --platform linux/amd64
-
+    command: java -Duser.timezone=Asia/Seoul -Dspring.profiles.active=dev -jar app.jar
 networks:
   my-network:
