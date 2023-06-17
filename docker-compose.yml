@@ -22,7 +22,7 @@ services:
       - MYSQL_ROOT_HOST=%
     networks:
       - my-network
-      -
+
   myapp:
     image: pinomaker/mars-game:latest
     depends_on:
@@ -36,5 +36,6 @@ services:
     networks:
       - my-network
     command: java -Duser.timezone=Asia/Seoul -Dspring.profiles.active=dev -jar app.jar
+
 networks:
   my-network:
