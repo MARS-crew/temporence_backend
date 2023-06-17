@@ -6,7 +6,7 @@ COPY . /app
 
 RUN ./gradlew build
 
-FROM openjdk:11-jdk
+FROM openjdk:11-jre
 
 WORKDIR /app
 
