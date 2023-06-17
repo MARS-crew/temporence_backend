@@ -5,6 +5,8 @@ services:
     image: redis:latest
     ports:
       - 6379:6379
+    environment:
+    - TZ=Asia/Seoul
     networks:
       - my-network
 
@@ -21,6 +23,7 @@ services:
       - MYSQL_USER=mars
       - MYSQL_PASSWORD=qwer1595@!
       - MYSQL_ROOT_HOST=%
+      - TZ=Asia/Seoul
     networks:
       - my-network
 
@@ -34,6 +37,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/temporence_dev?allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=mars
       - SPRING_DATASOURCE_PASSWORD=qwer1595@!
+      - TZ=Asia/Seoul
     networks:
       - my-network
     command: java -Duser.timezone=Asia/Seoul -Dspring.profiles.active=dev -jar app.jar
