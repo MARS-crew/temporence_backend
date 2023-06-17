@@ -26,7 +26,7 @@ services:
 
   myapp:
     image: pinomaker/mars-game:latest
-    platform: linux/amd64
+    platform: linux/arm64
     depends_on:
       - mysql
     ports:
