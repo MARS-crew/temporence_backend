@@ -3,7 +3,7 @@ version: '3'
 services:
   mysql:
     image: mysql:latest
-    platform: linux/amd64
+    platform: linux/arm64
     environment:
       - MYSQL_ROOT_PASSWORD=rootpassword
       - MYSQL_DATABASE=temporence_dev
@@ -14,7 +14,7 @@ services:
 
   redis:
     image: redis:latest
-    platform: linux/amd64
+    platform: linux/arm64
     networks:
       - my-network
 
