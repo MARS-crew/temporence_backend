@@ -30,25 +30,11 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
 
-      - name: Install Docker CLI
-        run: |
-          curl -fsSL https://get.docker.com -o get-docker.sh
-          sudo sh get-docker.sh
-          sudo usermod -aG docker $USER
-
-      - name: Install Docker Compose
-        run: |
-          sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
-
       - name: Log in to Docker Hub
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
 
-#      - name: Build Docker image
-#        run: docker build --platform linux/arm64 --build-arg DEPENDENCY=build/dependency --no-cache --rm -f Dockerfile -t pinomaker/mars-game:latest .
-
       - name: Build Docker image
-        run: docker buildx build -t pinomaker/mars-game:latest .
+        run: docker build --platform linux/arm64 --build-arg DEPENDENCY=build/dependency --no-cache --rm -f Dockerfile -t pinomaker/mars-game:latest .
 
       - name: Push Docker image to Docker Hub
         run: docker push pinomaker/mars-game:latest
