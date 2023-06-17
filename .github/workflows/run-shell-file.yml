@@ -35,7 +35,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker buildx build --platform linux/arm64,linux/amd64 -t pinomaker/mars-game:latest . --push
+          docker buildx build --platform linux/arm64,linux/amd64 -t pinomaker/mars-game:latest-arm64 -t pinomaker/mars-game:latest-amd64 . --push
 
 #      - name: Push Docker image to Docker Hub
 #        run: docker push pinomaker/mars-game:latest
