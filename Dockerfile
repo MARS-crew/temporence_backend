@@ -5,8 +5,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN chmod +x ./gradlew
-RUN ./gradlew build
+RUN chmod +x ./gradlew && ./gradlew build
 
 # Stage 2: Runtime stage
 FROM adoptopenjdk:11-jre-hotspot
