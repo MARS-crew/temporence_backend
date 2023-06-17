@@ -1,4 +1,4 @@
-FROM adoptopenjdk:11-jdk-hotspot as builder
+FROM openjdk:11-jdk as builder
 
 WORKDIR /app
 
@@ -6,7 +6,7 @@ COPY . /app
 
 RUN ./gradlew build
 
-FROM adoptopenjdk:11-jdk-hotspot
+FROM openjdk:11-jdk
 
 WORKDIR /app
 
