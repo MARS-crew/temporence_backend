@@ -48,7 +48,7 @@ jobs:
 #        run: docker build --platform linux/arm64 --build-arg DEPENDENCY=build/dependency --no-cache --rm -f Dockerfile -t pinomaker/mars-game:latest .
 
       - name: Build Docker image
-        run: docker buildx build --platform linux/arm64 -t pinomaker/mars-game:latest .
+        run: docker buildx build -t pinomaker/mars-game:latest .
 
       - name: Push Docker image to Docker Hub
         run: docker push pinomaker/mars-game:latest
