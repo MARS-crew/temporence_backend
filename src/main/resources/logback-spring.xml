@@ -1,73 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 15초마다 설정 파일의 변경을 확인 하여 변경시 갱신 -->
-<configuration scan="true" scanPeriod="15 seconds">
-    <!-- Server Log Config -->
-    <springProfile name="dev">
-        <property resource="application.yml"/>
-        <!-- log file path -->
-        <property name="LOG_PATH" value="${log.config.path}"/>
-        <!-- log file name -->
-        <property name="LOG_FILE_NAME" value="${log.config.filename}"/>
-        <!-- err log file name -->
-        <property name="ERR_LOG_FILE_NAME" value="${error.log.config.filename}"/>
-        <!-- log pattern -->
-        <property name="LOG_PATTERN" value="%-5level %d{yy-MM-dd HH:mm:ss} [%thread] [%logger{0}-%M:%line] - %msg%n "/>
-
-        <appender name="DEV_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-                <pattern>${LOG_PATTERN}</pattern>
-            </encoder>
-        </appender>
-
-        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <!-- 파일경로 설정 -->
-            <file>${LOG_PATH}/${LOG_FILE_NAME}.log</file>
-            <!-- 출력패턴 설정-->
-            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-                <pattern>${LOG_PATTERN}</pattern>
-            </encoder>
-            <!-- Rolling 정책 (파일 관리설정) -->
-            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                <!-- .gz,.zip 등을 넣으면 자동 일자별 로그파일 압축 -->
-                <fileNamePattern>${LOG_PATH}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
-                <!--    파일 크기 지정할떄 사용 -->
-                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                    <!-- 파일당 최고 용량 kb, mb, gb -->
-                    <maxFileSize>10MB</maxFileSize>
-                </timeBasedFileNamingAndTriggeringPolicy>
-                <!-- 일자별 로그파일 최대 보관주기(~일), 해당 설정일 이상된 파일은 자동으로 제거-->
-                <maxHistory>30</maxHistory>
-                <!--<MinIndex>1</MinIndex> <MaxIndex>10</MaxIndex>-->
-            </rollingPolicy>
-        </appender>
-
-        <appender name="Error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-            <filter class="ch.qos.logback.classic.filter.LevelFilter">
-                <!-- 에러로그를 설정하고 로그의 레벨이 맞으면 onMatch, 아니라면 onMismatch  -->
-                <level>error</level>
-                <onMatch>ACCEPT</onMatch>
-                <onMismatch>DENY</onMismatch>
-            </filter>
-            <file>${LOG_PATH}/${ERR_LOG_FILE_NAME}.log</file>
-            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-                <pattern>${LOG_PATTERN}</pattern>
-            </encoder>
-            <!-- Rolling 정책 -->
-            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-
-                <fileNamePattern>${LOG_PATH}/${ERR_LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
-                <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-
-                    <maxFileSize>10MB</maxFileSize>
-                </timeBasedFileNamingAndTriggeringPolicy>
-
-                <maxHistory>30</maxHistory>
-            </rollingPolicy>
-        </appender>
-        <root>
-            <appender-ref ref="DEV_CONSOLE"/>
-            <appender-ref ref="FILE"/>
-            <appender-ref ref="Error"/>
-        </root>
-    </springProfile>
+<configuration scan="true" scanPeriod="30 seconds">
+    <property name="LOGS_ABSOLUTE_PATH" value="./logs"/>
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] [%logger{40}] - %msg%n"/>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>[%d{yyyy-MM-dd HH:mm:ss, ${logback.timezone:-Asia/Seoul}}:%-3relative][%thread] %-5level
+                %logger{36} - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+    <appender name="INFO_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logs/info.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss, ${logback.timezone:-Asia/Seoul}}:%-3relative][%thread] %-5level
+                %logger{35} - %msg%n
+            </pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./was-logs/info.%d{yyyy-MM-dd, ${logback.timezone:-Asia/Seoul}}.%i.log.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>180</maxHistory>
+        </rollingPolicy>
+    </appender>
+    <appender name="WARN_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logs/warn.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+        </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss, ${logback.timezone:-Asia/Seoul}}:%-3relative][%thread] %-5level
+                %logger{35} - %msg%n
+            </pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>./was-logs/warn.%d{yyyy-MM-dd, ${logback.timezone:-Asia/Seoul}}.%i.log.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>180</maxHistory>
+        </rollingPolicy>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="INFO_LOG"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+    <logger name="LogController" additivity="false">
+        <level value="DEBUG"/>
+        <appender-ref ref="INFO_LOG"/>
+        <appender-ref ref="WARN_LOG"/>
+    </logger>
+    <logger name="org.hibernate.SQL" level="DEBUG">
+        <appender-ref ref="INFO_LOG"/>
+    </logger>
+    <logger name="org.hibernate.type" level="TRACE">
+        <appender-ref ref="INFO_LOG"/>
+    </logger>
 </configuration>
