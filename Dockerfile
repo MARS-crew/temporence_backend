@@ -1,4 +1,4 @@
-FROM adoptopenjdk:11-jdk-hotspot as builder
+FROM adoptopenjdk:11-jdk-hotspot AS builder
 
 WORKDIR /app
 
