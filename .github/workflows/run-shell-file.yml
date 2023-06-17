@@ -43,4 +43,4 @@ jobs:
         env:
           SSH_PEM_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
         run: |
-          ssh -i $HOME/key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST_DEV }} "cd /home/ubuntu && docker-compose up -d"
+          ssh -i $HOME/key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST_DEV }} "cd /home/ubuntu && DOCKER_CLI_EXPERIMENTAL=enabled docker-compose up -d --platform linux/arm64"
