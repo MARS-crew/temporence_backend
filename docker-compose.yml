@@ -40,7 +40,6 @@ services:
       - TZ=Asia/Seoul
     networks:
       - my-network
-    command: java -Duser.timezone=Asia/Seoul -Dspring.profiles.active=dev -jar app.jar
 
 networks:
   my-network:
