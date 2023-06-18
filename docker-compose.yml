@@ -15,6 +15,7 @@ services:
     volumes:
       - ./db/data:/var/lib/mysql
       - ./my.cnf:/etc/mysql/my.cnf
+      - ./error.log:/var/log/mysql/error.log
     ports:
       - 3306:3306
     restart: always
