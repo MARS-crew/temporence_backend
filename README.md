@@ -27,6 +27,7 @@ Spring boot : 2.7.1
 <img src="https://img.shields.io/badge/Redis-DC382D?style=flat&logo=Redis&logoColor=white"/>
 <img src="https://img.shields.io/badge/Github Actions-2088FF?style=flat&logo=Github Actions&logoColor=white"/>
 <img src="https://img.shields.io/badge/Docker-2496ED?style=flat&logo=Docker&logoColor=white"/>
+<img src="https://img.shields.io/badge/Docker Compose-2496ED?style=flat&logo=Docker&logoColor=white"/>
 
 
 ### Api Doc
