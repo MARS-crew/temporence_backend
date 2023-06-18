@@ -34,7 +34,7 @@ jobs:
           docker buildx build --platform linux/arm64,linux/amd64 -t pinomaker/mars-game:latest-arm64 -t pinomaker/mars-game:latest-amd64 --file Dockerfile.dev . --push
 
   COPY_FILES:
-    needs: build_and_push
+    needs: DOCKER_BUILD_PUSH
     runs-on: ubuntu-latest
     steps:
       - name: Copy files to EC2 instance
@@ -44,7 +44,7 @@ jobs:
           scp -i $HOME/key.pem ./.dockerignore ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
 
   RUN_DOCKER_COMPOSE:
-    needs: copy_files
+    needs: COPY_FILES
     runs-on: ubuntu-latest
     steps:
       - name: Run Docker Compose
