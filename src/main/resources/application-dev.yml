@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/temporence_dev
+    url: jdbc:mysql://mysql:3306/temporence_dev?allowPublicKeyRetrieval=true
     username: admin
     password: qwer1595@!

@@ -23,11 +23,7 @@ services:
       - MYSQL_DATABASE=temporence_dev
       - MYSQL_USER=admin
       - MYSQL_PASSWORD=qwer1595@!
-      - MYSQL_ROOT_HOST=%
       - TZ=Asia/Seoul
-      - MYSQL_ALLOW_LOCAL_INFILE=true
-      - MYSQL_LOWER_CASE_TABLE_NAMES=1
-      - MYSQL_INIT_CONNECT="SET GLOBAL allow_public_key_retrieval = 1"
     networks:
       - my-network
 
@@ -37,11 +33,6 @@ services:
       - mysql
     ports:
       - 8080:8080
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/temporence_dev?allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME=admin
-      - SPRING_DATASOURCE_PASSWORD=qwer1595@!
-      - TZ=Asia/Seoul
     networks:
       - my-network
 
