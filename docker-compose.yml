@@ -14,7 +14,7 @@ services:
     image: mysql:8.0
     volumes:
       - ./db/data:/var/lib/mysql
-      - ./mysql/my.cnf:/etc/mysql/my.cnf
+      - ./my.cnf:/etc/mysql/my.cnf
     ports:
       - 3306:3306
     restart: always
