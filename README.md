@@ -2,7 +2,6 @@
 
 
 ### Local Start
-
 ```
 1. SSH Config 설정
 2. local-connect.sh 파일 실행
