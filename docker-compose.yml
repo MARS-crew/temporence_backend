@@ -25,6 +25,9 @@ services:
       - MYSQL_PASSWORD=qwer1595@!
       - MYSQL_ROOT_HOST=%
       - TZ=Asia/Seoul
+      - MYSQL_ALLOW_LOCAL_INFILE=true
+      - MYSQL_LOWER_CASE_TABLE_NAMES=1
+      - MYSQL_INIT_CONNECT="SET GLOBAL allow_public_key_retrieval = 1"
     networks:
       - my-network
 
