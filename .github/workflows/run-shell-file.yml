@@ -6,9 +6,8 @@ on:
       - develop
 
 jobs:
-  run:
+  build_and_push:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -34,14 +33,21 @@ jobs:
         run: |
           docker buildx build --platform linux/arm64,linux/amd64 -t pinomaker/mars-game:latest-arm64 -t pinomaker/mars-game:latest-amd64 --file Dockerfile.dev . --push
 
+  copy_files:
+    needs: build_and_push
+    runs-on: ubuntu-latest
+    steps:
       - name: Copy files to EC2 instance
         run: |
           scp -i $HOME/key.pem ./my.cnf ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
-          scp -i $HOME/key.pem ./error.log ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
           scp -i $HOME/key.pem ./docker-compose.yml ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
           scp -i $HOME/key.pem ./Dockerfile.dev ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
           scp -i $HOME/key.pem ./.dockerignore ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
 
+  run_docker_compose:
+    needs: copy_files
+    runs-on: ubuntu-latest
+    steps:
       - name: Run Docker Compose
         env:
           SSH_PEM_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
