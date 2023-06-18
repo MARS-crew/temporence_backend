@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  build_and_push:
+  DOCKER_BUILD_PUSH:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -33,7 +33,7 @@ jobs:
         run: |
           docker buildx build --platform linux/arm64,linux/amd64 -t pinomaker/mars-game:latest-arm64 -t pinomaker/mars-game:latest-amd64 --file Dockerfile.dev . --push
 
-  copy_files:
+  COPY_FILES:
     needs: build_and_push
     runs-on: ubuntu-latest
     steps:
@@ -43,7 +43,7 @@ jobs:
           scp -i $HOME/key.pem ./Dockerfile.dev ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
           scp -i $HOME/key.pem ./.dockerignore ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
 
-  run_docker_compose:
+  RUN_DOCKER_COMPOSE:
     needs: copy_files
     runs-on: ubuntu-latest
     steps:
