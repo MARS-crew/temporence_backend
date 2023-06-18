@@ -39,7 +39,6 @@ jobs:
     steps:
       - name: Copy files to EC2 instance
         run: |
-          scp -i $HOME/key.pem ./my.cnf ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
           scp -i $HOME/key.pem ./docker-compose.yml ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
           scp -i $HOME/key.pem ./Dockerfile.dev ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
           scp -i $HOME/key.pem ./.dockerignore ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
