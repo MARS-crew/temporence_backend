@@ -39,3 +39,5 @@ services:
 
 networks:
   my-network:
+    external:
+      name: my-network
