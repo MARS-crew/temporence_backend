@@ -34,19 +34,19 @@ jobs:
           touch ~/.ssh/known_hosts
           ssh-keyscan ${{ secrets.EC2_HOST_DEV }} >> ~/.ssh/known_hosts
 
-      - name: Set Permissions for Private Key
-        run: |
-          echo "${{ secrets.DEPLOY_SSH_KEY }}" > $HOME/key.pem
-          chmod 400 $HOME/key.pem
+#      - name: Set Permissions for Private Key
+#        run: |
+#          echo "${{ secrets.DEPLOY_SSH_KEY }}" > $HOME/key.pem
+#          chmod 400 $HOME/key.pem
 
       - name: Copy files to EC2 instance
         run: |
-          scp -i $HOME/key.pem ./docker-compose.yml ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
-          scp -i $HOME/key.pem ./Dockerfile.dev ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
-          scp -i $HOME/key.pem ./.dockerignore ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/
+          scp -i $HOME/key.pem ./docker-compose.yml ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/temporence
+          scp -i $HOME/key.pem ./Dockerfile.dev ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/temporence
+          scp -i $HOME/key.pem ./.dockerignore ubuntu@${{ secrets.EC2_HOST_DEV }}:/home/ubuntu/temporence
 
       - name: Run Docker Compose
-        env:
-          SSH_PEM_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+#        env:
+#          SSH_PEM_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
         run: |
-          ssh -i $HOME/key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST_DEV }} "cd /home/ubuntu && DOCKER_CLI_EXPERIMENTAL=enabled docker-compose up -d"
+          ssh -i $HOME/key.pem -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST_DEV }} "cd /home/ubuntu/temporence && DOCKER_CLI_EXPERIMENTAL=enabled docker-compose up -d"

@@ -17,7 +17,7 @@ services:
       - ./my.cnf:/etc/mysql/my.cnf
       - ./error.log:/var/log/mysql/error.log
     ports:
-      - 3306:3306
+      - 3307:3306
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=qwer1595@!
