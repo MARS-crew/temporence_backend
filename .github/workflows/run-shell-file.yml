@@ -23,7 +23,7 @@ jobs:
 #          docker buildx build --platform linux/arm64,linux/amd64 -t pinomaker/mars-game:latest-arm64 -t pinomaker/mars-game:latest-amd64 --file Dockerfile.dev . --push
   SET_SSH:
     runs-on: ubuntu-latest
-    needs: DOCKER_BUILD_PUSH
+#    needs: DOCKER_BUILD_PUSH
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
