@@ -1,5 +1,7 @@
 ## Mars Game Project
-
+```agsl
+현재 develop 브랜치에서만 자동 배포 구성됨.
+```
 
 ### Local Start
 ```
@@ -7,7 +9,6 @@
 2. local-connect.sh 파일 실행
 3. Spring boot 실행
 ```
-
 
 ### Using Version
 
