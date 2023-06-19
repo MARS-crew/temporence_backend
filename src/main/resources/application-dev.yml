@@ -3,3 +3,7 @@ spring:
     url: jdbc:mysql://localhost:3307/temporence_dev?allowPublicKeyRetrieval=true
     username: admin
     password: qwer1595@!
+
+  redis:
+    host: localhost
+    port: 6379
