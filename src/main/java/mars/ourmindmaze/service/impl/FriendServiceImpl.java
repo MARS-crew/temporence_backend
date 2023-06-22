@@ -29,6 +29,11 @@ public class FriendServiceImpl implements FriendService {
     @Transactional
     public ResponseEntity<?> saveFriend(RequestFriendSaveDto dto) {
         User loginUser = SecurityUtil.getCurrentUserId(userJpaRepository);
+
+        if (loginUser.getId() == dto.getFriendId()) {
+            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("본인은 친구를 추가할 수 없습니다.").buildObject();
+        }
+
         Optional<User> findUser = userJpaRepository.findById(dto.getFriendId());
 
         if (findUser.isEmpty()) {
