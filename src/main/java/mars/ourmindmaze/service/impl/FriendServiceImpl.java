@@ -14,6 +14,7 @@ import mars.ourmindmaze.vo.FriendVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ public class FriendServiceImpl implements FriendService {
     private final FriendJpaRepository friendJpaRepository;
 
     @Override
+    @Transactional
     public ResponseEntity<?> saveFriend(RequestFriendSaveDto dto) {
         User loginUser = SecurityUtil.getCurrentUserId(userJpaRepository);
         Optional<User> findUser = userJpaRepository.findById(dto.getFriendId());
@@ -34,6 +36,7 @@ public class FriendServiceImpl implements FriendService {
         }
 
         friendJpaRepository.save(Friend.builder().user(loginUser).friend(findUser.get()).build());
+        friendJpaRepository.save(Friend.builder().user(findUser.get()).friend(loginUser).build());
 
         return CommonResponse.createResponseMessage(HttpStatus.CREATED.value(), "친구 등록에 성공하였습니다.");
     }
