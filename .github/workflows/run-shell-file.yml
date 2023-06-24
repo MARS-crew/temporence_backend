@@ -6,6 +6,31 @@ on:
       - develop
 
 jobs:
+  BUILD_TEST:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Initialize Known Hosts
+        run: |
+          mkdir -p ~/.ssh
+          touch ~/.ssh/known_hosts
+          ssh-keyscan ${{ secrets.EC2_HOST_DEV }} >> ~/.ssh/known_hosts
+
+      - name: Set Permissions for Private Key
+        run: |
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > $HOME/key.pem
+          chmod 400 $HOME/key.pem
+
+      - name: SSH CONNECT
+        uses: ssh -i $HOME/key.pem -L 3306:localhost:3307 -L 6379:localhost:6379 ubuntu@${{ secrets.EC2_HOST_DEV }}
+
+      - name: Build And Test
+        run: |
+          chmod +x ./gradlew
+          ./gradlew test build
+
   DOCKER_BUILD_PUSH:
     runs-on: ubuntu-latest
     steps:
