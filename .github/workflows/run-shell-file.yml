@@ -32,7 +32,8 @@ jobs:
           ./gradlew test build
 
   DOCKER_BUILD_PUSH:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest\
+    needs: BUILD_TEST
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
