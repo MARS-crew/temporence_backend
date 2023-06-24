@@ -79,7 +79,7 @@ compileQuerydsl {
 }
 
 test {
-    enabled = false
+    enabled = true
 }
 
 jar {
