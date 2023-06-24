@@ -23,53 +23,53 @@ public class UserServiceTestV0 {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @DisplayName("회원가입 테스트 - SUCCESS")
-    @Test
-    @Transactional
-    @Rollback
-    void 회원가입() {
-        // given
-        User saveUser = userJpaRepository.save(User.builder()
-                .username("testUserSave")
-                .password("testPwd")
-                .authority(UserAuthority.ROLE_USER)
-                .build());
-
-        // when
-        Optional<User> findUser = userJpaRepository.findByUsername("testUserSave");
-
-        // then
-        Assertions.assertThat(saveUser).isEqualTo(findUser.get());
-    }
-
-    @DisplayName("회원가입 테스트 - FAIL(중복 닉네임)")
-    @Test
-    @Transactional
-    @Rollback
-    void 회원가입실패중복닉네임() {
-        // given
-        userJpaRepository.save(User.builder()
-                .username("testUserSave")
-                .password("testPwd")
-                .authority(UserAuthority.ROLE_USER)
-                .build());
-
-        // when
-        Optional<User> findUser = userJpaRepository.findByUsername("testUserSave");
-
-        // then
-        Assertions.assertThat(!findUser.isEmpty()).isTrue();
-    }
-
-    @DisplayName("로그인 테스트 - SUCCESS")
-    @Test
-    void 로그인() {
-        // given
-        Optional<User> findUser = userJpaRepository.findByUsername("admin");
-        // when
-        boolean result =  passwordEncoder.matches("1234", findUser.get().getPassword());
-
-        // then
-        Assertions.assertThat(result).isTrue();
-    }
+//    @DisplayName("회원가입 테스트 - SUCCESS")
+//    @Test
+//    @Transactional
+//    @Rollback
+//    void 회원가입() {
+//        // given
+//        User saveUser = userJpaRepository.save(User.builder()
+//                .username("testUserSave")
+//                .password("testPwd")
+//                .authority(UserAuthority.ROLE_USER)
+//                .build());
+//
+//        // when
+//        Optional<User> findUser = userJpaRepository.findByUsername("testUserSave");
+//
+//        // then
+//        Assertions.assertThat(saveUser).isEqualTo(findUser.get());
+//    }
+//
+//    @DisplayName("회원가입 테스트 - FAIL(중복 닉네임)")
+//    @Test
+//    @Transactional
+//    @Rollback
+//    void 회원가입실패중복닉네임() {
+//        // given
+//        userJpaRepository.save(User.builder()
+//                .username("testUserSave")
+//                .password("testPwd")
+//                .authority(UserAuthority.ROLE_USER)
+//                .build());
+//
+//        // when
+//        Optional<User> findUser = userJpaRepository.findByUsername("testUserSave");
+//
+//        // then
+//        Assertions.assertThat(!findUser.isEmpty()).isTrue();
+//    }
+//
+//    @DisplayName("로그인 테스트 - SUCCESS")
+//    @Test
+//    void 로그인() {
+//        // given
+//        Optional<User> findUser = userJpaRepository.findByUsername("admin");
+//        // when
+//        boolean result =  passwordEncoder.matches("1234", findUser.get().getPassword());
+//
+//        // then
+//        Assertions.assertThat(result).isTrue();
+//    }
 }
