@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/dm")
 @RequiredArgsConstructor
-@Tag(name = "Friend API", description = "DM 관련 API")
+@Tag(name = "DM API", description = "DM 관련 API")
 public class DmController {
 
     private final DmService dmService;
