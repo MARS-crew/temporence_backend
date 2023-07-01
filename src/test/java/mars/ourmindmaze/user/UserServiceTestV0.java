@@ -23,25 +23,25 @@ public class UserServiceTestV0 {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-//    @DisplayName("회원가입 테스트 - SUCCESS")
-//    @Test
-//    @Transactional
-//    @Rollback
-//    void 회원가입() {
-//        // given
-//        User saveUser = userJpaRepository.save(User.builder()
-//                .username("testUserSave")
-//                .password("testPwd")
-//                .authority(UserAuthority.ROLE_USER)
-//                .build());
-//
-//        // when
-//        Optional<User> findUser = userJpaRepository.findByUsername("testUserSave");
-//
-//        // then
-//        Assertions.assertThat(saveUser).isEqualTo(findUser.get());
-//    }
-//
+    @DisplayName("회원가입 테스트 - SUCCESS")
+    @Test
+    @Transactional
+    @Rollback
+    void 회원가입() {
+        // given
+        User saveUser = userJpaRepository.save(User.builder()
+                .username("testUserSave")
+                .password("testPwd")
+                .authority(UserAuthority.ROLE_USER)
+                .build());
+
+        // when
+        Optional<User> findUser = userJpaRepository.findByUsername("testUserSave");
+
+        // then
+        Assertions.assertThat(saveUser).isEqualTo(findUser.get());
+    }
+
 //    @DisplayName("회원가입 테스트 - FAIL(중복 닉네임)")
 //    @Test
 //    @Transactional
