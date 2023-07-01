@@ -26,6 +26,9 @@ jobs:
       - name: SSH CONNECT
         run: ssh -i $HOME/key.pem -L 3306:localhost:3307 -L 6379:localhost:6379 ubuntu@${{ secrets.EC2_HOST_DEV }}
 
+      - name: Wait for Services to Start
+        run: sleep 10
+
       - name: Build And Test
         run: |
           chmod +x ./gradlew
