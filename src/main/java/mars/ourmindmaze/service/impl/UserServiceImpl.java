@@ -8,6 +8,7 @@ import mars.ourmindmaze.common.dto.UserAuthority;
 import mars.ourmindmaze.domain.Point;
 import mars.ourmindmaze.domain.RefreshToken;
 import mars.ourmindmaze.domain.User;
+import mars.ourmindmaze.dto.user.RequestEmailCheckDto;
 import mars.ourmindmaze.dto.user.RequestUserLoginDto;
 import mars.ourmindmaze.dto.user.RequestUserSaveDto;
 import mars.ourmindmaze.dto.user.RequestTokenDto;
@@ -134,5 +135,16 @@ public class UserServiceImpl implements UserService {
         refreshRepository.save(new RefreshToken(response.getRefreshToken(), authentication.getName()));
 
         return CommonResponse.createResponse(HttpStatus.CREATED.value(), "토큰 재발급에 성공 하였습니다.", response);
+    }
+
+    @Override
+    public ResponseEntity<?> existEmailCheck(RequestEmailCheckDto dto) {
+        Optional<User> findUser = userJpaRepository.findByUsername(dto.getEmail());
+
+        if (!findUser.isEmpty()) {
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("사용 중인 이메일 입니다.").buildObject();
+        }
+
+        return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "사용 가능한 이메일 입니다.");
     }
 }

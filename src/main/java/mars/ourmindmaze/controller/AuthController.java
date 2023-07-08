@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mars.ourmindmaze.common.dto.SwaggerConfig;
+import mars.ourmindmaze.dto.user.RequestEmailCheckDto;
 import mars.ourmindmaze.dto.user.RequestTokenDto;
 import mars.ourmindmaze.dto.user.RequestUserLoginDto;
 import mars.ourmindmaze.dto.user.RequestUserSaveDto;
@@ -56,5 +57,15 @@ public class AuthController {
     @PostMapping("/token")
     public ResponseEntity<?> token(@RequestBody RequestTokenDto dto) {
         return userService.getTokenByRefreshToken(dto);
+    }
+
+    @Operation(summary = "Exist Check Email", description = "이메일 중복 여부 확인")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "이메일 중복 여부 확인합니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.EXIST_CHECK_EMAIL))),
+            @ApiResponse(responseCode = "400", description = SwaggerConfig.BAD_REQUEST, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = "{\"status\":400,\"message\":\"사용 중인 이메일 입니다.\"}")})),
+            @ApiResponse(responseCode = "500", description = SwaggerConfig.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.INTERNAL_SERVER_ERROR_REPONSE)))})
+    @PostMapping("/email")
+    public ResponseEntity<?> existCheckEmail(@RequestBody RequestEmailCheckDto dto) {
+        return userService.existEmailCheck(dto);
     }
 }
