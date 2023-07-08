@@ -8,7 +8,7 @@ import mars.ourmindmaze.common.dto.UserAuthority;
 import mars.ourmindmaze.domain.Point;
 import mars.ourmindmaze.domain.RefreshToken;
 import mars.ourmindmaze.domain.User;
-import mars.ourmindmaze.dto.user.RequestEmailCheckDto;
+import mars.ourmindmaze.dto.user.RequestNicknameCheckDto;
 import mars.ourmindmaze.dto.user.RequestUserLoginDto;
 import mars.ourmindmaze.dto.user.RequestUserSaveDto;
 import mars.ourmindmaze.dto.user.RequestTokenDto;
@@ -138,13 +138,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<?> existEmailCheck(RequestEmailCheckDto dto) {
-        Optional<User> findUser = userJpaRepository.findByUsername(dto.getEmail());
+    public ResponseEntity<?> existNickname(RequestNicknameCheckDto dto) {
+        Optional<User> findUser = userJpaRepository.findByUsername(dto.getNickname());
 
         if (!findUser.isEmpty()) {
-            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("사용 중인 이메일 입니다.").buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("사용 중인 닉네임 입니다.").buildObject();
         }
 
-        return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "사용 가능한 이메일 입니다.");
+        return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "사용 가능한 닉네임 입니다.");
     }
 }
