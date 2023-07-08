@@ -17,10 +17,13 @@ public class User extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "username", unique = true, nullable = false, length = 25)
+    @Column(unique = true, nullable = false, length = 50)
     private String username;
 
-    @Column(name = "password", length = 120, nullable = false)
+    @Column(unique = true, nullable = false, length = 50)
+    private String name;
+
+    @Column(length = 120, nullable = false)
     private String password;
 
     @Column(nullable = false)

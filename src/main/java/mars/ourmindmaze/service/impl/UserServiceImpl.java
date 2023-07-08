@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
             return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("사용 중인 이메일 입니다.").buildObject();
         }
 
-        User saveUser = userJpaRepository.save(User.builder().username(dto.getUsername()).password(passwordEncoder.encode(dto.getPassword())).authority(UserAuthority.ROLE_USER).build());
+        User saveUser = userJpaRepository.save(User.builder().name(dto.getName()).username(dto.getUsername()).password(passwordEncoder.encode(dto.getPassword())).authority(UserAuthority.ROLE_USER).build());
 
         pointJpaRepository.save(Point.builder().blue(0).gold(0).user(saveUser).build());
 
