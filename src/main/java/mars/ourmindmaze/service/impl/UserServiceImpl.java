@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<?> save(RequestUserSaveDto dto) {
         Optional<User> findUser = userJpaRepository.findByUsername(dto.getUsername());
         if (!findUser.isEmpty()) {
-            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("이미 사용 중인 계정 입니다.").buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("사용 중인 이메일 입니다.").buildObject();
         }
 
         User saveUser = userJpaRepository.save(User.builder().username(dto.getUsername()).password(passwordEncoder.encode(dto.getPassword())).authority(UserAuthority.ROLE_USER).build());
@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())) {
-            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("토큰이 만료하였습니다.").buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("토큰이 만료되었습니다.").buildObject();
         }
 
         TokenDto response = tokenProvider.generateTokenDto(authentication);
