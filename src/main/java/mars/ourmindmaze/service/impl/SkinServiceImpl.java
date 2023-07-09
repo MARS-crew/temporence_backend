@@ -32,7 +32,7 @@ public class SkinServiceImpl implements SkinService {
             return ApiResponse.<Objects>builder().status(HttpStatus.BAD_REQUEST).message("같은 이름의 스킨이 존재합니다.").buildObject();
         }
 
-        skinJpaRepository.save(Skin.builder().name(dto.getName()).teamType(dto.getTeamType()).build());
+        skinJpaRepository.save(Skin.builder().name(dto.getName().trim()).teamType(dto.getTeamType()).build());
 
         return CommonResponse.createResponseMessage(HttpStatus.CREATED.value(), "스킨이 등록되었습니다.");
     }

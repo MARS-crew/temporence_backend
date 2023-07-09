@@ -29,7 +29,7 @@ public class CharacterServiceImpl implements CharacterService {
             return ApiResponse.<Objects>builder().status(HttpStatus.BAD_REQUEST).message("같은 이름의 캐릭터가 존재합니다.").buildObject();
         }
 
-        characterJpaRepository.save(Character.builder().name(dto.getName()).teamType(dto.getTeamType()).build());
+        characterJpaRepository.save(Character.builder().name(dto.getName().trim()).teamType(dto.getTeamType()).build());
 
         return CommonResponse.createResponseMessage(HttpStatus.CREATED.value(), "캐릭터가 등록되었습니다.");
     }
@@ -60,7 +60,7 @@ public class CharacterServiceImpl implements CharacterService {
             return ApiResponse.<Objects>builder().status(HttpStatus.NOT_FOUND).message("캐릭터를 찾을 수 없습니다.").buildObject();
         }
 
-        characterJpaRepository.updateCharacter(dto.getName(), findCharacter.get().getId());
+        characterJpaRepository.updateCharacter(dto.getName().trim(), findCharacter.get().getId());
 
         return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "캐릭터를 변경하였습니다.");
     }
