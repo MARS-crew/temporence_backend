@@ -12,5 +12,5 @@ public class RequestUserSaveDto {
     private String password;
 
     @Schema(example = "자장면")
-    private String name;
+    private String nickname;
 }

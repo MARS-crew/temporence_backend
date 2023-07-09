@@ -53,11 +53,18 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public ResponseEntity<?> save(RequestUserSaveDto dto) {
         Optional<User> findUser = userJpaRepository.findByUsername(dto.getUsername());
+
         if (!findUser.isEmpty()) {
             return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("사용 중인 이메일 입니다.").buildObject();
         }
 
-        User saveUser = userJpaRepository.save(User.builder().nickname(dto.getName()).username(dto.getUsername()).password(passwordEncoder.encode(dto.getPassword())).authority(UserAuthority.ROLE_USER).build());
+        Optional<User> findUserByNickname = userJpaRepository.findByNickname(dto.getNickname());
+
+        if (!findUserByNickname.isEmpty()) {
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("사용 중인 닉네임 입니다.").buildObject();
+        }
+
+        User saveUser = userJpaRepository.save(User.builder().nickname(dto.getNickname()).username(dto.getUsername()).password(passwordEncoder.encode(dto.getPassword())).authority(UserAuthority.ROLE_USER).build());
 
         pointJpaRepository.save(Point.builder().blue(0).gold(0).user(saveUser).build());
 
