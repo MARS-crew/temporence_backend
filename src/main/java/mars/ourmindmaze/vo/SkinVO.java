@@ -2,6 +2,7 @@ package mars.ourmindmaze.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import mars.ourmindmaze.enums.TeamType;
 
 import java.time.LocalDateTime;
 
@@ -11,6 +12,5 @@ public class SkinVO {
     private Long id;
     private String name;
     private LocalDateTime createdDate;
-    private Long characterId;
-    private String characterName;
+    private TeamType teamType;
 }

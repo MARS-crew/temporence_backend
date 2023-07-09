@@ -32,13 +32,7 @@ public class SkinServiceImpl implements SkinService {
             return ApiResponse.<Objects>builder().status(HttpStatus.BAD_REQUEST).message("같은 이름의 스킨이 존재합니다.").buildObject();
         }
 
-        Optional<Character> findCharacter = characterJpaRepository.findById(dto.getCharacterId());
-
-        if (findCharacter.isEmpty()) {
-            return ApiResponse.<Objects>builder().status(HttpStatus.NOT_FOUND).message("캐릭터를 찾을 수 없습니다.").buildObject();
-        }
-
-        skinJpaRepository.save(Skin.builder().name(dto.getName()).character(findCharacter.get()).build());
+        skinJpaRepository.save(Skin.builder().name(dto.getName()).teamType(dto.getTeamType()).build());
 
         return CommonResponse.createResponseMessage(HttpStatus.CREATED.value(), "스킨이 등록되었습니다.");
     }

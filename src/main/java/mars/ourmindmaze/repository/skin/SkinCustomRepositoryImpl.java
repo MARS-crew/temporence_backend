@@ -22,11 +22,9 @@ public class SkinCustomRepositoryImpl implements SkinCustomRepository {
                                 s.id,
                                 s.name,
                                 Expressions.asDateTime(s.createdDate),
-                                s.character.id,
-                                s.character.name
+                                s.teamType
                         )
                 ).from(s)
-                .leftJoin(s.character)
                 .orderBy(s.createdDate.desc())
                 .fetch();
         return list;
@@ -41,13 +39,10 @@ public class SkinCustomRepositoryImpl implements SkinCustomRepository {
                                 s.id,
                                 s.name,
                                 Expressions.asDateTime(s.createdDate),
-                                s.character.id,
-                                s.character.name
+                                s.teamType
                         )
                 ).from(s)
-                .leftJoin(s.character)
                 .orderBy(s.createdDate.desc())
-                .where(s.character.id.eq(id))
                 .fetch();
         return list;
     }
