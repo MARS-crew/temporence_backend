@@ -6,6 +6,7 @@ import mars.ourmindmaze.common.dto.CommonResponse;
 import mars.ourmindmaze.domain.Friend;
 import mars.ourmindmaze.domain.User;
 import mars.ourmindmaze.dto.friend.RequestFriendSaveDto;
+import mars.ourmindmaze.dto.friend.RequestFriendUpdateDto;
 import mars.ourmindmaze.repository.friend.FriendJpaRepository;
 import mars.ourmindmaze.repository.user.UserJpaRepository;
 import mars.ourmindmaze.service.FriendService;
@@ -77,5 +78,21 @@ public class FriendServiceImpl implements FriendService {
 
         List<FriendVO> list = friendJpaRepository.findFriendList(loginUser.getId());
         return CommonResponse.createResponse(HttpStatus.OK.value(), "친구 요청 리스트를 조회합니다.", list);
+    }
+
+    @Override
+    public ResponseEntity<?> updateFriend(RequestFriendUpdateDto dto) {
+        Optional<Friend> findFriend = friendJpaRepository.findById(dto.getFriendId());
+        if (findFriend.isEmpty()) {
+            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("친구를 찾을 수 없습니다.").buildObject();
+        }
+
+        if (dto.getStatus().equals("Y")) {
+            friendJpaRepository.updateFriendStatus(dto.getStatus(), dto.getFriendId());
+            return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "친구 요청을 수락했습니다.");
+        }
+
+        friendJpaRepository.delete(findFriend.get());
+        return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "친구 요청을 거절했습니다.");
     }
 }

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mars.ourmindmaze.common.dto.SwaggerConfig;
 import mars.ourmindmaze.dto.friend.RequestFriendSaveDto;
+import mars.ourmindmaze.dto.friend.RequestFriendUpdateDto;
 import mars.ourmindmaze.service.FriendService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -66,5 +67,17 @@ public class FriendController {
     @GetMapping("/request")
     public ResponseEntity<?> findFriendRequestList() {
         return friendService.findFriendRequestList();
+    }
+
+    @Operation(summary = "Response about Friend Request", description = "친구 요청에 대한 응답")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "친구 요청에 대한 응답을 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.FRIEND_UPDATE_TRUE_RESPONSE))),
+            @ApiResponse(responseCode = "201", description = "친구 요청에 대한 응답을 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.FRIEND_UPDATE_FALSE_RESPONSE))),
+            @ApiResponse(responseCode = "404", description = SwaggerConfig.BAD_REQUEST, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = "{\"status\":404,\"message\":\"친구를 찾을 수 없습니다.\"}")})),
+            @ApiResponse(responseCode = "401", description = SwaggerConfig.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.UNAUTHORIZED_ERROR_RESPONSE)})),
+            @ApiResponse(responseCode = "500", description = SwaggerConfig.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.INTERNAL_SERVER_ERROR_REPONSE)))})
+    @PostMapping("/response")
+    public ResponseEntity<?> updateFriend(@RequestBody RequestFriendUpdateDto dto) {
+        return friendService.updateFriend(dto);
     }
 }

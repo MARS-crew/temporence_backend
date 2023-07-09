@@ -1,6 +1,7 @@
 package mars.ourmindmaze.service;
 
 import mars.ourmindmaze.dto.friend.RequestFriendSaveDto;
+import mars.ourmindmaze.dto.friend.RequestFriendUpdateDto;
 import org.springframework.http.ResponseEntity;
 
 public interface FriendService {
@@ -8,4 +9,5 @@ public interface FriendService {
     ResponseEntity<?> findFriendList();
     ResponseEntity<?> deleteFriend(Long id);
     ResponseEntity<?> findFriendRequestList();
+    ResponseEntity<?> updateFriend(RequestFriendUpdateDto dto);
 }
