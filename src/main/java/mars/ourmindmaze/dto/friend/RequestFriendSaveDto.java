@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 public class RequestFriendSaveDto {
-    @Schema(example = "1")
-    private Long friendId;
+    @Schema(example = "자장면")
+    private String nickname;
 }

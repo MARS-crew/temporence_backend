@@ -14,7 +14,6 @@ import mars.ourmindmaze.vo.FriendVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,22 +25,29 @@ public class FriendServiceImpl implements FriendService {
     private final FriendJpaRepository friendJpaRepository;
 
     @Override
-    @Transactional
     public ResponseEntity<?> saveFriend(RequestFriendSaveDto dto) {
-        User loginUser = SecurityUtil.getCurrentUserId(userJpaRepository);
-
-        if (loginUser.getId() == dto.getFriendId()) {
-            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("본인은 친구를 추가할 수 없습니다.").buildObject();
-        }
-
-        Optional<User> findUser = userJpaRepository.findById(dto.getFriendId());
+        Optional<User> findUser = userJpaRepository.findByNickname(dto.getNickname());
 
         if (findUser.isEmpty()) {
-            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("유저를 찾을 수 없습니다.").buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("친구 할 유저를 찾을 수 없습니다.").buildObject();
         }
 
-        friendJpaRepository.save(Friend.builder().user(loginUser).friend(findUser.get()).build());
-        friendJpaRepository.save(Friend.builder().user(findUser.get()).friend(loginUser).build());
+        User loginUser = SecurityUtil.getCurrentUserId(userJpaRepository);
+
+        if (loginUser.getNickname().equals(dto.getNickname())) {
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("본인은 친구를 추가할 수 없습니다.").buildObject();
+        }
+
+        Optional<Friend> findFriend = friendJpaRepository.findByUserAndFriend(loginUser, findUser.get());
+
+        if (!findFriend.isEmpty()) {
+            if (findFriend.get().getStatus().equals("Y")) {
+                return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("이미 친구 입니다.").buildObject();
+            }
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("이미 친구 요청을 보낸 대상 입니다.").buildObject();
+        }
+
+        friendJpaRepository.save(Friend.builder().user(loginUser).friend(findUser.get()).status("N").build());
 
         return CommonResponse.createResponseMessage(HttpStatus.CREATED.value(), "친구 등록에 성공하였습니다.");
     }
