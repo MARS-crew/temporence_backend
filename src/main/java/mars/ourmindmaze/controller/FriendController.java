@@ -38,7 +38,7 @@ public class FriendController {
 
     @Operation(summary = "Find Friend List", description = "친구 리스트 조회")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "포인트 조회에 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.FRIEND_FIND_RESPONSE))),
+            @ApiResponse(responseCode = "200", description = "친구 리스트 조회에 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.FRIEND_FIND_RESPONSE))),
             @ApiResponse(responseCode = "400", description = SwaggerConfig.BAD_REQUEST, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.BAD_REQUEST_RESPONSE)})),
             @ApiResponse(responseCode = "401", description = SwaggerConfig.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.UNAUTHORIZED_ERROR_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = SwaggerConfig.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.INTERNAL_SERVER_ERROR_REPONSE)))})
@@ -56,5 +56,15 @@ public class FriendController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> findFriendList(@PathVariable(name = "id") Long id) {
         return friendService.deleteFriend(id);
+    }
+
+    @Operation(summary = "Find Friend List", description = "친구 리스트 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "친구 요청 리스트 조회에 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.FRIEND_REQUEST_FIND_RESPONSE))),
+            @ApiResponse(responseCode = "401", description = SwaggerConfig.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.UNAUTHORIZED_ERROR_RESPONSE)})),
+            @ApiResponse(responseCode = "500", description = SwaggerConfig.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.INTERNAL_SERVER_ERROR_REPONSE)))})
+    @GetMapping("/request")
+    public ResponseEntity<?> findFriendRequestList() {
+        return friendService.findFriendRequestList();
     }
 }

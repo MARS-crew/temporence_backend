@@ -9,6 +9,7 @@ public class SwaggerConfig {
     public static final String POINT_FIND_RESPONSE =  "{\"status\":200,\"message\":\"포인트를 조회합니다.\",\"data\":{\"createdDate\":\"2023-05-31T14:52:34\",\"modifiedDate\":\"2023-05-31T14:52:34\",\"id\":1,\"gold\":30,\"blue\":0,\"user\":{\"createdDate\":\"2023-05-31T14:52:34\",\"modifiedDate\":\"2023-05-31T14:52:34\",\"id\":1,\"username\":\"admin\",\"password\":\"$2a$10$Wn2.uzB4eEyGW8Qh2p0uJ.ub5pngDJ6D/Q24YZl0slKCsGeAUf.iK\",\"socialType\":\"LOCAL\",\"socialKey\":null,\"authority\":\"ROLE_USER\"}}}";
     public static final String FRIEND_SAVE_RESPONSE = "{\"status\":200,\"message\":\"친구 등록에 성공하였습니다.\"}";
     public static final String FRIEND_FIND_RESPONSE = "{\"status\":200,\"message\":\"친구 리스트를 조회합니다.\",\"data\":[{\"id\":1,\"friendId\":2,\"friendName\":\"test\"}]}";
+    public static final String FRIEND_REQUEST_FIND_RESPONSE = "{\"status\":200,\"message\":\"친구 요청 리스트를 조회합니다.\",\"data\":[{\"id\":1,\"friendId\":2,\"friendName\":\"test\"}]}";
     public static final String DM_SEND_RESPONSE = "{\"status\":201,\"message\":\"메세지를 보냈습니다.\"}";
     public static final String DM_FIND_RESPONSE = "{\"status\":200,\"message\":\"메세지 리스트를 출력합니다.\",\"data\":[{\"id\":1,\"sender\":\"admin\",\"receiver\":\"test\",\"content\":\"Hello\",\"createdDate\":\"2023-06-04T20:44:46\"}]}";
     public static final String DM_USER_FIND_RESPONSE = "{\"status\":200,\"message\":\"메세지 대상을 출력합니다.\",\"data\":[{\"id\":2,\"username\":\"test\"}]}";

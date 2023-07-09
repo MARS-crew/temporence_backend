@@ -7,4 +7,5 @@ public interface FriendService {
     ResponseEntity<?> saveFriend(RequestFriendSaveDto dto);
     ResponseEntity<?> findFriendList();
     ResponseEntity<?> deleteFriend(Long id);
+    ResponseEntity<?> findFriendRequestList();
 }

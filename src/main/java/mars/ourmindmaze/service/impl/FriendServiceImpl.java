@@ -70,4 +70,12 @@ public class FriendServiceImpl implements FriendService {
         friendJpaRepository.delete(findFriend.get());
         return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "친구가 삭제가 되었습니다.");
     }
+
+    @Override
+    public ResponseEntity<?> findFriendRequestList() {
+        User loginUser = SecurityUtil.getCurrentUserId(userJpaRepository);
+
+        List<FriendVO> list = friendJpaRepository.findFriendList(loginUser.getId());
+        return CommonResponse.createResponse(HttpStatus.OK.value(), "친구 요청 리스트를 조회합니다.", list);
+    }
 }
