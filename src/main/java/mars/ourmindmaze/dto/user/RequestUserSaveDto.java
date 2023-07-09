@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class RequestUserSaveDto {
-    @Schema(example = "admin@test.co.")
+    @Schema(example = "admin@test.com")
     private String username;
 
     @Schema(example = "1234")
