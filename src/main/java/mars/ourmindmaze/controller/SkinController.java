@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mars.ourmindmaze.common.dto.SwaggerConfig;
 import mars.ourmindmaze.dto.skin.RequestSkinSaveDto;
+import mars.ourmindmaze.enums.TeamType;
 import mars.ourmindmaze.service.SkinService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,15 +57,17 @@ public class SkinController {
         return skinService.findSkinList();
     }
 
-    @Operation(summary = "Find Skin List By Character", description = "특정 캐릭터 스킨 리스트 조회 생성")
+    @Operation(summary = "Find Skin List By TeamType", description = "특정 팀 스킨 리스트 조회 생성")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "특정 캐릭터 스킨 리스트 조회에 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.SKIN_FINDLIST_RESPONSE))),
-            @ApiResponse(responseCode = "400", description = SwaggerConfig.BAD_REQUEST, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.BAD_REQUEST_RESPONSE)})),
+            @ApiResponse(responseCode = "200", description = "특정 팀 팀 스킨 리스트 조회에 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.SKIN_FINDLIST_RESPONSE))),
             @ApiResponse(responseCode = "401", description = SwaggerConfig.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.UNAUTHORIZED_ERROR_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = SwaggerConfig.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.INTERNAL_SERVER_ERROR_REPONSE)))})
-    @GetMapping("/character/{id}")
-    public ResponseEntity<?> findSkinListByCharacter(@PathVariable(name = "id") Long id) {
-        return skinService.findSkinListByCharacter(id);
+    @GetMapping("/team")
+    public ResponseEntity<?> findSkinListByCharacter(@RequestParam(name = "status", required = true) String status) {
+        if (status.equals("RUNNER")) {
+            return skinService.findSkinListByTeamType(TeamType.RUNNER);
+        }
+        return skinService.findSkinListByTeamType(TeamType.STOPPER);
     }
 
     @Operation(summary = "Delete Skin", description = "캐릭터 스킨 조회 삭제")

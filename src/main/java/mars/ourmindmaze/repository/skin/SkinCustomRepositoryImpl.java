@@ -5,6 +5,7 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import mars.ourmindmaze.domain.QSkin;
+import mars.ourmindmaze.enums.TeamType;
 import mars.ourmindmaze.vo.SkinVO;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public class SkinCustomRepositoryImpl implements SkinCustomRepository {
     }
 
     @Override
-    public List<SkinVO> findSkinListByCharacter(Long id) {
+    public List<SkinVO> findSkinListByTeamType(TeamType teamType) {
         QSkin s = QSkin.skin;
         List<SkinVO> list = queryFactory.select(
                         Projections.constructor(
@@ -42,6 +43,7 @@ public class SkinCustomRepositoryImpl implements SkinCustomRepository {
                                 s.teamType
                         )
                 ).from(s)
+                .where(s.teamType.eq(teamType))
                 .orderBy(s.createdDate.desc())
                 .fetch();
         return list;
