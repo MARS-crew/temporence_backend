@@ -29,7 +29,7 @@ public class CharacterServiceImpl implements CharacterService {
             return ApiResponse.<Objects>builder().status(HttpStatus.BAD_REQUEST).message("같은 이름의 캐릭터가 존재합니다.").buildObject();
         }
 
-        characterJpaRepository.save(Character.builder().name(dto.getName()).build());
+        characterJpaRepository.save(Character.builder().name(dto.getName()).teamType(dto.getTeamType()).build());
 
         return CommonResponse.createResponseMessage(HttpStatus.CREATED.value(), "캐릭터가 등록되었습니다.");
     }

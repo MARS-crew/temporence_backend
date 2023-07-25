@@ -2,9 +2,9 @@ package mars.ourmindmaze.domain;
 
 import lombok.*;
 import mars.ourmindmaze.common.entity.BaseTimeEntity;
+import mars.ourmindmaze.enums.TeamType;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "tbl_character")
@@ -20,6 +20,6 @@ public class Character extends BaseTimeEntity {
     @Column(length = 50, nullable = false, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Skin> skins;
+    @Column(nullable = false)
+    private TeamType teamType;
 }

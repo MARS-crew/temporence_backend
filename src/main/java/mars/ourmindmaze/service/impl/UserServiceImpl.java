@@ -8,6 +8,7 @@ import mars.ourmindmaze.common.dto.UserAuthority;
 import mars.ourmindmaze.domain.Point;
 import mars.ourmindmaze.domain.RefreshToken;
 import mars.ourmindmaze.domain.User;
+import mars.ourmindmaze.dto.user.RequestNicknameCheckDto;
 import mars.ourmindmaze.dto.user.RequestUserLoginDto;
 import mars.ourmindmaze.dto.user.RequestUserSaveDto;
 import mars.ourmindmaze.dto.user.RequestTokenDto;
@@ -52,11 +53,18 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public ResponseEntity<?> save(RequestUserSaveDto dto) {
         Optional<User> findUser = userJpaRepository.findByUsername(dto.getUsername());
+
         if (!findUser.isEmpty()) {
-            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("이미 사용 중인 계정 입니다.").buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("사용 중인 이메일 입니다.").buildObject();
         }
 
-        User saveUser = userJpaRepository.save(User.builder().username(dto.getUsername()).password(passwordEncoder.encode(dto.getPassword())).authority(UserAuthority.ROLE_USER).build());
+        Optional<User> findUserByNickname = userJpaRepository.findByNickname(dto.getNickname());
+
+        if (!findUserByNickname.isEmpty()) {
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("사용 중인 닉네임 입니다.").buildObject();
+        }
+
+        User saveUser = userJpaRepository.save(User.builder().nickname(dto.getNickname()).username(dto.getUsername()).password(passwordEncoder.encode(dto.getPassword())).authority(UserAuthority.ROLE_USER).build());
 
         pointJpaRepository.save(Point.builder().blue(0).gold(0).user(saveUser).build());
 
@@ -124,7 +132,7 @@ public class UserServiceImpl implements UserService {
         }
 
         if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())) {
-            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("토큰이 만료하였습니다.").buildObject();
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("토큰이 만료되었습니다.").buildObject();
         }
 
         TokenDto response = tokenProvider.generateTokenDto(authentication);
@@ -134,5 +142,16 @@ public class UserServiceImpl implements UserService {
         refreshRepository.save(new RefreshToken(response.getRefreshToken(), authentication.getName()));
 
         return CommonResponse.createResponse(HttpStatus.CREATED.value(), "토큰 재발급에 성공 하였습니다.", response);
+    }
+
+    @Override
+    public ResponseEntity<?> existNickname(RequestNicknameCheckDto dto) {
+        Optional<User> findUser = userJpaRepository.findByUsername(dto.getNickname());
+
+        if (!findUser.isEmpty()) {
+            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("사용 중인 닉네임 입니다.").buildObject();
+        }
+
+        return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "사용 가능한 닉네임 입니다.");
     }
 }

@@ -1,8 +1,8 @@
 package mars.ourmindmaze.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import mars.ourmindmaze.common.entity.BaseTimeEntity;
+import mars.ourmindmaze.enums.TeamType;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,10 +21,8 @@ public class Skin extends BaseTimeEntity {
     @Column(length = 50, nullable = false, unique = true)
     private String name;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "character_id")
-    private Character character;
+    @Column(nullable = false)
+    private TeamType teamType;
 
     @OneToMany(mappedBy = "skin", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserSkin> userSkins;

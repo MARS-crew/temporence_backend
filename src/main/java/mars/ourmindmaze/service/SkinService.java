@@ -1,6 +1,7 @@
 package mars.ourmindmaze.service;
 
 import mars.ourmindmaze.dto.skin.RequestSkinSaveDto;
+import mars.ourmindmaze.enums.TeamType;
 import org.springframework.http.ResponseEntity;
 
 public interface SkinService {
@@ -8,5 +9,5 @@ public interface SkinService {
     ResponseEntity<?> findSkinById(Long id);
     ResponseEntity<?> deleteSkin(Long id);
     ResponseEntity<?> findSkinList();
-    ResponseEntity<?> findSkinListByCharacter(Long id);
+    ResponseEntity<?> findSkinListByTeamType(TeamType teamType);
 }

@@ -24,16 +24,13 @@ public class UserSkinCustomRepositoryImpl implements UserSkinCustomRepository {
                                 u.skin.id,
                                 u.user.id,
                                 u.skin.name,
-                                Expressions.asDateTime(u.createdDate),
-                                u.skin.character.id,
-                                u.skin.character.name
+                                Expressions.asDateTime(u.createdDate)
                         )
                 ).from(u)
                 .where(u.user.id.eq(id))
                 .orderBy(u.createdDate.desc())
                 .leftJoin(u.user)
                 .leftJoin(u.skin)
-                .leftJoin(u.skin.character)
                 .fetch();
 
         return list;

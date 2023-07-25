@@ -1,5 +1,6 @@
 package mars.ourmindmaze.service;
 
+import mars.ourmindmaze.dto.user.RequestNicknameCheckDto;
 import mars.ourmindmaze.dto.user.RequestUserLoginDto;
 import mars.ourmindmaze.dto.user.RequestUserSaveDto;
 import mars.ourmindmaze.dto.user.RequestTokenDto;
@@ -14,4 +15,6 @@ public interface UserService {
     ResponseEntity<?> findAll(Pageable pageable);
 
     ResponseEntity<?> getTokenByRefreshToken(RequestTokenDto dto);
+
+    ResponseEntity<?> existNickname(RequestNicknameCheckDto dto);
 }

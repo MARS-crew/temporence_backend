@@ -3,9 +3,9 @@ package mars.ourmindmaze.service.impl;
 import lombok.RequiredArgsConstructor;
 import mars.ourmindmaze.common.dto.ApiResponse;
 import mars.ourmindmaze.common.dto.CommonResponse;
-import mars.ourmindmaze.domain.Character;
 import mars.ourmindmaze.domain.Skin;
 import mars.ourmindmaze.dto.skin.RequestSkinSaveDto;
+import mars.ourmindmaze.enums.TeamType;
 import mars.ourmindmaze.repository.CharacterJpaRepository;
 import mars.ourmindmaze.repository.skin.SkinJpaRepository;
 import mars.ourmindmaze.service.SkinService;
@@ -32,13 +32,7 @@ public class SkinServiceImpl implements SkinService {
             return ApiResponse.<Objects>builder().status(HttpStatus.BAD_REQUEST).message("같은 이름의 스킨이 존재합니다.").buildObject();
         }
 
-        Optional<Character> findCharacter = characterJpaRepository.findById(dto.getCharacterId());
-
-        if (findCharacter.isEmpty()) {
-            return ApiResponse.<Objects>builder().status(HttpStatus.NOT_FOUND).message("캐릭터를 찾을 수 없습니다.").buildObject();
-        }
-
-        skinJpaRepository.save(Skin.builder().name(dto.getName()).character(findCharacter.get()).build());
+        skinJpaRepository.save(Skin.builder().name(dto.getName()).teamType(dto.getTeamType()).build());
 
         return CommonResponse.createResponseMessage(HttpStatus.CREATED.value(), "스킨이 등록되었습니다.");
     }
@@ -77,8 +71,8 @@ public class SkinServiceImpl implements SkinService {
     }
 
     @Override
-    public ResponseEntity<?> findSkinListByCharacter(Long id) {
-        List<SkinVO> response = skinJpaRepository.findSkinListByCharacter(id);
+    public ResponseEntity<?> findSkinListByTeamType(TeamType teamType) {
+        List<SkinVO> response = skinJpaRepository.findSkinListByTeamType(teamType);
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "스킨의 리스트를 조회합니다.", response);
     }
