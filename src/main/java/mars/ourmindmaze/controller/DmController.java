@@ -32,6 +32,12 @@ public class DmController {
         return dmService.sendDm(dto);
     }
 
+    @Operation(summary = "Find Dm", description = "Dm 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "dm 조회에 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.DM_FIND_RESPONSE))),
+            @ApiResponse(responseCode = "400", description = SwaggerConfig.BAD_REQUEST, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.BAD_REQUEST_RESPONSE)})),
+            @ApiResponse(responseCode = "401", description = SwaggerConfig.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.UNAUTHORIZED_ERROR_RESPONSE)})),
+            @ApiResponse(responseCode = "500", description = SwaggerConfig.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.INTERNAL_SERVER_ERROR_REPONSE)))})
     @GetMapping("/{id}")
     public ResponseEntity<?> findDm(@PathVariable(name = "id")Long id) {
         return dmService.findDm(id);
