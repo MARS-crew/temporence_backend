@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url:
-    username:
-    password:
+    url: jdbc:mysql://210.223.18.224:3306/temporence_dev?allowPublicKeyRetrieval=true
+    username: admin
+    password: qwer1595@!
 
   redis:
     host: localhost
