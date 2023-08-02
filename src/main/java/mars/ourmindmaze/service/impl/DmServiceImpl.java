@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -45,6 +46,22 @@ public class DmServiceImpl implements DmService {
         dmJpaRepository.save(Dm.builder().sender(sender).reciver(reciver.get()).content(dto.getContent()).build());
 
         return CommonResponse.createResponseMessage(HttpStatus.CREATED.value(), "메시지 전송에 성공하였습니다.");
+    }
+
+    @Override
+    public ResponseEntity<?> findDm(Long id) {
+
+        User user = SecurityUtil.getCurrentUserId(userJpaRepository);
+
+        Optional<User> friend = userJpaRepository.findById(id);
+
+        if (friend.isEmpty()) {
+            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("유저를 찾을 수 없습니다.").buildObject();
+        }
+
+        List<Dm> dms = dmJpaRepository.findDms(user, friend.get());
+
+        return CommonResponse.createResponse(HttpStatus.OK.value(), "Dm 조회에 성공하였습니다.", dms);
     }
 
 }
