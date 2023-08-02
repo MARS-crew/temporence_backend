@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mars.ourmindmaze.enums.RoleType;
+import mars.ourmindmaze.common.entity.BaseTimeEntity;
+import mars.ourmindmaze.enums.TeamType;
 
 import javax.persistence.*;
 
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Player {
+public class Player extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,17 +29,14 @@ public class Player {
     @JoinColumn(name = "log_id")
     private Log log;
 
-    @Column(name = "win", length = 1)
-    private boolean win;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "character_id")
+    private Character character;
 
     @Column(name = "role")
-    private RoleType role;
+    private TeamType role;
 
     @Column(name = "prisonCount")
     private int prisonCount;
-
-    @Column(name = "playTime")
-    private int playtime;
-
 
 }
