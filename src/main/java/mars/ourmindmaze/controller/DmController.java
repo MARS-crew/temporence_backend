@@ -11,10 +11,7 @@ import mars.ourmindmaze.common.dto.SwaggerConfig;
 import mars.ourmindmaze.dto.dm.RequestDmSaveDto;
 import mars.ourmindmaze.service.DmService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/dm")
@@ -33,6 +30,11 @@ public class DmController {
     @PostMapping()
     public ResponseEntity<?> sendDm(@RequestBody RequestDmSaveDto dto) {
         return dmService.sendDm(dto);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findDm(@PathVariable(name = "id")Long id) {
+        return dmService.findDm(id);
     }
 
 }
