@@ -7,6 +7,7 @@ import mars.ourmindmaze.jwt.TokenProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -33,6 +34,8 @@ public class SecurityConfig {
     private final TokenProvider tokenProvider;
 
     private final AuthEntryPointJwt authEntryPointJwt;
+
+    private final StringRedisTemplate stringRedisTemplate;
 
     @Value("${skip.resources}")
     private String[] skipResources;
@@ -61,7 +64,7 @@ public class SecurityConfig {
                 .exceptionHandling()
                 .authenticationEntryPoint(authEntryPointJwt)
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(tokenProvider, stringRedisTemplate), UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }

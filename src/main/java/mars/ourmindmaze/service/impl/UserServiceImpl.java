@@ -96,21 +96,23 @@ public class UserServiceImpl implements UserService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
 
-        String accessToken = stringRedisTemplate.opsForValue().get("access" + findUser.get().getId());
-        String refreshToken = stringRedisTemplate.opsForValue().get("refresh" + findUser.get().getId());
+        String accessToken = stringRedisTemplate.opsForValue().get("access" + findUser.get().getUsername());
+        String refreshToken = stringRedisTemplate.opsForValue().get("refresh" + findUser.get().getUsername());
+
+        System.out.println("ACC : " + accessToken);
 
         if (accessToken == null) {
-            stringRedisTemplate.delete("access" + findUser.get().getId());
+            stringRedisTemplate.delete("access" + findUser.get().getUsername());
         }
 
         if (refreshToken == null) {
-            stringRedisTemplate.delete("refresh" + findUser.get().getId());
+            stringRedisTemplate.delete("refresh" + findUser.get().getUsername());
         }
 
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
-        stringRedisTemplate.opsForValue().set("access" + findUser.get().getId(), tokenDto.getAccessToken());
-        stringRedisTemplate.opsForValue().set("refresh" + findUser.get().getId(), tokenDto.getAccessToken());
+        stringRedisTemplate.opsForValue().set("access" + findUser.get().getUsername(), tokenDto.getAccessToken());
+        stringRedisTemplate.opsForValue().set("refresh" + findUser.get().getUsername(), tokenDto.getAccessToken());
 
         Map<String, String> response = new HashMap<>();
 
@@ -134,8 +136,8 @@ public class UserServiceImpl implements UserService {
             return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("유저 정보를 찾을 수 없습니다.").buildObject();
         }
 
-        String accessToken = stringRedisTemplate.opsForValue().get("access" + findUser.get().getId());
-        String refreshToken = stringRedisTemplate.opsForValue().get("refresh" + findUser.get().getId());
+        String accessToken = stringRedisTemplate.opsForValue().get("access" + findUser.get().getUsername());
+        String refreshToken = stringRedisTemplate.opsForValue().get("refresh" + findUser.get().getUsername());
 
 
         if (refreshToken.isEmpty()) {
@@ -149,17 +151,17 @@ public class UserServiceImpl implements UserService {
         TokenDto response = tokenProvider.generateTokenDto(authentication);
 
         if (accessToken == null) {
-            stringRedisTemplate.delete("access" + findUser.get().getId());
+            stringRedisTemplate.delete("access" + findUser.get().getUsername());
         }
 
         if (refreshToken == null) {
-            stringRedisTemplate.delete("refresh" + findUser.get().getId());
+            stringRedisTemplate.delete("refresh" + findUser.get().getUsername());
         }
 
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
-        stringRedisTemplate.opsForValue().set("access" + findUser.get().getId(), tokenDto.getAccessToken());
-        stringRedisTemplate.opsForValue().set("refresh" + findUser.get().getId(), tokenDto.getAccessToken());
+        stringRedisTemplate.opsForValue().set("access" + findUser.get().getUsername(), tokenDto.getAccessToken());
+        stringRedisTemplate.opsForValue().set("refresh" + findUser.get().getUsername(), tokenDto.getAccessToken());
 
         return CommonResponse.createResponse(HttpStatus.CREATED.value(), "토큰 재발급에 성공 하였습니다.", response);
     }
