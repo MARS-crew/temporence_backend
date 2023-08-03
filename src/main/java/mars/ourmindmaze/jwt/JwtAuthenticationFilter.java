@@ -71,6 +71,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         .init().writeJson(response);
             }
         } catch (Exception e) {
+            logger.warn("===== FILTER ERROR =====");
+            logger.warn(e);
             ApiResponse.<Object>builder().status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .code(ErrorMessage.API500001.getCode()).message(ErrorMessage.API500001.getMessage())
                     .init().writeJson(response);
