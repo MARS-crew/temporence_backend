@@ -6,7 +6,6 @@ import mars.ourmindmaze.common.dto.CommonResponse;
 import mars.ourmindmaze.common.dto.Pagination;
 import mars.ourmindmaze.common.dto.UserAuthority;
 import mars.ourmindmaze.domain.Point;
-import mars.ourmindmaze.domain.RefreshToken;
 import mars.ourmindmaze.domain.User;
 import mars.ourmindmaze.dto.user.RequestNicknameCheckDto;
 import mars.ourmindmaze.dto.user.RequestUserLoginDto;
@@ -15,7 +14,6 @@ import mars.ourmindmaze.dto.user.RequestTokenDto;
 import mars.ourmindmaze.jwt.TokenDto;
 import mars.ourmindmaze.jwt.TokenProvider;
 import mars.ourmindmaze.repository.PointJpaRepository;
-import mars.ourmindmaze.repository.RefreshRepository;
 import mars.ourmindmaze.repository.user.UserJpaRepository;
 import mars.ourmindmaze.service.UserService;
 import mars.ourmindmaze.vo.UserVO;
@@ -23,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,10 +42,10 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserJpaRepository userJpaRepository;
     private final PointJpaRepository pointJpaRepository;
-    private final RefreshRepository refreshRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
     private final PasswordEncoder passwordEncoder;
+    private final StringRedisTemplate stringRedisTemplate;
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
@@ -92,18 +91,26 @@ public class UserServiceImpl implements UserService {
             return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("패스워드가 일치하지 않습니다.").buildObject();
         }
         UsernamePasswordAuthenticationToken authenticationToken = dto.toAuthentication();
+
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        Optional<RefreshToken> refreshToken = refreshRepository.findByUsername(authentication.getName());
+
+        String accessToken = stringRedisTemplate.opsForValue().get("access" + findUser.get().getId());
+        String refreshToken = stringRedisTemplate.opsForValue().get("refresh" + findUser.get().getId());
+
+        if (accessToken == null) {
+            stringRedisTemplate.delete("access" + findUser.get().getId());
+        }
+
+        if (refreshToken == null) {
+            stringRedisTemplate.delete("refresh" + findUser.get().getId());
+        }
 
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
-        if (refreshToken.isPresent()) {
-            refreshRepository.delete(refreshToken.get());
-        }
-
-        refreshRepository.save(new RefreshToken(tokenDto.getRefreshToken(), authentication.getName()));
+        stringRedisTemplate.opsForValue().set("access" + findUser.get().getId(), tokenDto.getAccessToken());
+        stringRedisTemplate.opsForValue().set("refresh" + findUser.get().getId(), tokenDto.getAccessToken());
 
         Map<String, String> response = new HashMap<>();
 
@@ -121,25 +128,38 @@ public class UserServiceImpl implements UserService {
 
         Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
 
-        Optional<RefreshToken> refreshToken = refreshRepository.findById(tokenRequestDto.getRefreshToken());
+        Optional<User> findUser = userJpaRepository.findByUsername(authentication.getName());
+
+        if (findUser.isEmpty()) {
+            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("유저 정보를 찾을 수 없습니다.").buildObject();
+        }
+
+        String accessToken = stringRedisTemplate.opsForValue().get("access" + findUser.get().getId());
+        String refreshToken = stringRedisTemplate.opsForValue().get("refresh" + findUser.get().getId());
+
 
         if (refreshToken.isEmpty()) {
             return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("유저가 로그인 상태가 아닙니다.").buildObject();
         }
 
-        if (!refreshToken.get().getId().equals(tokenRequestDto.getRefreshToken())) {
+        if (!refreshToken.equals(tokenRequestDto.getRefreshToken())) {
             return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("유저 정보가 일치하지 않습니다.").buildObject();
-        }
-
-        if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())) {
-            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("토큰이 만료되었습니다.").buildObject();
         }
 
         TokenDto response = tokenProvider.generateTokenDto(authentication);
 
-        refreshRepository.delete(refreshToken.get());
+        if (accessToken == null) {
+            stringRedisTemplate.delete("access" + findUser.get().getId());
+        }
 
-        refreshRepository.save(new RefreshToken(response.getRefreshToken(), authentication.getName()));
+        if (refreshToken == null) {
+            stringRedisTemplate.delete("refresh" + findUser.get().getId());
+        }
+
+        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+
+        stringRedisTemplate.opsForValue().set("access" + findUser.get().getId(), tokenDto.getAccessToken());
+        stringRedisTemplate.opsForValue().set("refresh" + findUser.get().getId(), tokenDto.getAccessToken());
 
         return CommonResponse.createResponse(HttpStatus.CREATED.value(), "토큰 재발급에 성공 하였습니다.", response);
     }
