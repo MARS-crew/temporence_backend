@@ -54,12 +54,14 @@ public class UserServiceImpl implements UserService {
         Optional<User> findUser = userJpaRepository.findByUsername(dto.getUsername());
 
         if (!findUser.isEmpty()) {
+            logger.warn("=== 사용 중인 이메일 입니다. ===");
             return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("사용 중인 이메일 입니다.").buildObject();
         }
 
         Optional<User> findUserByNickname = userJpaRepository.findByNickname(dto.getNickname());
 
         if (!findUserByNickname.isEmpty()) {
+            logger.warn("=== 사용 중인 닉네임 입니다. ===");
             return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("사용 중인 닉네임 입니다.").buildObject();
         }
 
@@ -84,10 +86,12 @@ public class UserServiceImpl implements UserService {
         Optional<User> findUser = userJpaRepository.findByUsername(dto.getUsername());
 
         if (findUser.isEmpty()) {
+            logger.warn("=== 유저를 찾을 수 없습니다. ===");
             return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("유저를 찾을 수 없습니다.").buildObject();
         }
 
         if (!passwordEncoder.matches(dto.getPassword(), findUser.get().getPassword())) {
+            logger.warn("=== 패스워드가 일치하지 않습니다. ===");
             return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("패스워드가 일치하지 않습니다.").buildObject();
         }
         UsernamePasswordAuthenticationToken authenticationToken = dto.toAuthentication();
@@ -99,13 +103,13 @@ public class UserServiceImpl implements UserService {
         String accessToken = stringRedisTemplate.opsForValue().get("access" + findUser.get().getUsername());
         String refreshToken = stringRedisTemplate.opsForValue().get("refresh" + findUser.get().getUsername());
 
-        System.out.println("ACC : " + accessToken);
-
-        if (accessToken == null) {
+        if (accessToken != null) {
+            logger.warn("=== Redis에 Access Token이 있습니다. ===");
             stringRedisTemplate.delete("access" + findUser.get().getUsername());
         }
 
-        if (refreshToken == null) {
+        if (refreshToken != null) {
+            logger.warn("=== Redis에 Refresh Token이 있습니다. ===");
             stringRedisTemplate.delete("refresh" + findUser.get().getUsername());
         }
 
