@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mars.ourmindmaze.common.entity.BaseTimeEntity;
 import mars.ourmindmaze.enums.TeamType;
+import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 
@@ -22,9 +23,11 @@ public class Log extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
+    @Comment("승리 팀 타입")
     private TeamType winner;
 
     @Column(nullable = false)
+    @Comment("플레이 시간")
     private int playTime;
 
 }

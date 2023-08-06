@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import mars.ourmindmaze.common.entity.BaseTimeEntity;
 import mars.ourmindmaze.enums.TeamType;
+import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 
@@ -23,6 +24,7 @@ public class Player extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @Comment("유저")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,9 +36,11 @@ public class Player extends BaseTimeEntity {
     private Character character;
 
     @Column(name = "role")
+    @Comment("팀 타입")
     private TeamType role;
 
     @Column(name = "prisonCount")
+    @Comment("탈옥 회수(감금 횟수)")
     private int prisonCount;
 
 }

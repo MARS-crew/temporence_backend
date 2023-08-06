@@ -3,6 +3,7 @@ package mars.ourmindmaze.domain;
 import lombok.*;
 import mars.ourmindmaze.common.entity.BaseTimeEntity;
 import mars.ourmindmaze.enums.TeamType;
+import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 
@@ -18,8 +19,10 @@ public class Character extends BaseTimeEntity {
     private Long id;
 
     @Column(length = 50, nullable = false, unique = true)
+    @Comment("캐릭터 이름")
     private String name;
 
     @Column(nullable = false)
+    @Comment("팀 타입")
     private TeamType teamType;
 }

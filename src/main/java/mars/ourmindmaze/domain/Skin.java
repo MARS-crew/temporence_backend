@@ -3,6 +3,7 @@ package mars.ourmindmaze.domain;
 import lombok.*;
 import mars.ourmindmaze.common.entity.BaseTimeEntity;
 import mars.ourmindmaze.enums.TeamType;
+import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,9 +20,11 @@ public class Skin extends BaseTimeEntity {
     private Long id;
 
     @Column(length = 50, nullable = false, unique = true)
+    @Comment("스킨 이름")
     private String name;
 
     @Column(nullable = false)
+    @Comment("팀 타입")
     private TeamType teamType;
 
     @OneToMany(mappedBy = "skin", cascade = CascadeType.ALL, orphanRemoval = true)

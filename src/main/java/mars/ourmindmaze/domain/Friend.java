@@ -2,6 +2,7 @@ package mars.ourmindmaze.domain;
 
 import lombok.*;
 import mars.ourmindmaze.common.entity.BaseTimeEntity;
+import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 
@@ -17,13 +18,16 @@ public class Friend extends BaseTimeEntity {
     private Long id;
 
     @Column(columnDefinition = "CHAR(1)", nullable = false)
+    @Comment("친구 상태")
     private String status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @Comment("유저")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "friend_id")
+    @Comment("친구")
     private User friend;
 }
