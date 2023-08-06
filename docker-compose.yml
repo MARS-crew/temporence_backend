@@ -39,6 +39,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/temporence_dev?allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=qwer1595@!
+      - SPRING_REDIS_HOST=redis
     networks:
       - my-network
 
