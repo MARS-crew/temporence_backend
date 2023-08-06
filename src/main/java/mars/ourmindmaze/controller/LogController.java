@@ -8,39 +8,38 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import mars.ourmindmaze.common.dto.SwaggerConfig;
-import mars.ourmindmaze.dto.dm.RequestDmSaveDto;
-import mars.ourmindmaze.service.DmService;
+import mars.ourmindmaze.dto.log.RequestLogSaveDto;
+import mars.ourmindmaze.service.LogService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/dm")
-@RequiredArgsConstructor
-@Tag(name = "DM API", description = "DM 관련 API")
-public class DmController {
+@RequestMapping("/api/log")
+@RequiredArgsConstructor@Tag(name = "Log API", description = "로그 관련 API")
+public class LogController {
 
-    private final DmService dmService;
+    private final LogService logService;
 
-    @Operation(summary = "Send Dm", description = "Dm 전송")
+    @Operation(summary = "Save Log", description = "로그 생성")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "dm 전송에 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.DM_SEND_RESPONSE))),
+            @ApiResponse(responseCode = "200", description = "로그 생성에 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.LOG_SAVE_RESPONSE))),
             @ApiResponse(responseCode = "400", description = SwaggerConfig.BAD_REQUEST, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.BAD_REQUEST_RESPONSE)})),
             @ApiResponse(responseCode = "401", description = SwaggerConfig.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.UNAUTHORIZED_ERROR_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = SwaggerConfig.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.INTERNAL_SERVER_ERROR_REPONSE)))})
-    @PostMapping()
-    public ResponseEntity<?> sendDm(@RequestBody RequestDmSaveDto dto) {
-        return dmService.sendDm(dto);
+    @PostMapping
+    public ResponseEntity<?> saveLog(@RequestBody RequestLogSaveDto dto) {
+        return logService.saveLog(dto);
     }
 
-    @Operation(summary = "Find Dm", description = "Dm 조회")
+    @Operation(summary = "Find Log", description = "로그 조회")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "dm 조회에 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.DM_FIND_RESPONSE))),
+            @ApiResponse(responseCode = "200", description = "로그 생성에 성공하였습니다.", content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.LOG_FIND_RESPONSE))),
             @ApiResponse(responseCode = "400", description = SwaggerConfig.BAD_REQUEST, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.BAD_REQUEST_RESPONSE)})),
             @ApiResponse(responseCode = "401", description = SwaggerConfig.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerConfig.UNAUTHORIZED_ERROR_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = SwaggerConfig.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerConfig.INTERNAL_SERVER_ERROR_REPONSE)))})
-    @GetMapping("/{id}")
-    public ResponseEntity<?> findDm(@PathVariable(name = "id")Long id) {
-        return dmService.findDm(id);
+    @GetMapping
+    public ResponseEntity<?> findLogList() {
+        return logService.findLogList();
     }
 
 }
