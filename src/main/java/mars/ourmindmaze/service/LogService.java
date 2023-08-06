@@ -1,6 +1,6 @@
 package mars.ourmindmaze.service;
 
-import mars.ourmindmaze.dto.log.RequestLogSaveDto;
+import mars.ourmindmaze.dto.playerLog.RequestLogSaveDto;
 import org.springframework.http.ResponseEntity;
 
 public interface LogService {

@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import mars.ourmindmaze.common.dto.SwaggerConfig;
-import mars.ourmindmaze.dto.log.RequestLogSaveDto;
+import mars.ourmindmaze.dto.playerLog.RequestLogSaveDto;
 import mars.ourmindmaze.service.LogService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
