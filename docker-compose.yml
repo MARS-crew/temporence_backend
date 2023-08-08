@@ -43,5 +43,18 @@ services:
     networks:
       - my-network
 
+  cms:
+    image: pinomaker/mars-game-cms-backend:latest-arm64
+    depends_on:
+      - mysql
+      - redis
+    ports:
+      - 9000:9000
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/temporence_dev?allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=qwer1595@!
+      - SPRING_REDIS_HOST=redis
+
 networks:
   my-network:
