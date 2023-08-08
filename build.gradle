@@ -27,6 +27,10 @@ jar {
     }
 }
 
+bootJar {
+    archiveFileName = 'temporence.jar'
+}
+
 repositories {
     mavenCentral()
 }
