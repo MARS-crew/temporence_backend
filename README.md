@@ -36,6 +36,9 @@ Spring boot : 2.7.1
 /swagger-ui/index.html
 ```
 
+### Dev Infra
+![Dev 배포라인](https://github.com/MARS-crew/temporence_cms/assets/56928532/3365d809-b24f-43db-ba6d-f0d181ab922b)
+
 ### Project architecture
 
 ```
