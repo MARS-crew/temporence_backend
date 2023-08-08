@@ -23,7 +23,7 @@ configurations {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'mars.ourmindmaze.OurmindmazeApplication'
+        attributes 'Main-Class': 'mars.temporence.TemporenceApplication'
     }
 }
 
