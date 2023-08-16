@@ -20,10 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -62,14 +59,18 @@ public class LogServiceImpl implements LogService {
 
         User loginUser = SecurityUtil.getCurrentUserId(userJpaRepository);
         List<Player> playList = playerJpaRepository.findPlayersByUser(loginUser, LocalDateTime.now().minusMonths(3));
-
-        List<List<Player>> result = new ArrayList<>();
+        List<Map<String, Object>> result = new ArrayList<>();
 
         for(Player p: playList) {
+            Map<String, Object> map = new HashMap<>();
             List<Player> players = playerJpaRepository.findPlayersByLog_Id(p.getLog().getId());
-            result.add(players);
+            Log log = logJpaRepository.findById(p.getLog().getId()).get();
+            map.put("log", log);
+            map.put("players", players);
+            result.add(map);
         }
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "게임 기록 조회에 성공했습니다.", result);
     }
+
 }
