@@ -34,7 +34,7 @@ public class SwaggerConfig {
     public static final String TOKEN_REFRESH_RESPONSE = "{\"status\":201,\"message\":\"토큰 재발급에 성공 하였습니다.\",\"data\":{\"grantType\":\"bearer\",\"accessToken\":\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2ODU5NjUxNzN9.XM5x6CCSVn0B4s2QBHRWuq6itXDlcr967m_-lMKZIcD1Rc2RY36k74VlyKUJGFyqdPF28kJvhq0wZ9QN2QUHlQ\",\"refreshToken\":\"eyJhbGciOiJIUzUxMiJ9.eyJleHAiOjE2ODcwODgzNzN9.IvsLCT5hQ1L4iIoZKyu15PAsMsMIaHquRc6bEqBp-WN1YXX03yJCCVp2kaKjbg0z0KbJnlHHeYWLe92FaAVpGA\",\"accessTokenExpiresIn\":1685965173647}}";
 
     public static final String LOG_SAVE_RESPONSE = "{\"status\":201,\"message\":\"로그 저장에 성공하였습니다.\",\"}";
-    public static final String LOG_FIND_RESPONSE = " \"{\\\"status\\\":200,\\\"message\\\":\\\"유저의 플레이 기록를 조회합니다.\\\",\\\"data\\\":[{\\\"id\\\":1,\\\"logId\\\":1,\\\"userId\\\":1,\\\"characterId\\\":\\\"1\\\",\\\"role\\\":\\\"RUNNER\\\",\\\"prisonCount\\\":\\\"2\\\",\\\"createdDate\\\":\\\"2023-06-08T09:52:03\\\"}]}\"";
+    public static final String LOG_FIND_RESPONSE = " \"{\\\"status\\\":200,\\\"message\\\":\\\"유저의 플레이 기록를 조회합니다.\\\",\\\"data\\\":[{\\\"log\\\": {\\\"id\\\": 1, \\\"winner\\\": \\\"RUNNER\\\", \\\"playtime\\\": 600}\\\"players\\\":[{\\\"id\\\":1,\\\"logId\\\":1,\\\"userId\\\":1,\\\"characterId\\\":\\\"1\\\",\\\"role\\\":\\\"RUNNER\\\",\\\"prisonCount\\\":\\\"2\\\",\\\"createdDate\\\":\\\"2023-06-08T09:52:03\\\"}]}]}\"";
 
     public static final String BAD_REQUEST = "잘못된 요청 입니다.";
     public static final String NOT_FOUND = "찾을 수 없습니다.";
