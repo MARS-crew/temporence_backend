@@ -116,8 +116,7 @@ public class UserServiceImpl implements UserService {
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
         stringRedisTemplate.opsForValue().set("access" + findUser.get().getUsername(), tokenDto.getAccessToken());
-        stringRedisTemplate.opsForValue().set("refresh" + findUser.get().getUsername(), tokenDto.getAccessToken());
-
+        stringRedisTemplate.opsForValue().set("refresh" + findUser.get().getUsername(), tokenDto.getRefreshToken());
         Map<String, String> response = new HashMap<>();
 
         response.put("accessToken", tokenDto.getAccessToken());
