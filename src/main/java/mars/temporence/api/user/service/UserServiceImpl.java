@@ -115,6 +115,7 @@ public class UserServiceImpl implements UserService {
         response.put("refreshToken", tokenDto.getRefreshToken());
         response.put("id", String.valueOf(findUser.get().getId()));
         response.put("email", findUser.get().getUsername());
+        response.put("nickname", findUser.get().getNickname());
         return CommonResponse.createResponse(HttpStatus.CREATED.value(), "로그인에 성공하였습니다.", response);
     }
 
