@@ -20,7 +20,7 @@ import static org.springframework.http.HttpStatus.*;
  */
 @Slf4j
 @NoArgsConstructor
-@RestControllerAdvice(basePackages = {"boilerplate.pinomaker"})
+@RestControllerAdvice(basePackages = {"mars.temporence"})
 public class GlobalExceptionHandler {
     @ExceptionHandler({
             JwtException.class,
