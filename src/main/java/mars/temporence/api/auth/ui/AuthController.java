@@ -13,7 +13,6 @@ import mars.temporence.api.user.event.dto.RequestNicknameCheckDto;
 import mars.temporence.api.user.event.dto.RequestTokenDto;
 import mars.temporence.api.user.event.dto.RequestUserLoginDto;
 import mars.temporence.api.user.event.dto.RequestUserSaveDto;
-import mars.temporence.api.user.service.UserService;
 import mars.temporence.global.dto.SwaggerExampleValue;
 import mars.temporence.global.dto.UserDetailDto;
 import mars.temporence.global.jwt.JwtTokenExtractor;
@@ -31,7 +30,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequiredArgsConstructor
 @Tag(name = "Auth API", description = "인증 API")
 public class AuthController {
-    private final UserService userService;
     private final AuthService authService;
     private final JwtTokenExtractor jwtTokenExtractor;
 
@@ -43,7 +41,7 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = SwaggerExampleValue.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_REPONSE)))})
     @PostMapping
     public ResponseEntity<?> saveUser(@RequestBody RequestUserSaveDto dto) throws Exception {
-        return userService.save(dto);
+        return authService.save(dto);
     }
 
     @Operation(summary = "Login User", description = "유저 로그인")
@@ -54,7 +52,7 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = SwaggerExampleValue.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_REPONSE)))})
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody RequestUserLoginDto dto) throws Exception {
-        return userService.login(dto);
+        return authService.login(dto);
     }
 
     @Operation(summary = "Get Token", description = "Access Token 재발급")
@@ -79,6 +77,6 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = SwaggerExampleValue.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_REPONSE)))})
     @PostMapping("/nickname")
     public ResponseEntity<?> existCheckEmail(@RequestBody RequestNicknameCheckDto dto) throws Exception {
-        return userService.existNickname(dto);
+        return authService.existNickname(dto);
     }
 }
