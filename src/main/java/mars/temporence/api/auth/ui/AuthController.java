@@ -8,17 +8,22 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import mars.temporence.api.auth.service.AuthService;
 import mars.temporence.api.user.event.dto.RequestNicknameCheckDto;
 import mars.temporence.api.user.event.dto.RequestTokenDto;
 import mars.temporence.api.user.event.dto.RequestUserLoginDto;
 import mars.temporence.api.user.event.dto.RequestUserSaveDto;
 import mars.temporence.api.user.service.UserService;
 import mars.temporence.global.dto.SwaggerExampleValue;
+import mars.temporence.global.dto.UserDetailDto;
+import mars.temporence.global.jwt.JwtTokenExtractor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
@@ -27,6 +32,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Auth API", description = "인증 API")
 public class AuthController {
     private final UserService userService;
+    private final AuthService authService;
+    private final JwtTokenExtractor jwtTokenExtractor;
 
     @Operation(summary = "Save User", description = "유저 생성하기")
     @ApiResponses(value = {
@@ -60,8 +67,9 @@ public class AuthController {
             @ApiResponse(responseCode = "401", description = SwaggerExampleValue.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.UNAUTHORIZED_ERROR_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = SwaggerExampleValue.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_REPONSE)))})
     @PostMapping("/token")
-    public ResponseEntity<?> token(@RequestBody RequestTokenDto dto) throws Exception {
-        return userService.getTokenByRefreshToken(dto);
+    public ResponseEntity<?> token(@RequestBody RequestTokenDto dto, HttpServletRequest request) throws Exception {
+        UserDetailDto userDetailDto = jwtTokenExtractor.extractUserId(request);
+        return authService.getTokenByRefreshToken(dto, userDetailDto);
     }
 
     @Operation(summary = "Exist Check Nickname", description = "닉네임 중복 여부 확인")

@@ -14,7 +14,5 @@ public interface UserService {
 
     ResponseEntity<?> findAll(Pageable pageable) throws Exception;
 
-    ResponseEntity<?> getTokenByRefreshToken(RequestTokenDto dto) throws Exception;
-
     ResponseEntity<?> existNickname(RequestNicknameCheckDto dto) throws Exception;
 }

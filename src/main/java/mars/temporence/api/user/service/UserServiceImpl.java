@@ -42,7 +42,6 @@ public class UserServiceImpl implements UserService {
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
     private final StringRedisTemplate stringRedisTemplate;
-    private final JwtTokenValidator jwtTokenValidator;
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
@@ -118,46 +117,6 @@ public class UserServiceImpl implements UserService {
         response.put("nickname", findUser.get().getNickname());
         return CommonResponse.createResponse(HttpStatus.CREATED.value(), "로그인에 성공하였습니다.", response);
     }
-
-    public ResponseEntity<?> getTokenByRefreshToken(RequestTokenDto tokenRequestDto) throws Exception {
-        jwtTokenValidator.validateToken(tokenRequestDto.getRefreshToken());
-
-//        Optional<User> findUser = userJpaRepository.findByUsername(authentication.getName());
-//
-//        if (findUser.isEmpty()) {
-//            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("유저 정보를 찾을 수 없습니다.").buildObject();
-//        }
-//
-//        String accessToken = stringRedisTemplate.opsForValue().get("access" + findUser.get().getUsername());
-//        String refreshToken = stringRedisTemplate.opsForValue().get("refresh" + findUser.get().getUsername());
-//
-//
-//        if (refreshToken.isEmpty()) {
-//            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("유저가 로그인 상태가 아닙니다.").buildObject();
-//        }
-//
-//        if (!refreshToken.equals(tokenRequestDto.getRefreshToken())) {
-//            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("유저 정보가 일치하지 않습니다.").buildObject();
-//        }
-//
-//        TokenDto response = tokenProvider.generateTokenDto(authentication);
-//
-//        if (accessToken == null) {
-//            stringRedisTemplate.delete("access" + findUser.get().getUsername());
-//        }
-//
-//        if (refreshToken == null) {
-//            stringRedisTemplate.delete("refresh" + findUser.get().getUsername());
-//        }
-//
-//        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
-//
-//        stringRedisTemplate.opsForValue().set("access" + findUser.get().getUsername(), tokenDto.getAccessToken());
-//        stringRedisTemplate.opsForValue().set("refresh" + findUser.get().getUsername(), tokenDto.getAccessToken());
-
-        return CommonResponse.createResponse(HttpStatus.CREATED.value(), "토큰 재발급에 성공 하였습니다.", "Hello");
-    }
-
     @Override
     public ResponseEntity<?> existNickname(RequestNicknameCheckDto dto) throws Exception {
         Optional<User> findUser = userJpaRepository.findByNickname(dto.getNickname());
