@@ -1,21 +1,23 @@
 package mars.temporence.api.user.service;
 
 import lombok.RequiredArgsConstructor;
-import mars.temporence.global.dto.ApiResponse;
 import mars.temporence.global.dto.CommonResponse;
 import mars.temporence.global.dto.Pagination;
-import mars.temporence.global.dto.UserAuthority;
+import mars.temporence.global.enums.UserAuthority;
 import mars.temporence.api.point.domain.Point;
 import mars.temporence.api.user.domain.User;
 import mars.temporence.api.user.event.dto.RequestNicknameCheckDto;
 import mars.temporence.api.user.event.dto.RequestUserLoginDto;
 import mars.temporence.api.user.event.dto.RequestUserSaveDto;
 import mars.temporence.api.user.event.dto.RequestTokenDto;
-import mars.temporence.global.jwt.TokenDto;
-import mars.temporence.global.jwt.TokenProvider;
+import mars.temporence.global.dto.TokenDto;
 import mars.temporence.api.point.repository.PointJpaRepository;
 import mars.temporence.api.user.repository.UserJpaRepository;
 import mars.temporence.api.user.event.vo.UserVO;
+import mars.temporence.global.exception.BadRequestException;
+import mars.temporence.global.exception.NotFoundException;
+import mars.temporence.global.jwt.JwtTokenProvider;
+import mars.temporence.global.jwt.JwtTokenValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -23,10 +25,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,27 +39,27 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserJpaRepository userJpaRepository;
     private final PointJpaRepository pointJpaRepository;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-    private final TokenProvider tokenProvider;
+    private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
     private final StringRedisTemplate stringRedisTemplate;
+    private final JwtTokenValidator jwtTokenValidator;
     private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Override
-    @Transactional
-    public ResponseEntity<?> save(RequestUserSaveDto dto) {
+    @Transactional(rollbackFor = {Exception.class})
+    public ResponseEntity<?> save(RequestUserSaveDto dto) throws Exception {
         Optional<User> findUser = userJpaRepository.findByUsername(dto.getUsername());
 
         if (!findUser.isEmpty()) {
             logger.warn("=== 사용 중인 이메일 입니다. ===");
-            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("사용 중인 이메일 입니다.").buildObject();
+            throw new BadRequestException("사용 중인 이메일 입니다.");
         }
 
         Optional<User> findUserByNickname = userJpaRepository.findByNickname(dto.getNickname());
 
         if (!findUserByNickname.isEmpty()) {
             logger.warn("=== 사용 중인 닉네임 입니다. ===");
-            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("사용 중인 닉네임 입니다.").buildObject();
+            throw new BadRequestException("사용 중인 닉네임 입니다.");
         }
 
         User saveUser = userJpaRepository.save(User.builder().nickname(dto.getNickname()).username(dto.getUsername()).password(passwordEncoder.encode(dto.getPassword())).authority(UserAuthority.ROLE_USER).build());
@@ -72,7 +70,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<?> findAll(Pageable pageable) {
+    public ResponseEntity<?> findAll(Pageable pageable) throws Exception {
         Page<UserVO> response = userJpaRepository.findAllUser(pageable);
         List<UserVO> data = response.getContent();
         Pagination pagination = Pagination.builder().totalPages(response.getTotalPages()).currentPage(response.getNumber()).totalItems(response.getTotalElements()).build();
@@ -81,23 +79,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<?> login(RequestUserLoginDto dto) {
+    public ResponseEntity<?> login(RequestUserLoginDto dto) throws Exception {
         Optional<User> findUser = userJpaRepository.findByUsername(dto.getUsername());
 
         if (findUser.isEmpty()) {
             logger.warn("=== 유저를 찾을 수 없습니다. ===");
-            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("유저를 찾을 수 없습니다.").buildObject();
+            throw new NotFoundException("유저를 찾을 수 없습니다.");
         }
 
         if (!passwordEncoder.matches(dto.getPassword(), findUser.get().getPassword())) {
             logger.warn("=== 패스워드가 일치하지 않습니다. ===");
-            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("패스워드가 일치하지 않습니다.").buildObject();
+            throw new BadRequestException("패스워드가 일치하지 않습니다.");
         }
-        UsernamePasswordAuthenticationToken authenticationToken = dto.toAuthentication();
-
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
 
         String accessToken = stringRedisTemplate.opsForValue().get("access" + findUser.get().getUsername());
         String refreshToken = stringRedisTemplate.opsForValue().get("refresh" + findUser.get().getUsername());
@@ -112,7 +105,7 @@ public class UserServiceImpl implements UserService {
             stringRedisTemplate.delete("refresh" + findUser.get().getUsername());
         }
 
-        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+        TokenDto tokenDto = jwtTokenProvider.issueToken(findUser.get().getId(), findUser.get().getAuthority());
 
         stringRedisTemplate.opsForValue().set("access" + findUser.get().getUsername(), tokenDto.getAccessToken());
         stringRedisTemplate.opsForValue().set("refresh" + findUser.get().getUsername(), tokenDto.getRefreshToken());
@@ -125,55 +118,51 @@ public class UserServiceImpl implements UserService {
         return CommonResponse.createResponse(HttpStatus.CREATED.value(), "로그인에 성공하였습니다.", response);
     }
 
-    public ResponseEntity<?> getTokenByRefreshToken(RequestTokenDto tokenRequestDto) {
-        if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())) {
-            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("토큰이 유효하지 않습니다.").buildObject();
-        }
+    public ResponseEntity<?> getTokenByRefreshToken(RequestTokenDto tokenRequestDto) throws Exception {
+        jwtTokenValidator.validateToken(tokenRequestDto.getRefreshToken());
 
-        Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
+//        Optional<User> findUser = userJpaRepository.findByUsername(authentication.getName());
+//
+//        if (findUser.isEmpty()) {
+//            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("유저 정보를 찾을 수 없습니다.").buildObject();
+//        }
+//
+//        String accessToken = stringRedisTemplate.opsForValue().get("access" + findUser.get().getUsername());
+//        String refreshToken = stringRedisTemplate.opsForValue().get("refresh" + findUser.get().getUsername());
+//
+//
+//        if (refreshToken.isEmpty()) {
+//            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("유저가 로그인 상태가 아닙니다.").buildObject();
+//        }
+//
+//        if (!refreshToken.equals(tokenRequestDto.getRefreshToken())) {
+//            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("유저 정보가 일치하지 않습니다.").buildObject();
+//        }
+//
+//        TokenDto response = tokenProvider.generateTokenDto(authentication);
+//
+//        if (accessToken == null) {
+//            stringRedisTemplate.delete("access" + findUser.get().getUsername());
+//        }
+//
+//        if (refreshToken == null) {
+//            stringRedisTemplate.delete("refresh" + findUser.get().getUsername());
+//        }
+//
+//        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+//
+//        stringRedisTemplate.opsForValue().set("access" + findUser.get().getUsername(), tokenDto.getAccessToken());
+//        stringRedisTemplate.opsForValue().set("refresh" + findUser.get().getUsername(), tokenDto.getAccessToken());
 
-        Optional<User> findUser = userJpaRepository.findByUsername(authentication.getName());
-
-        if (findUser.isEmpty()) {
-            return ApiResponse.<Object>builder().status(HttpStatus.NOT_FOUND).message("유저 정보를 찾을 수 없습니다.").buildObject();
-        }
-
-        String accessToken = stringRedisTemplate.opsForValue().get("access" + findUser.get().getUsername());
-        String refreshToken = stringRedisTemplate.opsForValue().get("refresh" + findUser.get().getUsername());
-
-
-        if (refreshToken.isEmpty()) {
-            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("유저가 로그인 상태가 아닙니다.").buildObject();
-        }
-
-        if (!refreshToken.equals(tokenRequestDto.getRefreshToken())) {
-            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("유저 정보가 일치하지 않습니다.").buildObject();
-        }
-
-        TokenDto response = tokenProvider.generateTokenDto(authentication);
-
-        if (accessToken == null) {
-            stringRedisTemplate.delete("access" + findUser.get().getUsername());
-        }
-
-        if (refreshToken == null) {
-            stringRedisTemplate.delete("refresh" + findUser.get().getUsername());
-        }
-
-        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
-
-        stringRedisTemplate.opsForValue().set("access" + findUser.get().getUsername(), tokenDto.getAccessToken());
-        stringRedisTemplate.opsForValue().set("refresh" + findUser.get().getUsername(), tokenDto.getAccessToken());
-
-        return CommonResponse.createResponse(HttpStatus.CREATED.value(), "토큰 재발급에 성공 하였습니다.", response);
+        return CommonResponse.createResponse(HttpStatus.CREATED.value(), "토큰 재발급에 성공 하였습니다.", "Hello");
     }
 
     @Override
-    public ResponseEntity<?> existNickname(RequestNicknameCheckDto dto) {
+    public ResponseEntity<?> existNickname(RequestNicknameCheckDto dto) throws Exception {
         Optional<User> findUser = userJpaRepository.findByNickname(dto.getNickname());
 
         if (!findUser.isEmpty()) {
-            return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("사용 중인 닉네임 입니다.").buildObject();
+            throw new BadRequestException("사용 중인 닉네임 입니다.");
         }
 
         return CommonResponse.createResponseMessage(HttpStatus.OK.value(), "사용 가능한 닉네임 입니다.");

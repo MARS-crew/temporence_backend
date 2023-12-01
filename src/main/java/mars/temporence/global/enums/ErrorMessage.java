@@ -1,4 +1,4 @@
-package mars.temporence.global.dto;
+package mars.temporence.global.enums;
 
 /**
  * Define internal code and custom message

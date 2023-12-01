@@ -1,6 +1,6 @@
 package mars.temporence.playerLog;
 
-import mars.temporence.global.dto.UserAuthority;
+import mars.temporence.global.enums.UserAuthority;
 import mars.temporence.api.character.domain.Character;
 import mars.temporence.api.log.domain.Log;
 import mars.temporence.api.log.domain.Player;

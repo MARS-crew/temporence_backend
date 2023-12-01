@@ -4,6 +4,7 @@ import mars.temporence.api.point.event.dto.RequestPointUpdateDto;
 import org.springframework.http.ResponseEntity;
 
 public interface PointService {
-    ResponseEntity<?> findMyPoint();
-    ResponseEntity<?> updatePoint(RequestPointUpdateDto dto);
+    ResponseEntity<?> findMyPoint() throws Exception;
+
+    ResponseEntity<?> updatePoint(RequestPointUpdateDto dto) throws Exception;
 }

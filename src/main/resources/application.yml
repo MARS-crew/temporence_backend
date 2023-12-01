@@ -30,6 +30,47 @@ jwt:
   header: Authorization
   secret: RG9uZ3lhbmcgTWlyYWUgVW51dmVyY2lyeSBNYXJzIFNlcXVlcmUgQ2x1YiA0dGggVG9kbyBQcm9qZWN0IEZyb250IGlzIFJlYWN0IGFuZCBTZXJ2ZXIgaXMgU3ByaW5n
   token-validity-in-seconds: 86400
+  private-key: |
+    -----BEGIN PRIVATE KEY-----
+    MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCDoxgcKAvtmy0d
+    DZonFTNChz/ieazVTbuRxwJj1pOCxnja/1lHIiJ62e7xlMrSZ/HG4i5uWqA3GQjn
+    +cRLJ0HqMKaEU3scOdbsTkgPOWJPUJTxvFkN//dCQOKRMxA8DFqFKc2gp17tHXiy
+    W9AjTyy4fngws0zKXIAV/4Wrf5nA+xN2p4/5MxTgFHuAes3OEn2Sjh+PN7nXfctk
+    RiXcHlakPEyZp6txoIY3qaAV8Fd/56JfLm90uFdDYM7FEAMihHiSVuZovR/IepNS
+    2oAjvip8JW4HxlNnCQ61gq7X77/qBUSp7HAcA2TTfnib7P9IQaUES1Kx6gPW0CKA
+    MJUi0BG9AgMBAAECggEAOGKb6TOeKGDXqiIxbZw/ILgePTwxNAzf00mTVICNHu80
+    xVmrPDT63/SJzSEW35l2juJDUTGwfulST0tFMYvXSCEesn+vtB9yWDYP17WUzrSN
+    mB49ZynFF7QDWH6u7Ym9HF0Tn0UR/C8ri/qX5Qf89+n0QagLtIJ6uvGAqD039tj3
+    MwpdIGCyUCmtDg5wZc96uU/+aH+3cgbG21PfVBvIPTQSWqNO2wdNFzgpO7N5sYwG
+    2cr1ppAOkbAc85FxZ0BwZOWX9ewPm2APen4mVEq2s/XsEn3qjU5h3KlXWH4Dhoww
+    rYTDQmblPqYEJx70J15AY51SMV8I0tAoa+J+bth7YQKBgQDKUOux0w/P9t61Y3Hu
+    e58JKxZhs9Q6cdB4xbjbqiwDagqZcNijmPRUwpWo0o1szQrCUlgAXVg1gpQIiG3c
+    kGEgDfjpOhPGnndSPQPhh865dm1YYIcWv9cU0HszrvqJ5p7NM97MzY95UYO2YfX9
+    QM2DJRppN6r2wRb5GVBEtWJIswKBgQCmkQlq7Xis3UgvGTWI+i0e92I47ZJV3qcv
+    ukABiCa9g57q+2EAINeZuVDzzJKB454hSsKYXr8lT+COwd1FpLmQWiT3da7qWafQ
+    tf8s2YAC8efxZAl+8KcTsWuvYRWjskbPpgIamI5CkNUpQ+5xOm1sMjwqyM7TbvBJ
+    UcP8hEYTzwKBgQCVo36AuyRR5D1bGh+VjZfWdykJwLFzPOU9vrh4uIfvSopmbUG+
+    1w24d2esQ3dZBtszWSY/tsrcYSVOnmHrplpAFDWLg2pHGMQWboylTgaHxGEh4dto
+    5yGVApJtarliL9I64mejQVMiHzl1N0VzOHAI1POQ6Rypf62XNrLY7vOv4wKBgHVL
+    t40UE6Hv5jA8mWWPf4zJ+uJJ8n4D4EoM55vsjBNzB8tEIKfdeNZpGOfGjPlpF+cr
+    5WM1fXfCC0mcnby4ZnCP+m5E8ltXrYSdVUf5Flt8jLCBmOpKf+2vSDzlqj5vgcwi
+    hGLEQZIAugtoKhaUZZAGxDYA2R0th4qqSNCfOVYjAoGBAL78yCKhQfqhcXgzZAC1
+    p0usrQkYCBE1QFYGuX25GdwnkXH0OSEyZubzs8beN/uF/KD5tHIbPcFqeFV0SFEt
+    nSLrCoFT+IOVagyzrzL8I966ev5lRp8jiro23lbIwKrudghjl3UY+kiFe/ykpC2B
+    MlJJJ+XdBl6LKpBt+QN3kIjO
+    -----END PRIVATE KEY-----
+  public-key: |
+    -----BEGIN PUBLIC KEY-----
+    MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAg6MYHCgL7ZstHQ2aJxUz
+    Qoc/4nms1U27kccCY9aTgsZ42v9ZRyIietnu8ZTK0mfxxuIublqgNxkI5/nESydB
+    6jCmhFN7HDnW7E5IDzliT1CU8bxZDf/3QkDikTMQPAxahSnNoKde7R14slvQI08s
+    uH54MLNMylyAFf+Fq3+ZwPsTdqeP+TMU4BR7gHrNzhJ9ko4fjze5133LZEYl3B5W
+    pDxMmaercaCGN6mgFfBXf+eiXy5vdLhXQ2DOxRADIoR4klbmaL0fyHqTUtqAI74q
+    fCVuB8ZTZwkOtYKu1++/6gVEqexwHANk0354m+z/SEGlBEtSseoD1tAigDCVItAR
+    vQIDAQAB
+    -----END PUBLIC KEY-----
+  accessTokenValidityInSeconds: 1800
+  refreshTokenValidityInSeconds: 604800
 
 logging:
   file:
@@ -41,6 +82,9 @@ logging:
         security: DEBUG
   level:
     mars.ourmindmaze: debug
+
+encryptUtil:
+  secret: pinopinopinopino
 
 skip:
   resources: /api/auth/**,/h2-console/**,/v3/api-docs,/v3/api-docs/**,/swagger-ui/**,/v2/api-docs/**,/swagger-ui/index.html

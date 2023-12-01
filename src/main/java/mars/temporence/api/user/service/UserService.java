@@ -8,13 +8,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {
-    ResponseEntity<?> save(RequestUserSaveDto dto);
+    ResponseEntity<?> save(RequestUserSaveDto dto) throws Exception;
 
-    ResponseEntity<?> login(RequestUserLoginDto dto);
+    ResponseEntity<?> login(RequestUserLoginDto dto) throws Exception;
 
-    ResponseEntity<?> findAll(Pageable pageable);
+    ResponseEntity<?> findAll(Pageable pageable) throws Exception;
 
-    ResponseEntity<?> getTokenByRefreshToken(RequestTokenDto dto);
+    ResponseEntity<?> getTokenByRefreshToken(RequestTokenDto dto) throws Exception;
 
-    ResponseEntity<?> existNickname(RequestNicknameCheckDto dto);
+    ResponseEntity<?> existNickname(RequestNicknameCheckDto dto) throws Exception;
 }

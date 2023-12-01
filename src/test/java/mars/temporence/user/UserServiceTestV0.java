@@ -1,6 +1,6 @@
 package mars.temporence.user;
 
-import mars.temporence.global.dto.UserAuthority;
+import mars.temporence.global.enums.UserAuthority;
 import mars.temporence.api.user.domain.User;
 import mars.temporence.api.user.repository.UserJpaRepository;
 import org.assertj.core.api.Assertions;

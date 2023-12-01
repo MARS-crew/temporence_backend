@@ -5,9 +5,13 @@ import mars.temporence.api.friend.event.dto.RequestFriendUpdateDto;
 import org.springframework.http.ResponseEntity;
 
 public interface FriendService {
-    ResponseEntity<?> saveFriend(RequestFriendSaveDto dto);
-    ResponseEntity<?> findFriendList();
-    ResponseEntity<?> deleteFriend(Long id);
-    ResponseEntity<?> findFriendRequestList();
-    ResponseEntity<?> updateFriend(RequestFriendUpdateDto dto);
+    ResponseEntity<?> saveFriend(RequestFriendSaveDto dto) throws Exception;
+
+    ResponseEntity<?> findFriendList() throws Exception;
+
+    ResponseEntity<?> deleteFriend(Long id) throws Exception;
+
+    ResponseEntity<?> findFriendRequestList() throws Exception;
+
+    ResponseEntity<?> updateFriend(RequestFriendUpdateDto dto) throws Exception;
 }

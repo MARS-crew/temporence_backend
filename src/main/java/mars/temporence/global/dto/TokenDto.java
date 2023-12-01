@@ -1,4 +1,4 @@
-package mars.temporence.global.jwt;
+package mars.temporence.global.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class TokenDto {
-    private String grantType;
     private String accessToken;
     private String refreshToken;
-    private Long accessTokenExpiresIn;
 }

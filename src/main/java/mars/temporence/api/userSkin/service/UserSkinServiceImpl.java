@@ -1,7 +1,6 @@
 package mars.temporence.api.userSkin.service;
 
 import lombok.RequiredArgsConstructor;
-import mars.temporence.global.dto.ApiResponse;
 import mars.temporence.global.dto.CommonResponse;
 import mars.temporence.api.skin.domain.Skin;
 import mars.temporence.api.user.domain.User;
@@ -10,6 +9,7 @@ import mars.temporence.api.userSkin.event.dto.RequestUserSkinSaveDto;
 import mars.temporence.api.skin.repository.SkinJpaRepository;
 import mars.temporence.api.user.repository.UserJpaRepository;
 import mars.temporence.api.userSkin.repository.UserSkinJpaRepository;
+import mars.temporence.global.exception.NotFoundException;
 import mars.temporence.global.util.SecurityUtil;
 import mars.temporence.api.userSkin.event.vo.UserSkinVO;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -28,13 +27,13 @@ public class UserSkinServiceImpl implements UserSkinService {
     private final UserJpaRepository userJpaRepository;
 
     @Override
-    public ResponseEntity<?> saveUserSkin(RequestUserSkinSaveDto dto) {
+    public ResponseEntity<?> saveUserSkin(RequestUserSkinSaveDto dto) throws Exception{
         User loginUser = SecurityUtil.getCurrentUserId(userJpaRepository);
 
         Optional<Skin> findSkin = skinJpaRepository.findById(dto.getSkinId());
 
         if (findSkin.isEmpty()) {
-            return ApiResponse.<Objects>builder().status(HttpStatus.NOT_FOUND).message("스킨을 찾을 수 없습니다.").buildObject();
+            throw new NotFoundException("스킨을 찾을 수 없습니다.");
         }
 
         userSkinJpaRepository.save(UserSkin.builder().skin(findSkin.get()).user(loginUser).build());
@@ -43,7 +42,7 @@ public class UserSkinServiceImpl implements UserSkinService {
     }
 
     @Override
-    public ResponseEntity<?> findUserSkinList() {
+    public ResponseEntity<?> findUserSkinList() throws Exception{
         User loginUser = SecurityUtil.getCurrentUserId(userJpaRepository);
 
         List<UserSkinVO> list = userSkinJpaRepository.findUserSkinList(loginUser.getId());
@@ -52,11 +51,11 @@ public class UserSkinServiceImpl implements UserSkinService {
     }
 
     @Override
-    public ResponseEntity<?> deleteUserSkin(Long id) {
+    public ResponseEntity<?> deleteUserSkin(Long id) throws Exception{
         Optional<UserSkin> findUserSkin = userSkinJpaRepository.findById(id);
 
         if (findUserSkin.isEmpty()) {
-            return ApiResponse.<Objects>builder().status(HttpStatus.NOT_FOUND).message("유저의 스킨을 찾을 수 없습니다.").buildObject();
+            throw new NotFoundException("유저의 스킨을 찾을 수 없습니다.");
         }
 
         userSkinJpaRepository.delete(findUserSkin.get());

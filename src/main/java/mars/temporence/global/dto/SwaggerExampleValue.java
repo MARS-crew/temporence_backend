@@ -1,6 +1,6 @@
 package mars.temporence.global.dto;
 
-public class SwaggerConfig {
+public class SwaggerExampleValue {
     public static final String INTERNAL_SERVER_ERROR = "Internal Server Error";
     public static final String UNAUTHORIZED_ERROR = "토큰이 유효하거나 존재하지 않습니다.";
     public static final String UNAUTHORIZED_ERROR_RESPONSE = "{\"status\":401,\"code\":\"API401001\",\"message\":\"unauthorized error full authentication is required to access this resource\"}";

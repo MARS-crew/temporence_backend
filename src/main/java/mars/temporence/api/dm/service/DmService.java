@@ -5,8 +5,8 @@ import org.springframework.http.ResponseEntity;
 
 public interface DmService {
 
-    ResponseEntity<?> sendDm(RequestDmSaveDto dto);
+    ResponseEntity<?> sendDm(RequestDmSaveDto dto) throws Exception;
 
-    ResponseEntity<?> findDm(Long id);
+    ResponseEntity<?> findDm(Long id) throws Exception;
 
 }

@@ -22,7 +22,7 @@ public class PointServiceImpl implements PointService {
     private final UserJpaRepository userJpaRepository;
 
     @Override
-    public ResponseEntity<?> findMyPoint() {
+    public ResponseEntity<?> findMyPoint() throws Exception {
         User loginUser = SecurityUtil.getCurrentUserId(userJpaRepository);
         Optional<Point> findPoint = pointJpaRepository.findByUser(loginUser);
 
@@ -30,16 +30,16 @@ public class PointServiceImpl implements PointService {
     }
 
     @Override
-    public ResponseEntity<?> updatePoint(RequestPointUpdateDto dto) {
+    public ResponseEntity<?> updatePoint(RequestPointUpdateDto dto) throws Exception {
         User loginUser = SecurityUtil.getCurrentUserId(userJpaRepository);
 
         Optional<Point> findPoint = pointJpaRepository.findByUser(loginUser);
 
-        if(dto.getPointType() == PointType.GOLD){
+        if (dto.getPointType() == PointType.GOLD) {
             pointJpaRepository.updateGoldPoint(findPoint.get().getGold() + dto.getPoint(), loginUser.getId());
         }
 
-        if(dto.getPointType() == PointType.BLUE){
+        if (dto.getPointType() == PointType.BLUE) {
             pointJpaRepository.updateBluePoint(findPoint.get().getBlue() + dto.getPoint(), loginUser.getId());
         }
 
