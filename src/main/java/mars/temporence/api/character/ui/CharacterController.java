@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mars.temporence.api.character.event.dto.RequestCharacterSaveDto;
 import mars.temporence.api.character.event.dto.RequestCharacterUpdateDto;
-import mars.temporence.global.common.dto.SwaggerConfig;
+import mars.temporence.global.dto.SwaggerConfig;
 import mars.temporence.api.character.service.CharacterService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

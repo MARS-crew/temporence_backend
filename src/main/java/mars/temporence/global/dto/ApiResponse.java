@@ -1,4 +1,4 @@
-package mars.temporence.global.common.dto;
+package mars.temporence.global.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;

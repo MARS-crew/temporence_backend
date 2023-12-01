@@ -1,7 +1,7 @@
 package mars.temporence.api.user.domain;
 
 import lombok.*;
-import mars.temporence.global.common.dto.UserAuthority;
+import mars.temporence.global.dto.UserAuthority;
 import mars.temporence.global.common.entity.BaseTimeEntity;
 import org.hibernate.annotations.Comment;
 

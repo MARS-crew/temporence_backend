@@ -1,8 +1,8 @@
 package mars.temporence.api.friend.service;
 
 import lombok.RequiredArgsConstructor;
-import mars.temporence.global.common.dto.ApiResponse;
-import mars.temporence.global.common.dto.CommonResponse;
+import mars.temporence.global.dto.ApiResponse;
+import mars.temporence.global.dto.CommonResponse;
 import mars.temporence.api.friend.domain.Friend;
 import mars.temporence.api.user.domain.User;
 import mars.temporence.api.friend.event.dto.RequestFriendSaveDto;

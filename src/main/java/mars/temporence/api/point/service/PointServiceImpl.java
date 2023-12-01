@@ -1,7 +1,7 @@
 package mars.temporence.api.point.service;
 
 import lombok.RequiredArgsConstructor;
-import mars.temporence.global.common.dto.CommonResponse;
+import mars.temporence.global.dto.CommonResponse;
 import mars.temporence.api.point.domain.Point;
 import mars.temporence.api.user.domain.User;
 import mars.temporence.api.point.event.dto.RequestPointUpdateDto;

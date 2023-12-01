@@ -1,4 +1,4 @@
-package mars.temporence.global.common.dto;
+package mars.temporence.global.dto;
 
 /**
  * Define internal code and custom message

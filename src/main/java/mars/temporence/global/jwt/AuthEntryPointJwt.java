@@ -1,7 +1,7 @@
 package mars.temporence.global.jwt;
 
-import mars.temporence.global.common.dto.ApiResponse;
-import mars.temporence.global.common.dto.ErrorMessage;
+import mars.temporence.global.dto.ApiResponse;
+import mars.temporence.global.dto.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

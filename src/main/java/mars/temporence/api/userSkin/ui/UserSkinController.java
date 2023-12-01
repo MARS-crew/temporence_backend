@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import mars.temporence.global.common.dto.SwaggerConfig;
+import mars.temporence.global.dto.SwaggerConfig;
 import mars.temporence.api.userSkin.event.dto.RequestUserSkinSaveDto;
 import mars.temporence.api.userSkin.service.UserSkinService;
 import org.springframework.http.ResponseEntity;

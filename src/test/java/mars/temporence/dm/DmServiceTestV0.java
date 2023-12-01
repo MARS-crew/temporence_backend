@@ -1,6 +1,6 @@
 package mars.temporence.dm;
 
-import mars.temporence.global.common.dto.UserAuthority;
+import mars.temporence.global.dto.UserAuthority;
 import mars.temporence.api.dm.domain.Dm;
 import mars.temporence.api.user.domain.User;
 import mars.temporence.api.dm.repository.DmJpaRepository;

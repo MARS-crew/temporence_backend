@@ -1,4 +1,4 @@
-package mars.temporence.global.common.dto;
+package mars.temporence.global.dto;
 
 public class SwaggerConfig {
     public static final String INTERNAL_SERVER_ERROR = "Internal Server Error";

@@ -1,4 +1,4 @@
-package mars.temporence.global.common.dto;
+package mars.temporence.global.dto;
 
 
 import org.apache.commons.lang3.StringUtils;

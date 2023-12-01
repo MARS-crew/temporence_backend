@@ -1,8 +1,8 @@
 package mars.temporence.api.dm.service;
 
 import lombok.RequiredArgsConstructor;
-import mars.temporence.global.common.dto.ApiResponse;
-import mars.temporence.global.common.dto.CommonResponse;
+import mars.temporence.global.dto.ApiResponse;
+import mars.temporence.global.dto.CommonResponse;
 import mars.temporence.api.dm.domain.Dm;
 import mars.temporence.api.user.domain.User;
 import mars.temporence.api.dm.event.dto.RequestDmSaveDto;

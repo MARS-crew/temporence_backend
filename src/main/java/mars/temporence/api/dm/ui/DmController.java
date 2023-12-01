@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import mars.temporence.global.common.dto.SwaggerConfig;
+import mars.temporence.global.dto.SwaggerConfig;
 import mars.temporence.api.dm.event.dto.RequestDmSaveDto;
 import mars.temporence.api.dm.service.DmService;
 import org.springframework.http.ResponseEntity;

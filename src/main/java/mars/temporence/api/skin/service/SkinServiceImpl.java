@@ -1,8 +1,8 @@
 package mars.temporence.api.skin.service;
 
 import lombok.RequiredArgsConstructor;
-import mars.temporence.global.common.dto.ApiResponse;
-import mars.temporence.global.common.dto.CommonResponse;
+import mars.temporence.global.dto.ApiResponse;
+import mars.temporence.global.dto.CommonResponse;
 import mars.temporence.api.skin.domain.Skin;
 import mars.temporence.api.skin.event.dto.RequestSkinSaveDto;
 import mars.temporence.global.enums.TeamType;
