@@ -171,7 +171,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<?> existNickname(RequestNicknameCheckDto dto) {
-        Optional<User> findUser = userJpaRepository.findByUsername(dto.getNickname());
+        Optional<User> findUser = userJpaRepository.findByNickname(dto.getNickname());
 
         if (!findUser.isEmpty()) {
             return ApiResponse.<Object>builder().status(HttpStatus.BAD_REQUEST).message("사용 중인 닉네임 입니다.").buildObject();
