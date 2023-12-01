@@ -1,4 +1,4 @@
-package mars.temporence.global.common.entity;
+package mars.temporence.global.domain;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

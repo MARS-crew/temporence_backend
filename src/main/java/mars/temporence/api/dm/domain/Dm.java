@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import mars.temporence.global.common.entity.BaseTimeEntity;
+import mars.temporence.global.domain.BaseTimeEntity;
 import mars.temporence.api.user.domain.User;
 import org.hibernate.annotations.Comment;
 

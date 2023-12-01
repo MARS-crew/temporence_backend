@@ -1,7 +1,7 @@
 package mars.temporence.api.friend.domain;
 
 import lombok.*;
-import mars.temporence.global.common.entity.BaseTimeEntity;
+import mars.temporence.global.domain.BaseTimeEntity;
 import mars.temporence.api.user.domain.User;
 import org.hibernate.annotations.Comment;
 

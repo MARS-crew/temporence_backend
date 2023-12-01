@@ -2,7 +2,7 @@ package mars.temporence.api.point.domain;
 
 import lombok.*;
 import mars.temporence.api.user.domain.User;
-import mars.temporence.global.common.entity.BaseTimeEntity;
+import mars.temporence.global.domain.BaseTimeEntity;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;

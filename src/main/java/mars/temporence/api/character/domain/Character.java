@@ -1,7 +1,7 @@
 package mars.temporence.api.character.domain;
 
 import lombok.*;
-import mars.temporence.global.common.entity.BaseTimeEntity;
+import mars.temporence.global.domain.BaseTimeEntity;
 import mars.temporence.global.enums.TeamType;
 import org.hibernate.annotations.Comment;
 

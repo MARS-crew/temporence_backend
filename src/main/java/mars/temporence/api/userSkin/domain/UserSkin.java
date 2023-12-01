@@ -3,7 +3,7 @@ package mars.temporence.api.userSkin.domain;
 import lombok.*;
 import mars.temporence.api.skin.domain.Skin;
 import mars.temporence.api.user.domain.User;
-import mars.temporence.global.common.entity.BaseTimeEntity;
+import mars.temporence.global.domain.BaseTimeEntity;
 
 import javax.persistence.*;
 
