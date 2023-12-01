@@ -92,23 +92,23 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("패스워드가 일치하지 않습니다.");
         }
 
-        String accessToken = stringRedisTemplate.opsForValue().get("access" + findUser.get().getUsername());
-        String refreshToken = stringRedisTemplate.opsForValue().get("refresh" + findUser.get().getUsername());
+        String accessToken = stringRedisTemplate.opsForValue().get("access" + findUser.get().getId());
+        String refreshToken = stringRedisTemplate.opsForValue().get("refresh" + findUser.get().getId());
 
         if (accessToken != null) {
             logger.warn("=== Redis에 Access Token이 있습니다. ===");
-            stringRedisTemplate.delete("access" + findUser.get().getUsername());
+            stringRedisTemplate.delete("access" + findUser.get().getId());
         }
 
         if (refreshToken != null) {
             logger.warn("=== Redis에 Refresh Token이 있습니다. ===");
-            stringRedisTemplate.delete("refresh" + findUser.get().getUsername());
+            stringRedisTemplate.delete("refresh" + findUser.get().getId());
         }
 
         TokenDto tokenDto = jwtTokenProvider.issueToken(findUser.get().getId(), findUser.get().getAuthority());
 
-        stringRedisTemplate.opsForValue().set("access" + findUser.get().getUsername(), tokenDto.getAccessToken());
-        stringRedisTemplate.opsForValue().set("refresh" + findUser.get().getUsername(), tokenDto.getRefreshToken());
+        stringRedisTemplate.opsForValue().set("access" + findUser.get().getId(), tokenDto.getAccessToken());
+        stringRedisTemplate.opsForValue().set("refresh" + findUser.get().getId(), tokenDto.getRefreshToken());
         Map<String, String> response = new HashMap<>();
 
         response.put("accessToken", tokenDto.getAccessToken());

@@ -12,8 +12,12 @@ import mars.temporence.api.friend.event.dto.RequestFriendSaveDto;
 import mars.temporence.api.friend.event.dto.RequestFriendUpdateDto;
 import mars.temporence.api.friend.service.FriendService;
 import mars.temporence.global.dto.SwaggerExampleValue;
+import mars.temporence.global.dto.UserDetailDto;
+import mars.temporence.global.jwt.JwtTokenExtractor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @RestController
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Friend API", description = "친구 관련 API")
 public class FriendController {
     private final FriendService friendService;
+    private final JwtTokenExtractor jwtTokenExtractor;
 
     @Operation(summary = "Save Friend", description = "친구 생성")
     @ApiResponses(value = {
@@ -33,8 +38,9 @@ public class FriendController {
             @ApiResponse(responseCode = "404", description = SwaggerExampleValue.BAD_REQUEST, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = "{\"status\":404,\"message\":\"친구 할 유저를 찾을 수 없습니다.\"}")})),
             @ApiResponse(responseCode = "500", description = SwaggerExampleValue.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_REPONSE)))})
     @PostMapping
-    public ResponseEntity<?> saveFriend(@RequestBody RequestFriendSaveDto dto) throws Exception {
-        return friendService.saveFriend(dto);
+    public ResponseEntity<?> saveFriend(@RequestBody RequestFriendSaveDto dto, HttpServletRequest request) throws Exception {
+        UserDetailDto userDetail = jwtTokenExtractor.extractUserId(request);
+        return friendService.saveFriend(dto, userDetail);
     }
 
     @Operation(summary = "Find Friend List", description = "친구 리스트 조회")
@@ -44,8 +50,9 @@ public class FriendController {
             @ApiResponse(responseCode = "401", description = SwaggerExampleValue.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.UNAUTHORIZED_ERROR_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = SwaggerExampleValue.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_REPONSE)))})
     @GetMapping
-    public ResponseEntity<?> findFriendList() throws Exception {
-        return friendService.findFriendList();
+    public ResponseEntity<?> findFriendList(HttpServletRequest request) throws Exception {
+        UserDetailDto userDetail = jwtTokenExtractor.extractUserId(request);
+        return friendService.findFriendList(userDetail);
     }
 
     @Operation(summary = "Delete Friend", description = "친구 삭제")
@@ -65,8 +72,9 @@ public class FriendController {
             @ApiResponse(responseCode = "401", description = SwaggerExampleValue.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.UNAUTHORIZED_ERROR_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = SwaggerExampleValue.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_REPONSE)))})
     @GetMapping("/request")
-    public ResponseEntity<?> findFriendRequestList() throws Exception {
-        return friendService.findFriendRequestList();
+    public ResponseEntity<?> findFriendRequestList(HttpServletRequest request) throws Exception {
+        UserDetailDto userDetail = jwtTokenExtractor.extractUserId(request);
+        return friendService.findFriendRequestList(userDetail);
     }
 
     @Operation(summary = "Response about Friend Request", description = "친구 요청에 대한 응답")

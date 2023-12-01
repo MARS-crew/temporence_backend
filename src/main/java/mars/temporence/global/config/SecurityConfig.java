@@ -39,7 +39,8 @@ public class SecurityConfig {
         // ** Http Request config
         httpSecurity.authorizeHttpRequests()
                 .antMatchers(skipResources).permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().permitAll();
+//                .anyRequest().authenticated();
 
         return httpSecurity.build();
     }

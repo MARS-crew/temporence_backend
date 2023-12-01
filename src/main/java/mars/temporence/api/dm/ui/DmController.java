@@ -10,16 +10,20 @@ import lombok.RequiredArgsConstructor;
 import mars.temporence.api.dm.event.dto.RequestDmSaveDto;
 import mars.temporence.api.dm.service.DmService;
 import mars.temporence.global.dto.SwaggerExampleValue;
+import mars.temporence.global.dto.UserDetailDto;
+import mars.temporence.global.jwt.JwtTokenExtractor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/dm")
 @RequiredArgsConstructor
 @Tag(name = "DM API", description = "DM 관련 API")
 public class DmController {
-
     private final DmService dmService;
+    private final JwtTokenExtractor jwtTokenExtractor;
 
     @Operation(summary = "Send Dm", description = "Dm 전송")
     @ApiResponses(value = {
@@ -28,8 +32,9 @@ public class DmController {
             @ApiResponse(responseCode = "401", description = SwaggerExampleValue.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.UNAUTHORIZED_ERROR_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = SwaggerExampleValue.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_REPONSE)))})
     @PostMapping()
-    public ResponseEntity<?> sendDm(@RequestBody RequestDmSaveDto dto)throws Exception {
-        return dmService.sendDm(dto);
+    public ResponseEntity<?> sendDm(@RequestBody RequestDmSaveDto dto, HttpServletRequest request) throws Exception {
+        UserDetailDto userDetail = jwtTokenExtractor.extractUserId(request);
+        return dmService.sendDm(dto, userDetail);
     }
 
     @Operation(summary = "Find Dm", description = "Dm 조회")
@@ -39,8 +44,9 @@ public class DmController {
             @ApiResponse(responseCode = "401", description = SwaggerExampleValue.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.UNAUTHORIZED_ERROR_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = SwaggerExampleValue.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_REPONSE)))})
     @GetMapping("/{id}")
-    public ResponseEntity<?> findDm(@PathVariable(name = "id")Long id)throws Exception {
-        return dmService.findDm(id);
+    public ResponseEntity<?> findDm(@PathVariable(name = "id") Long id, HttpServletRequest request) throws Exception {
+        UserDetailDto userDetail = jwtTokenExtractor.extractUserId(request);
+        return dmService.findDm(id, userDetail);
     }
 
 }

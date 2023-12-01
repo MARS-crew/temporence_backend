@@ -6,6 +6,7 @@ import mars.temporence.global.interceptor.JwtInterceptor;
 import mars.temporence.global.interceptor.LoggingInterceptor;
 import mars.temporence.global.jwt.JwtTokenExtractor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -25,15 +26,18 @@ import java.util.List;
 @EnableSpringDataWebSupport
 public class CustomWebMvcConfigurer implements WebMvcConfigurer {
     private final JwtTokenExtractor jwtTokenExtractor;
+    private final StringRedisTemplate stringRedisTemplate;
+
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
             "classpath:/resources/",
-            "classpath:/static/", "" };
+            "classpath:/static/", ""};
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new JwtInterceptor(jwtTokenExtractor))
+        registry.addInterceptor(new JwtInterceptor(jwtTokenExtractor, stringRedisTemplate))
                 .addPathPatterns("/api/**")
                 .excludePathPatterns("/api/auth/**")
+//                .excludePathPatterns("/api/**")
                 .order(1);
 
         registry.addInterceptor(new LoggingInterceptor())
