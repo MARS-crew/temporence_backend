@@ -1,15 +1,15 @@
 package mars.temporence.playerLog;
 
-import mars.temporence.common.dto.UserAuthority;
-import mars.temporence.domain.Character;
-import mars.temporence.domain.Log;
-import mars.temporence.domain.Player;
-import mars.temporence.domain.User;
-import mars.temporence.enums.TeamType;
-import mars.temporence.repository.CharacterJpaRepository;
-import mars.temporence.repository.playerLog.LogJpaRepository;
-import mars.temporence.repository.playerLog.PlayerJpaRepository;
-import mars.temporence.repository.user.UserJpaRepository;
+import mars.temporence.global.common.dto.UserAuthority;
+import mars.temporence.api.character.domain.Character;
+import mars.temporence.api.log.domain.Log;
+import mars.temporence.api.log.domain.Player;
+import mars.temporence.api.user.domain.User;
+import mars.temporence.global.enums.TeamType;
+import mars.temporence.api.character.repository.CharacterJpaRepository;
+import mars.temporence.api.log.repository.LogJpaRepository;
+import mars.temporence.api.log.repository.PlayerJpaRepository;
+import mars.temporence.api.user.repository.UserJpaRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

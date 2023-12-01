@@ -1,8 +1,8 @@
 package mars.temporence.user;
 
-import mars.temporence.common.dto.UserAuthority;
-import mars.temporence.domain.User;
-import mars.temporence.repository.user.UserJpaRepository;
+import mars.temporence.global.common.dto.UserAuthority;
+import mars.temporence.api.user.domain.User;
+import mars.temporence.api.user.repository.UserJpaRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
