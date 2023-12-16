@@ -13,7 +13,6 @@ import mars.temporence.api.user.event.dto.RequestUserSaveDto;
 import mars.temporence.api.user.repository.UserJpaRepository;
 import mars.temporence.global.dto.CommonResponse;
 import mars.temporence.global.dto.TokenDto;
-import mars.temporence.global.dto.UserDetailDto;
 import mars.temporence.global.enums.UserAuthority;
 import mars.temporence.global.exception.BadRequestException;
 import mars.temporence.global.exception.NotFoundException;

@@ -4,7 +4,6 @@ import mars.temporence.api.user.event.dto.RequestNicknameCheckDto;
 import mars.temporence.api.user.event.dto.RequestTokenDto;
 import mars.temporence.api.user.event.dto.RequestUserLoginDto;
 import mars.temporence.api.user.event.dto.RequestUserSaveDto;
-import mars.temporence.global.dto.UserDetailDto;
 import org.springframework.http.ResponseEntity;
 
 public interface AuthService {
