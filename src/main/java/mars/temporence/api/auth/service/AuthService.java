@@ -1,9 +1,9 @@
 package mars.temporence.api.auth.service;
 
-import mars.temporence.api.user.event.dto.RequestNicknameCheckDto;
-import mars.temporence.api.user.event.dto.RequestTokenDto;
-import mars.temporence.api.user.event.dto.RequestUserLoginDto;
-import mars.temporence.api.user.event.dto.RequestUserSaveDto;
+import mars.temporence.api.auth.event.dto.RequestNicknameCheckDto;
+import mars.temporence.api.auth.event.dto.RequestTokenDto;
+import mars.temporence.api.auth.event.dto.RequestUserLoginDto;
+import mars.temporence.api.auth.event.dto.RequestUserSaveDto;
 import org.springframework.http.ResponseEntity;
 
 public interface AuthService {

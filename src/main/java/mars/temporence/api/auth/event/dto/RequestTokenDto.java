@@ -1,4 +1,4 @@
-package mars.temporence.api.user.event.dto;
+package mars.temporence.api.auth.event.dto;
 
 import lombok.Data;
 
