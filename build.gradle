@@ -36,24 +36,37 @@ repositories {
 }
 
 dependencies {
+    // ** Spring
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.6'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // ** Swagger
     implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.10'
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
+    // ** Querydsl
     implementation "com.querydsl:querydsl-jpa:5.0.0"
     implementation "com.querydsl:querydsl-apt:5.0.0"
+
+    // ** Firebase
     implementation 'com.google.firebase:firebase-admin:9.1.1'
     implementation 'com.jcraft:jsch:0.1.55'
+
+    // ** JWT
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
     runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
-    compileOnly 'org.projectlombok:lombok'
+
+    // ** MySQL
     runtimeOnly 'com.mysql:mysql-connector-j'
+    // ** MySQL
+    compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {

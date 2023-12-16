@@ -1,8 +1,13 @@
 package mars.temporence.api.auth.event.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 public class RequestTokenDto {
+    @NotNull
+    @Schema(example = "eyJhbGciOiJSUzI1NiJ9.eyJyb2xlIjoiVUJPVE5VV1VlWUR4U2lraW1lWmZsUSIsImlkIjoiaEg5MzRaTEpYWWhFaEV1UERVb1NnQSIsImlhdCI6MTcwMjM4OTQxNSwiZXhwIjoxNzAyOTk0MjE1fQ.ZrMcx1vLkGUSsRFKjEPBqd6L8XBLKr4hiXWgVx0y8Lu-V2uHtWrrfbt8kGPX_lz92v0GCBSP87z42o_Df5yjHagzyRDZL5n3o1evCQWLAvqJCluZtm3Q2FqBKUr1f7iTQj_viHoKE6xCFJ5A3nDGCzk8VwJ86RxDg5SQUX_R0ZhcW33n6c1PJTvaokJPH8VcbuYULkSy82ncYPeVSg6DotVhfeva6Sn15hrnE6tpAP6b9LAmSkZCJr-EXuo20cKXFrSkHZrIaplWT-TL9nZ5Q04G_zEapkFC8rIam0BNh04WgJlufsRIrE9Mrn3Ka27O-QAvRRE3bsva2eIBN18VWg")
     private String refreshToken;
 }
