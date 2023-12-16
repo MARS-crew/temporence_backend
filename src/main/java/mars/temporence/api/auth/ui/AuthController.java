@@ -65,9 +65,8 @@ public class AuthController {
             @ApiResponse(responseCode = "401", description = SwaggerExampleValue.UNAUTHORIZED_ERROR, content = @Content(mediaType = "application/json", examples = {@ExampleObject(value = SwaggerExampleValue.UNAUTHORIZED_ERROR_RESPONSE)})),
             @ApiResponse(responseCode = "500", description = SwaggerExampleValue.INTERNAL_SERVER_ERROR, content = @Content(mediaType = "application/json", examples = @ExampleObject(value = SwaggerExampleValue.INTERNAL_SERVER_ERROR_REPONSE)))})
     @PostMapping("/token")
-    public ResponseEntity<?> token(@RequestBody RequestTokenDto dto, HttpServletRequest request) throws Exception {
-        UserDetailDto userDetailDto = jwtTokenExtractor.extractUserId(request);
-        return authService.getTokenByRefreshToken(dto, userDetailDto);
+    public ResponseEntity<?> token(@RequestBody RequestTokenDto dto) throws Exception {
+        return authService.getTokenByRefreshToken(dto);
     }
 
     @Operation(summary = "Exist Check Nickname", description = "닉네임 중복 여부 확인")

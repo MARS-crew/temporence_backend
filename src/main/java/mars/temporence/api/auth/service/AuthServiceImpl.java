@@ -1,5 +1,6 @@
 package mars.temporence.api.auth.service;
 
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import mars.temporence.api.point.domain.Point;
@@ -18,6 +19,7 @@ import mars.temporence.global.exception.BadRequestException;
 import mars.temporence.global.exception.NotFoundException;
 import mars.temporence.global.jwt.JwtTokenProvider;
 import mars.temporence.global.jwt.JwtTokenValidator;
+import mars.temporence.global.util.EncryptionUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +41,7 @@ public class AuthServiceImpl implements AuthService {
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
     private final PointJpaRepository pointJpaRepository;
+    private final EncryptionUtils encryptionUtils;
 
     @Override
     @Transactional(rollbackFor = {Exception.class})
@@ -117,18 +120,21 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseEntity<?> getTokenByRefreshToken(RequestTokenDto dto, UserDetailDto userDetailDto) throws Exception {
+    public ResponseEntity<?> getTokenByRefreshToken(RequestTokenDto dto) throws Exception {
         jwtTokenValidator.validateToken(dto.getRefreshToken());
 
-        Optional<User> findUser = userJpaRepository.findById(userDetailDto.getUserId());
+        // ** 유저 정보 추출
+        Claims claims = jwtTokenValidator.getClaimsFromToken(dto.getRefreshToken());
 
-        if (findUser.isEmpty()) {
-            throw new NotFoundException("유저를 찾을 수 없습니다.");
-        }
+        String encodedUserId = String.valueOf(claims.get("id"));
+        String encodedRole = String.valueOf(claims.get("role"));
 
-        String accessToken = stringRedisTemplate.opsForValue().get("access" + findUser.get().getId());
-        String refreshToken = stringRedisTemplate.opsForValue().get("refresh" + findUser.get().getId());
+        // ** 정보 디코딩
+        Long decodedUserId = Long.valueOf(encryptionUtils.decrypt(encodedUserId));
+        UserAuthority decodedRole = UserAuthority.valueOf(encryptionUtils.decrypt(encodedRole));
 
+        String accessToken = stringRedisTemplate.opsForValue().get("access" + decodedUserId);
+        String refreshToken = stringRedisTemplate.opsForValue().get("refresh" + decodedUserId);
 
         if (refreshToken.isEmpty()) {
             throw new BadRequestException("유저가 로그인 상태가 아닙니다.");
@@ -139,19 +145,19 @@ public class AuthServiceImpl implements AuthService {
         }
 
 
-        TokenDto tokenDto = jwtTokenProvider.issueToken(findUser.get().getId(), findUser.get().getAuthority());
+        TokenDto tokenDto = jwtTokenProvider.reissueToken(decodedUserId, decodedRole, dto.getRefreshToken());
 
         if (accessToken == null) {
-            stringRedisTemplate.delete("access" + findUser.get().getId());
+            stringRedisTemplate.delete("access" + decodedUserId);
         }
 
         if (refreshToken == null) {
-            stringRedisTemplate.delete("refresh" + findUser.get().getId());
+            stringRedisTemplate.delete("refresh" + decodedUserId);
         }
 
-        stringRedisTemplate.opsForValue().set("access" + findUser.get().getId(), tokenDto.getAccessToken());
-        stringRedisTemplate.opsForValue().set("refresh" + findUser.get().getId(), tokenDto.getAccessToken());
+        stringRedisTemplate.opsForValue().set("access" + decodedUserId, tokenDto.getAccessToken());
+        stringRedisTemplate.opsForValue().set("refresh" + decodedUserId, tokenDto.getAccessToken());
 
-        return CommonResponse.createResponse(HttpStatus.CREATED.value(), "토큰 재발급에 성공 하였습니다.", tokenDto);
+        return CommonResponse.createResponse(HttpStatus.OK.value(), "토큰 재발급에 성공 하였습니다.", tokenDto);
     }
 }

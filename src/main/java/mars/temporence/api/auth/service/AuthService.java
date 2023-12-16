@@ -8,7 +8,7 @@ import mars.temporence.global.dto.UserDetailDto;
 import org.springframework.http.ResponseEntity;
 
 public interface AuthService {
-    ResponseEntity<?> getTokenByRefreshToken(RequestTokenDto dto, UserDetailDto userDetailDto) throws Exception;
+    ResponseEntity<?> getTokenByRefreshToken(RequestTokenDto dto) throws Exception;
 
     ResponseEntity<?> save(RequestUserSaveDto dto) throws Exception;
 
