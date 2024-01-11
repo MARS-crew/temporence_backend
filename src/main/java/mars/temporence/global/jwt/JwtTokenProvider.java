@@ -39,15 +39,6 @@ public class JwtTokenProvider {
                 .build();
     }
 
-    public TokenDto reissueToken(Long userId, UserAuthority role, String refreshToken) {
-        final String accessToken = generateToken(userId, role, Long.valueOf(accessTokenValidationTime));
-
-        return TokenDto.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
-    }
-
     private String generateToken(Long userId, UserAuthority role, Long tokenValidationTime) {
         final Map<String, Object> claims = createClaims(userId, role);
         final PrivateKey privateKey = jwtConfig.getPrivateKey();

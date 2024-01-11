@@ -143,8 +143,7 @@ public class AuthServiceImpl implements AuthService {
             throw new BadRequestException("유저 정보가 일치하지 않습니다.");
         }
 
-
-        TokenDto tokenDto = jwtTokenProvider.reissueToken(decodedUserId, decodedRole, dto.getRefreshToken());
+        TokenDto tokenDto = jwtTokenProvider.issueToken(decodedUserId, decodedRole);
 
         if (accessToken == null) {
             stringRedisTemplate.delete("access" + decodedUserId);
@@ -155,7 +154,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         stringRedisTemplate.opsForValue().set("access" + decodedUserId, tokenDto.getAccessToken());
-        stringRedisTemplate.opsForValue().set("refresh" + decodedUserId, tokenDto.getAccessToken());
+        stringRedisTemplate.opsForValue().set("refresh" + decodedUserId, tokenDto.getRefreshToken());
 
         return CommonResponse.createResponse(HttpStatus.OK.value(), "토큰 재발급에 성공 하였습니다.", tokenDto);
     }
